@@ -1,0 +1,20 @@
+<empty name="info">
+    <div style="background: #cecece;padding: 3px 10px;text-align: center;">暂无放款信息</div>
+    <else/>
+    <table width="100%" class="table_form" style="border: 1px solid #cecece;">
+        <thead>
+        <tr>
+            <th>总服务费</th>
+            <th>服务费率（%）</th>
+            <th>创建时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{$info['service_money']} 元</td>
+            <td>{$info['service_rate']} %</td>
+            <td>{:date('Y-m-d H:i:s',$info['create_time'])}</td>
+        </tr>
+        </tbody>
+    </table>
+</empty>

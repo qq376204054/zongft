@@ -1,0 +1,33 @@
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" style="background: #ff0000;"><em style="background: #ff0000;">{$channel} 城市划分</em></a><span>|</span>
+        <foreach name="allocateCity" item="vo">
+            <a class="goto_table {$key==0?'goto_company_action':''}" rel="{$vo}"><em>{$vo}</em></a><span>|</span>
+        </foreach>
+    </div>
+</div>
+<style>
+    .goto_company_action{
+        background: #f0ad4e;
+        line-height: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+    }
+    .goto_company_action em{
+        color: #ffffff;
+    }
+</style>
+<div class="J_tablelist table_list allocate_company_manger" data-acturi="">
+
+</div>
+<script>
+    var link = "{:U('Allocate/allocate_company')}?channel={$channel}&city={$allocateCity[0]}";
+    loadURL(link,'.allocate_company_manger');
+    $('.goto_table').click(function(){
+        $('.goto_table').removeClass('goto_company_action');
+        $(this).addClass('goto_company_action');
+        var link = "{:U('Allocate/allocate_company')}?channel={$channel}&city="+$(this).attr('rel');
+        loadURL(link,'.allocate_company_manger');
+    });
+</script>

@@ -1,0 +1,136 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        员工名 :
+                        <input name="user_name" type="text" class="input-text" size="10" value="{$search.user_name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="10" value="{$search.mobile}" />
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="10" value="{$search.city}" />
+                        公司部门：
+                        <select name="branch_id">
+                            <option value="">全部</option>
+                            {$select_menus}
+                        </select>
+                        创建时间：
+                        <input type="text" id="create_time" name="create_time" class="date" value="{$search.create_time}" readonly>
+                        <!--<input type="text" name="start_time" id="start_time" class="date" size="10" value="{$search.start_time}">-->
+                        <!-- - -->
+                        <!--<input type="text" name="end_time" id="end_time" class="date" size="10" value="{$search.end_time}">-->
+                        最后更新时间：
+                        <input type="text" id="update_time" name="update_time" class="date" value="{$search.update_time}" readonly>
+                        <!--<input type="text" name="start_time2" id="start_time2" class="date" size="10" value="{$search.start_time2}">-->
+                        <!-- - -->
+                        <!--<input type="text" name="end_time2" id="end_time2" class="date" size="10" value="{$search.end_time2}">-->
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="user_name">用户名</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+                <th align="left">城市</th>
+                <th align="left">所属公司</th>
+                <th align="left">所属组织</th>
+                <th align="left">角色</th>
+                <th><span data-tdtype="order_by" data-field="entry_time">入职时间</span></th>
+                <th><span data-tdtype="order_by" data-field="create_time">创建时间</span></th>
+                <th><span data-tdtype="order_by" data-field="update_time">最后更新时间</span></th>
+                <th><span data-tdtype="order_by" data-field="delete">状态</span></th>
+                <th width="210">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.user_name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.company_name}</td>
+                    <td align="left">{$val.branch_name}</td>
+                    <td align="left">{$val.role_name}</td>
+                    <td align="center">{:date('Y-m-d',$val['entry_time'])}</td>
+                    <td align="center">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="left">{$val.update_time}</td>
+                    <td align="left">
+                        <if condition="$val['delete'] eq 1">在职<else/><span style="color:#ff0000;">离职</span></if>
+                    </td>
+                    <td align="center">
+                        <if condition="$val['delete'] eq 1">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/user_file',array('user_id'=>$val['id']))}" data-title="材料" data-id="add" data-width="500" data-height="250">材料</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('user/add',array('id'=>$val['id']))}" data-title="编辑 - {$val.user_name}" data-id="add" data-width="500" data-height="350">编辑</a> |
+                            <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('user/initial_password', array('id'=>$val['id']))}" data-msg="确认重置 - {$val['user_name']} -的密码为最初始密码">重置密码</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('user/look_sub_user',array('id'=>$val['id']))}" data-title="查询 - {$val.user_name} -的所有下属" data-id="look_sub_user" data-width="200" data-height="350" title="查询 - {$val.user_name} -的所有下属">查看下属</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('user/delete')}?ok=1" data-name="id" data-msg="确认设置离职" value="设置成离职" />
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script src="__ROOT__/static/js/laydate/laydate.js"></script>
+<script>
+    laydate.render({
+        elem: '#create_time',
+        range: true
+    });
+    laydate.render({
+        elem: '#update_time',
+        range: true
+    });
+    // Calendar.setup({
+    //     inputField : "start_time",
+    //     ifFormat   : "%Y-%m-%d",
+    //     showsTime  : false,
+    //     timeFormat : "24"
+    // });
+    // Calendar.setup({
+    //     inputField : "end_time",
+    //     ifFormat   : "%Y-%m-%d",
+    //     showsTime  : false,
+    //     timeFormat : "24"
+    // });
+    // Calendar.setup({
+    //     inputField : "start_time2",
+    //     ifFormat   : "%Y-%m-%d",
+    //     showsTime  : false,
+    //     timeFormat : "24"
+    // });
+    // Calendar.setup({
+    //     inputField : "end_time2",
+    //     ifFormat   : "%Y-%m-%d",
+    //     showsTime  : false,
+    //     timeFormat : "24"
+    // });
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<style>
+    .table_list {
+        border: 1px solid #ebeef5;
+        margin-bottom: 0px;
+    }
+</style>
+<div style="overflow-y: auto;max-height: 450px;">
+    <form id="info_form">
+        <div class="J_tablelist table_list">
+            <table width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th align="left">内容</th>
+                    <th align="center" width="90px">创建时间</th>
+                    <th align="center" width="50px">状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="val">
+                    <tr>
+                        <td align="left">{$val.content}</td>
+                        <td align="center">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                        <td align="center" class="read_or_unread">
+                            <if condition="$val.is_look eq 1">已读<else/>
+                                <a class="reag_msg_a" msg_id="{$val.id}" href="javascript:;">设为已读</a>
+                            </if>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+            <empty name="list">
+                <div style="height:100px;line-height:100px;text-align: center;">暂无未读信息</div>
+            </empty>
+        </div>
+    </form>
+</div>
+<if condition="$list">
+    <div id="pages">
+        <div style="height: 10px;"></div>
+        <div>
+            <a style="margin-right: 5px;" href="javascript:;" class="tag_read" style="color: #ffffff;">全部设为已读</a>
+            <if condition="$page gt 1">
+                <a class="prev child_table_page" page="{$page-1}" style='cursor: pointer'>&lt;&lt;</a>
+            </if>
+            <span class="current">{$page}</span>
+            <if condition="$page lt $pageNum">
+                <a class="next child_table_page" page="{$page+1}" style='cursor: pointer'>&gt;&gt;</a>
+            </if>
+        </div>
+        <div style="height: 10px;"></div>
+    </div>
+</if>
+<script>
+    $('.child_table_page').click(function(){
+        var link = "{:U('admin/message/msg_list')}?p="+$(this).attr('page');
+        loadURL(link,'#message_list_div');
+    });
+    $(".tag_read").live("click",function(){
+        $.ajax({
+            type: "POST",
+            url: "{:U('admin/Message/read_all')}",
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    setNoReadNumber(result.retData);
+                    $(".read_or_unread").html("已读");
+                    $(".reag_msg_a").html("已读");
+                }
+            }
+        });
+    });
+</script>

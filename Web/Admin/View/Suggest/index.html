@@ -1,0 +1,98 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        创建时间：
+                        <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$search.time_start}" readonly>
+                        -
+                        <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$search.time_end}" readonly>
+                        &nbsp;&nbsp;类型：
+                        <select name="type">
+                            <option value="">-所有-</option>
+                            <option <if condition="$search.type eq '投诉'">selected="selected"</if> value="投诉">投诉</option>
+                            <option <if condition="$search.type eq '建议'">selected="selected"</if> value="建议">建议</option>
+                        </select>
+                        &nbsp;&nbsp;状态:
+                        <select name="status">
+                            <option value="">-所有-</option>
+                            <option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>未处理</option>
+                            <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已处理</option>
+                        </select>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width=30><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="type">类型</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="user_name">用户名</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="city">城市</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="platform">发布平台</span></th>
+                <th><span data-tdtype="order_by" data-field="create_time">发布时间</span></th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.type}</td>
+                    <td align="left">{$val.user_name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">
+                        <if condition="$val.status eq 1">已处理<else/>未处理</if>
+                    </td>
+                    <td align="left">{$val.platform}</td>
+                    <td align="center">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="center">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('suggest/edit',array('id'=>$val['id']))}" data-title="编辑 - {$val.user_name}" data-id="edit" data-width="500" data-height="350">查看并处理</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    $('#article_search_cate_id').val('{$search.cate_id}');
+    $('.J_cate_select').cate_select({top_option:lang.all});
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

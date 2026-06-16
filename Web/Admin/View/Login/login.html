@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <css file="__ROOT__/static/css/admin/style.css" />
+    <css file="__ROOT__/static/admin/css/login.css" />
+    <script src="__ROOT__/static/js/jquery/jquery.js"></script>
+    <title>{$all_setting['admin_system_name']?$all_setting['admin_system_name']:""}</title>
+</head>
+<body class="login_body">
+<div class="login_hd">
+    <div class="login_wrap" style="background:url('{$all_setting['company_admin_bg']}') no-repeat center;background-size: 100% 100%;">
+        <div class="login_box">
+            <form action="{:U('Login/doLogin')}" method="post" >
+                <div class="login_txt">
+                    {$all_setting['admin_system_name']?$all_setting['admin_system_name']:""}
+                </div>
+                <div class="login_type">
+                    <if condition="$all_setting['login_type'] eq 1">
+                        <div class="one_type action" rel="pwd">密码登录</div>
+                        <div class="one_type" rel="phone">短信登陆</div>
+                        <elseif condition="$all_setting['login_type'] eq 2"/>
+                        <div class="one_type action" rel="pwd">密码登录</div>
+                        <elseif condition="$all_setting['login_type'] eq 3"/>
+                        <div class="one_type action" rel="phone">短信登陆</div>
+                    </if>
+
+                </div>
+
+                <if condition="$all_setting['login_type'] eq 1">
+                    <input type="hidden" name="type" id="login_type" value="pwd">
+                    <elseif condition="$all_setting['login_type'] eq 2"/>
+                    <input type="hidden" name="type" id="login_type" value="pwd">
+                    <elseif condition="$all_setting['login_type'] eq 3"/>
+                    <input type="hidden" name="type" id="login_type" value="phone">
+                </if>
+
+                <if condition="$all_setting['login_type'] eq 1">
+                    <div id="login_funbox_pwd" class="login_funbox action">
+                        <input type="text" name="mobile" class="login_ipt" value="手机号" onfocus="if (value =='手机号'){value =''}" onblur="if (value ==''){value='手机号'}">
+                        <input type="password" name="password" class="login_ipt" value="password" onfocus="if (value =='password'){value =''}" onblur="if (value ==''){value='password'}">
+                    </div>
+                    <div id="login_funbox_phone" class="login_funbox">
+                        <input type="text" name="mobile2" id="mobile2" class="login_ipt" value="" placeholder="请填写手机号">
+                        <input type="text" name="code" class="login_ipt" value="" placeholder="请填写验证码" style="width: 100px;">
+                        <div id="postCode" style="cursor:pointer;position:absolute;top:193px;right:120px;display: inline-block; background: #f0a30a; border-radius: 5px;  margin-left: 10px; line-height: 40px; height: 40px; color: #ffffff; padding-left: 15px; padding-right: 15px;  font-weight: bold;  font-size: 14px;">发送验证码</div>
+                    </div>
+                    <elseif condition="$all_setting['login_type'] eq 2"/>
+                    <div id="login_funbox_pwd" class="login_funbox action">
+                        <input type="text" name="mobile" class="login_ipt" value="手机号" onfocus="if (value =='手机号'){value =''}" onblur="if (value ==''){value='手机号'}">
+                        <input type="password" name="password" class="login_ipt" value="password" onfocus="if (value =='password'){value =''}" onblur="if (value ==''){value='password'}">
+                    </div>
+                    <div id="login_funbox_phone" class="login_funbox">
+                        <input type="text" name="mobile2" id="mobile2" class="login_ipt" value="" placeholder="请填写手机号">
+                        <input type="text" name="code" class="login_ipt" value="" placeholder="请填写验证码" style="width: 100px;">
+                        <div id="postCode" style="cursor:pointer;position:absolute;top:193px;right:120px;display: inline-block; background: #f0a30a; border-radius: 5px;  margin-left: 10px; line-height: 40px; height: 40px; color: #ffffff; padding-left: 15px; padding-right: 15px;  font-weight: bold;  font-size: 14px;">发送验证码</div>
+                    </div>
+                    <elseif condition="$all_setting['login_type'] eq 3"/>
+                    <div id="login_funbox_pwd" class="login_funbox">
+                        <input type="text" name="mobile" class="login_ipt" value="手机号" onfocus="if (value =='手机号'){value =''}" onblur="if (value ==''){value='手机号'}">
+                        <input type="password" name="password" class="login_ipt" value="password" onfocus="if (value =='password'){value =''}" onblur="if (value ==''){value='password'}">
+                    </div>
+                    <div id="login_funbox_phone" class="login_funbox action">
+                        <input type="text" name="mobile2" id="mobile2" class="login_ipt" value="" placeholder="请填写手机号">
+                        <input type="text" name="code" class="login_ipt" value="" placeholder="请填写验证码" style="width: 100px;">
+                        <div id="postCode" style="cursor:pointer;position:absolute;top:193px;right:120px;display: inline-block; background: #f0a30a; border-radius: 5px;  margin-left: 10px; line-height: 40px; height: 40px; color: #ffffff; padding-left: 15px; padding-right: 15px;  font-weight: bold;  font-size: 14px;">发送验证码</div>
+                    </div>
+                </if>
+
+                <div class="login_funbox1">
+                    <button type="submit" class="loginbtn">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="font-size: 14px;position: fixed;bottom: 50px;text-align: center;z-index: 99;width: 100%;font-weight: bold;text-shadow: 3px 3px 3px rgba(255,255,255,0.7);color: #ffffff;">
+        <a style="color: #ffffff;" href="http://www.beian.miit.gov.cn/" target="_blank">备案号：{$all_setting['site_icp']}</a>
+    </div>
+</div>
+<script>
+    $('.one_type').click(function(){
+        $('.one_type').removeClass('action');
+        $('.login_funbox').removeClass('action');
+        $(this).addClass('action');
+        $('#login_type').val($(this).attr('rel'));
+        if($(this).attr('rel')=='pwd'){
+            $('#login_funbox_pwd').addClass('action');
+        }else{
+            $('#login_funbox_phone').addClass('action');
+        }
+    })
+
+    var sec=60;
+    $('#postCode').click(function(){
+        if($(this).text()=='发送验证码'){
+            var myreg = /^((1{1})+\d{10})$/;
+            var mobile=$('#mobile2').val();
+            if(!myreg.test(mobile)) {
+                alert('请输入有效的手机号码！');
+                return false;
+            }
+            $.ajax({
+                type:"post",
+                url:"{:U('admin/Login/post_code')}",
+                data:{
+                    mobile:mobile,
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.errNum===0){
+                        time();
+                        sec=60;
+                    }else{
+                        $('#postCode').text("发送验证码");
+                        alert(data.errMsg);
+                    }
+                },
+                error:function(){
+                    alert("系统异常，请稍后重试！");
+                }
+            });
+        }
+    });
+    function time()
+    {
+        if(sec>0){
+            $('#postCode').text(sec+'秒');
+            sec=sec-1;
+            setTimeout(time,1000);
+        }else{
+            $('#postCode').text('发送验证码');
+        }
+    }
+</script>
+<style>
+    .login_funbox{
+        display: none;
+    }
+    .action{
+        display: block;
+    }
+
+    .login_type{  }
+    .login_type .one_type{
+        line-height: 50px;
+        display: inline-block;
+        width: <if condition="$all_setting['login_type'] eq 1">49.5<else/>100</if>%;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+    }
+    .login_type .action{
+        background: #64A3F3;
+    }
+</style>
+</body>
+</html>

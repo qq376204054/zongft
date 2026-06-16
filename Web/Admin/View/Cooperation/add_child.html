@@ -1,0 +1,55 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('Cooperation/add_child')}" method="post">
+		<table width="100%" class="table_form">
+			<tr>
+				<th>渠道名称 :</th>
+				<td><input type="text" name="name" id="add_child_name" class="input-text" size="30" value="{$info.name}"></td>
+			</tr>
+			<tr>
+				<th>等级 :</th>
+				<td>
+					<select name="type" id="add_type">
+						<option value="优质">优质</option>
+						<option value="一般">一般</option>
+						<option value="较差">较差</option>
+					</select>
+			</tr>
+			<tr>
+				<th>渠道备注 :</th>
+				<td><input type="text" name="remark" class="input-text" size="30" value="{$info.remark}"></td>
+			</tr>
+			<tr>
+				<th>获客成本 :</th>
+				<td><input type="text" name="cost" class="input-text" size="30" value="{$info.cost}">元</td>
+			</tr>
+			<tr>
+				<th>售出单价 :</th>
+				<td><input type="text" name="sale_price" class="input-text" size="30" value="{$info.sale_price}">元</td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}">
+		<input type="hidden" name="pid" value="{$info.pid}">
+	</form>
+</div>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#add_child_name").formValidator({onshow:lang.please_input+'渠道名称',onfocus:lang.please_input+'渠道名称'}).inputValidator({min:1,onerror:lang.please_input+'渠道名称'});
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.dialog.get('add_child').close();
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+});
+</script>
+<notempty name="info">
+	<script type="text/javascript">
+		$('#add_type').val("{$info['type']}");
+	</script>
+</notempty>

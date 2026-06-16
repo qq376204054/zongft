@@ -1,0 +1,134 @@
+<style>
+    .remark{margin-top: 10px; color: #00a0e9;font-weight: bold;}
+    .order_look{max-height: 350px; overflow-y: auto;padding:0 10px;}
+    .order_look .title{border-left:3px solid #FF5151;line-height: 25px;font-size: 14px; font-weight: bold;margin-top:10px;padding-left: 15px; margin-bottom: 10px;}
+</style>
+<div class="order_look">
+    <div class="remark">
+        提交申请：将自己的工作成果提交至审批者，用于生成自己的业绩。提交的内容为该订单的所有信息，其中提交的账目为“未计算”的账目。提交的账目在审批流通过后会变成“已计算”，并生成对应业绩。
+    </div>
+    <div class="apply_form">
+        <form id="info_form" name="info_form" action="{:U('apply/apply_action')}" method="post">
+            <table width="100%" class="table_form">
+                <tr>
+                    <td colspan="2" align="center">
+                        <foreach name="apply_all" item="val">
+                            <if condition="$val['current'] eq 2">
+                                <a style="display:inline-block; padding-left: 10px; padding-right: 10px; line-height: 30px;border: 1px solid #aaaaaa; background: #3f913f; border-radius: 5px;margin-left: 15px;color: #ffffff;">{$val['name']}</a>
+                                <elseif condition="$val['current'] eq 1"/>
+                                <a style="display:inline-block; padding-left: 10px; padding-right: 10px; line-height: 30px;border: 1px solid #aaaaaa; background: #ff9b08; border-radius: 5px;margin-left: 15px;color: #ffffff;">{$val['name']}</a>
+                                <else/>
+                                <a style="display:inline-block; padding-left: 10px; padding-right: 10px; line-height: 30px;border: 1px solid #aaaaaa; background: #cccccc; border-radius: 5px;margin-left: 15px;color: #ffffff;">{$val['name']}</a>
+                            </if>
+                        </foreach>
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <th width="120px">是否通过 :</th>
+                    <td>
+                        <label><input type="radio" name="action" class="radio_style action_radio" value="1" checked="checked"> 通过&nbsp;&nbsp;</label>
+                        <label><input type="radio" name="action" class="radio_style action_radio" value="0"> 驳回</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>《{$apply_all[$current_step]['name']}》提交给 :</th>
+                    <td>
+                        <div id="agree_div">
+                            <label>角色：</label>
+                            <select>
+                                <option value="1">{$apply_all[$current_step+1]['name']}</option>
+                            </select>
+                            <label>
+                                对应人：
+                            </label>
+                            <select name="user_id" id="apply_select_user">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div id="not_agree_div" style="display: none;">驳回后需重新提交</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>备注 :</th>
+                    <td><textarea name="remark" id="remark" style="width: 80%;" rows="3"></textarea></td>
+                </tr>
+            </table>
+            <input type="hidden" name="order_id" value="{$id}">
+        </form>
+    </div>
+    <div class="title">账单信息
+        <i url="{:U('admin/account/account_list',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="account"></i>
+    </div>
+    <div class="account_div" style="display: none;"></div>
+
+    <div class="title">订单信息
+        <i url="{:U('admin/order/order_info',array('id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="order"></i>
+    </div>
+    <div class="order_div" style="display: none;"></div>
+
+    <div class="title">协议信息
+        <i url="{:U('admin/protocol/one_info',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="protocol"></i>
+    </div>
+    <div class="protocol_div" style="display: none;"></div>
+
+    <div class="title">放款信息
+        <i url="{:U('admin/loan/one_list',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="loan"></i>
+    </div>
+    <div class="loan_div" style="display: none;"></div>
+
+    <div class="title">客户信息
+        <i url="{:U('admin/customer/one_info',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="customer"></i>
+    </div>
+    <div class="customer_div" style="display: none;"></div>
+
+    <div class="title">客户附件信息
+        <i url="{:U('admin/file/customer_file',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="file"></i>
+    </div>
+    <div class="file_div" style="display: none;"></div>
+</div>
+<script>
+    $('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.errNum === 0){
+            $.dialog.get('apply').close();
+            $.yhxia.tip({content:result.retData});
+        } else {
+            $.yhxia.tip({content:result.errMsg, icon:'alert'});
+        }
+    }
+
+    $('.open_hidden_div').click(function(){
+        var url=$(this).attr('url');
+        var rel=$(this).attr('rel');
+        if($('.'+rel+'_div').html()==''){
+            loadURL(url,'.'+rel+'_div');
+        }
+        $('.'+rel+'_div').toggle();
+    });
+    //默认加载交易
+    loadURL("{:U('admin/account/account_list',array('order_id'=>$id))}",'.account_div');
+    $('.account_div').toggle();
+
+    //下面获取步骤
+    $.get("{:U('apply/get_step')}", {order_id:{$id}}, function(result){
+        if(result.errNum === 0){
+            var str='';
+            for(i=0;i<result.retData.length;i++){
+                str+='<option value="'+result.retData[i].id+'">'+result.retData[i].user_name+'</option>';
+            }
+            $('#apply_select_user').html(str);
+        } else {
+            $('#agree_div').html(result.errMsg);
+        }
+    });
+
+    $('.action_radio').change(function() {
+        if ($(this).val() == '1') {
+            $("#agree_div").show();
+            $("#not_agree_div").hide();
+        } else  {
+            $("#agree_div").hide();
+            $("#not_agree_div").show();
+        }
+    });
+</script>

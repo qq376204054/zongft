@@ -1,0 +1,145 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+            共搜索出：{:count($list)}个用户电话。在使用之前请仔细阅读发送规则：在发送之前您可以根据选择条件选择出您要处理的那部分客户，搜索出后在将符合条件的客户展现在界面上，这里不限个数。
+           一个客户可以多次搜出进行发送。搜出客户比对后可以点击“开始输出”按钮进行对列表中的客户发送短信，
+            操作者可以实时查看每个客户的发送状态。切记，在运行输出的过程中，请勿刷新界面，刷新后会断掉。
+        </div>
+    </div>
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+            【{$yingxiaoInfo['qianming']}】{$yingxiaoInfo['content']}
+        </div>
+    </div>
+</div>
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="15" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="15" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="15" value="{$search.city}" />
+                        &nbsp;&nbsp;
+                        渠道 :
+                        <input name="channel" type="text" class="input-text" size="15" value="{$search.channel}" />
+                        创建时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div id="button-filter-text" style="padding: 5px; margin: 5px 0px;;text-align: center;">
+        <a class="startImportCustomer" href="javascript:void(0);" style="display: inline-block;padding: 0px 15px; line-height: 30px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">开始输出</a>
+    </div>
+
+    <style>
+        .action_tr{
+            display: inline-block;
+            padding: 3px 10px;
+        }
+        .action_tr .mobile{
+            display: inline-block;
+        }
+        .action_tr .action{
+            display: inline-block;
+        }
+        .action_tr .oprate{
+            display: inline-block;
+        }
+        .action_tr .remove_tr{
+            display: inline-block;padding: 0px 10px; line-height: 20px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;
+        }
+    </style>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <div width="100%" cellspacing="0" id="table_list">
+            <volist name="list" id="val" >
+                <div class="action_tr" rel="{$val}">
+                    <div class="mobile" align="left">{$val}</div>
+                    <div class="action" align="left">待发送</div>
+                    <div class="oprate" align="left">
+                        <span class="remove_tr">剔除</span>
+                    </div>
+                </div>
+            </volist>
+        </div>
+    </div>
+
+
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+
+<script>
+    var id="{$yingxiaoInfo['id']}";
+    var url="{:U('postsms')}";
+    $('.remove_tr').click(function(){
+        $(this).parent().parent().remove();
+    });
+
+    $('.startImportCustomer').click(function () {
+        if($(this).text()=='开始输出'){
+            $(this).text('正在处理中...请等待');
+            process($('#table_list').find('.action_tr:first-child'));
+        }else{
+            $.yhxia.tip({content:$(this).text(), icon:'alert'});
+        }
+
+    });
+    /**
+     * 执行处理电话
+     * @param i
+     * @param count
+     * @returns {boolean}
+     */
+    function process(obj){
+        if(obj.text()){
+            obj.find('.action').text('处理中...');
+            var mobile=obj.attr('rel');
+            $.post(url,{id:id,mobile:mobile},function(result){
+                if(result.errNum ===0){
+                    obj.find('.action').text('成功');
+                }else{
+                    obj.find('.action').text(result.errMsg);
+                }
+                obj.find('.oprate').html('');
+                process(obj.next('.action_tr'));
+            });
+        }else{
+            $.yhxia.tip({content:'已经结束'});
+            $('.startImportCustomer').text('已经结束');
+            return true;
+        }
+    }
+
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

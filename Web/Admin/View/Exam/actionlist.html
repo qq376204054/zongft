@@ -1,0 +1,37 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="100"><span data-tdtype="order_by" data-field="id">考试人</span></th>
+                <th width="150" align="left"><span data-tdtype="order_by" data-field="name">考试时间</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="mobile">做题数量</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="city">正确数</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="money">试卷总分</span></th>
+                <th width="100" align="left"><span data-tdtype="order_by" data-field="channel">考试得分</span></th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$val.user_name}</td>
+                    <td align="left">{$val.create_time_true}</td>
+                    <td align="left">{$val.all_num}</td>
+                    <td align="left">{$val.right_num}</td>
+                    <td align="left">{$val.all_score}</td>
+                    <td align="left">{$val.all_get_score}</td>
+                    <td align="left">
+                        <a href="{:U('examdetail',array('user_id'=>$val['user_id'],'time'=>$val['create_time']))}" data-title="详情">详情</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

@@ -1,0 +1,64 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        姓名：
+                        <input type="text" name="report_user_name" id="report_user_name" class="input-text" size="12" value="{$user_name}">
+                        在职状态 :
+                        <select name="user_delete" id="report_user_delete" >
+                            <option value="1">在职</option>
+                            <option value="2">离职</option>
+                            <option value="3">全部</option>
+                        </select>
+                        时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="12" value="{$start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="12" value="{$end_time}" readonly>
+                        <if condition="$is_show_branch_select">
+                            公司部门：
+                            <select name="branch_id" id="report_branch_id">
+                                <option value="">全部</option>
+                                {$select_menus}
+                            </select>
+                        </if>
+                        <input type="button" id="tijiao" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list">
+
+
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    //默认加载交易
+    loadURL("{:U('report/allocate_table')}?user_delete="+$('#report_user_delete').val()+"&user_name="+$('#report_user_name').val()+"&branch_id="+$('#report_branch_id').val()+"&start_time="+$('#time_start').val()+"&end_time="+$('#time_end').val(),'.J_tablelist');
+    $('#tijiao').click(function(){
+        loadURL("{:U('report/allocate_table')}?user_delete="+$('#report_user_delete').val()+"&user_name="+$('#report_user_name').val()+"&branch_id="+$('#report_branch_id').val()+"&start_time="+$('#time_start').val()+"&end_time="+$('#time_end').val(),'.J_tablelist');
+    });
+</script>
+</body>
+</html>

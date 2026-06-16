@@ -1,0 +1,31 @@
+<include file="Login:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('Api/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th style="text-align: left;">接口名</th>
+                <th style="text-align: left;">地址</th>
+                <th width="220">管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.action}</td>
+                    <td align='center'>
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Api/add',array('id'=>$vo['id']))}" data-title="修改 - {$vo.add}" data-id="add" data-width="500" data-height="350">修改</a> |
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Api/test',array('id'=>$vo['id']))}" data-title="测试 - {$vo.name}" data-id="test" data-width="600" data-height="350">测试</a> |
+                        <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Api/delete',array('id'=>$vo['id']))}" data-msg="确认删除 - {$vo.name}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

@@ -1,0 +1,70 @@
+<style>
+	.delete_tr{cursor:pointer;line-height: 30px;padding-left: 10px; padding-right: 10px; border: 1px solid #cccccc;float: right;border-radius: 5px;background: #ff6e4f; color: #ffffff; }
+	.delete_tr:hover{color: #ffffff;background: #f0ad4e;}
+</style>
+<div class="pad_lr_10" style="max-height: 350px;overflow: auto;">
+	<input name="order_id" id="upload_file_order_id" type="hidden" value="{$order_id}">
+	<table width="100%" class="table_form" id="table_form_slide">
+		<tr>
+			<th width="120px"><b style="">附件类型 :</b></th>
+			<td>
+				<select name="cate_id" id="file_cate">
+					<option value="">请选择附件类型</option>
+					{$select_menus}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><b style="">选择图片 :</b></th>
+			<td>
+				<div id="J_upload_img" class="upload_btn"><span>上传</span></div><span class="gray ml10"></span>
+			</td>
+		</tr>
+		<tr><td colspan="2" id="one_customer_file_table"></td></tr>
+	</table>
+</div>
+<script>
+	var link = "{:U('File/user_file')}?order_id={$order_id}";
+	loadURL(link,'#one_customer_file_table');
+</script>
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//上传logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_upload_img'),
+			multiple: false,
+			action: "{:U('File/useradd')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				upload.setParams({
+					order_id:$('#upload_file_order_id').val(),
+					cate_id: $('#file_cate').val()
+				});
+				$('#J_logo_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_logo_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.errNum === 0){
+					var link = "{:U('File/user_file')}?order_id={$order_id}";
+					loadURL(link,'#one_customer_file_table');
+				}else{
+					$.yhxia.tip({content:result['errMsg'], icon:'error'});
+				}
+			}
+		});
+	});
+</script>

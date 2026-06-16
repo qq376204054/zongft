@@ -1,0 +1,49 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Protocol/add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="120px">订单编号 :</th>
+                <td>{$orderInfo['number']}</td>
+            </tr>
+            <tr>
+                <th>客户名 :</th>
+                <td>{$orderInfo['name']}</td>
+            </tr>
+            <tr>
+                <th>协议编号 :</th>
+                <td><input type="text" name="protocol_number" id="protocol_number" class="input-text" value="{$protocolInfo['protocol_number']}"></td>
+            </tr>
+            <tr>
+                <th>客户需求金额（元） :</th>
+                <td><input type="text" name="money" id="protocol_money" class="input-text" value="{$orderInfo['money']}"></td>
+            </tr>
+            <tr>
+                <th>总服务费（元） :</th>
+                <td><input type="text" name="service_money" id="protocol_service_money" class="input-text" value="{$protocolInfo['service_money']}"></td>
+            </tr>
+            <tr>
+                <th>服务费率 :</th>
+                <td><input type="text" name="service_rate" id="protocol_service_rate" class="input-text" value="{$protocolInfo['service_rate']}"> %</td>
+            </tr>
+        </table>
+        <input type="hidden" name="order_id" value="{$orderInfo['id']}">
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#order_money").formValidator({ onshow:lang.please_input+'客户意向金额', onfocus:lang.please_input+'客户意向金额', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'客户意向金额'});
+        $("#protocol_number").formValidator({ onshow:lang.please_input+'协议编号', onfocus:lang.please_input+'协议编号', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'协议编号'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('protocol_add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

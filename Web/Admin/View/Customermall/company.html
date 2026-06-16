@@ -1,0 +1,43 @@
+<include file="Login:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('Customermall/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><span tdtype="order_by" fieldname="id">ID</span></th>
+      			<th style="text-align: left;">合作买方</th>
+                <th style="text-align: left;">创建时间</th>
+                <th width="40"><span data-field="status">状态</span></th>
+                <th width="320">管理操作</th>
+            </tr>
+            </thead>
+    	   <tbody>
+           <foreach name="list" item="val">
+               <tr id="node-{$val['id']}">
+                   <td align='center'>{$val['id']}</td>
+                   <td>{$val['name']}</td>
+                   <td>{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                   <td align="center">
+                       <img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__ROOT__/static/images/admin/toggle_<if condition="$val.status eq 1">enabled<else/>disabled</if>.gif" />
+                   </td>
+                   <td align='center'>
+                       <a href="javascript:;" class="J_showdialog" data-uri="{:U('companyAdd',array('id'=>$val['id']))}" data-title="编辑 - {$val.name}" data-id="add" data-width="500" data-height="350">编辑</a> |
+                       <a href="{:U('doAction',array('id'=>$val['id']))}">输出客户面板</a> |
+                       <a href="{:U('hasTable',array('id'=>$val['id']))}">输出统计报表</a> |
+                       <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Customermall/delete',array('id'=>$val['id']))}" data-msg="确认删除合作商（{$val.name}）">删除</a>
+                   </td>
+               </tr>
+           </foreach>
+    	   </tbody>
+        </table>
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

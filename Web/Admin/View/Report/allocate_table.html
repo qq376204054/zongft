@@ -1,0 +1,44 @@
+<table width="100%" cellspacing="0">
+    <thead>
+    <tr>
+        <th align="left">名称</th>
+        <th align="left">状态</th>
+        <th align="left">部门</th>
+        <th align="left">丢回次数</th>
+        <th align="left">自动分配次数</th>
+        <th align="left">客户转入次数</th>
+        <th align="left">客户转出次数</th>
+        <th align="left">领取次数</th>
+        <th align="left">沟通次数</th>
+        <th align="left">沟通客户数</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="list" id="val" >
+        <tr>
+            <td align="left">{$val.user_name}</td>
+            <td align="left">{$val.status_name}</td>
+            <td align="left">{$val.branch_name}</td>
+            <td align="left">{$val.diuhui}</td>
+            <td align="left">{$val.zidong_in}</td>
+            <td align="left">{$val.zhuanru_in}</td>
+            <td align="left">{$val.zhuanru_out}</td>
+            <td align="left">{$val.lingqu}</td>
+            <td align="left">{$val.gou_cishu}</td>
+            <td align="left">{$val.gou_kehu}</td>
+        </tr>
+    </volist>
+    <tr style="background: #FF5151;color: #ffffff;">
+        <td align="center">合计</td>
+        <td align="left"></td>
+        <td align="left"></td>
+        <td align="left">{$count['丢回客户']}</td>
+        <td align="left">{$count['自动分配次数']}</td>
+        <td align="left">{$count['客户转入次数']}</td>
+        <td align="left">{$count['客户转出次数']}</td>
+        <td align="left">{$count['领取次数']}</td>
+        <td align="left">{$count['沟通次数']}</td>
+        <td align="left">{$count['沟通客户数']}</td>
+    </tr>
+    </tbody>
+</table>

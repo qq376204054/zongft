@@ -1,0 +1,32 @@
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <thead>
+    <tr>
+        <th>操作</th>
+        <th>老负责人</th>
+        <th>新负责人</th>
+        <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <foreach name="list" item="val">
+        <tr>
+            <td>{$val['remark']}</td>
+            <td>
+                <if condition="$val['old_user_id']">
+                    {$user_infos[$val['old_user_id']]}
+                    <else/>
+                    空
+                </if>
+            </td>
+            <td>
+                <if condition="$val['new_user_id']">
+                    {$user_infos[$val['new_user_id']]}
+                    <else/>
+                    空
+                </if>
+            </td>
+            <td>{$val['create_time']}</td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>

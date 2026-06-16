@@ -1,0 +1,56 @@
+<include file="Login:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('Business/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="30"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th align="left">商户联系人</th>
+                <th align="left">手机号</th>
+                <th align="left">到期时间</th>
+                <th align="left">IP白名单</th>
+                <th align="left">验证密匙</th>
+                <th align="left">备注</th>
+                <th align="left">业务负责人</th>
+                <th align="left">创建时间</th>
+                <th width="40"><span data-field="status">状态</span></th>
+                <th width="170">管理操作</th>
+            </tr>
+            </thead>
+    	   <tbody>
+           <foreach name="list" item="vo">
+               <tr>
+                   <td align="center"><input type="checkbox" value="{$vo.id}" class="J_checkitem"></td>
+                   <td>{$vo.name}</td>
+                   <td>{$vo.mobile}</td>
+                   <td>{$vo.end_time}</td>
+                   <td>{$vo.white_ip}</td>
+                   <td>{$vo.key}</td>
+                   <td>{$vo.remark}</td>
+                   <td>{$vo.business_name}（{$vo.business_mobile}）</td>
+                   <td>{$vo.create_time}</td>
+                   <td align="center">
+                       <img data-tdtype="toggle" data-id="{$vo.id}" data-field="status" data-value="{$vo.status}" src="__ROOT__/static/images/admin/toggle_<if condition="$vo.status eq 1">enabled<else/>disabled</if>.gif" />
+                   </td>
+                   <td align='center'>
+                       <a href="javascript:;" class="J_showdialog" data-uri="{:U('Business/edit',array('id'=>$vo['id']))}" data-title="编辑 - {$vo.name}" data-id="edit" data-width="500" data-height="150">编辑</a> |
+                       <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Business/delete',array('id'=>$vo['id']))}" data-msg="确认删除租赁商户（{$vo.name}）">删除</a>
+                   </td>
+               </tr>
+           </foreach>
+    	   </tbody>
+        </table>
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Business/delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+        <div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+</body>
+</html>

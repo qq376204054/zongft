@@ -1,0 +1,127 @@
+<div id="button-filter-text" style="padding: 5px; margin: 5px 0px;;text-align: center;">
+    <a class="remove_repeat" href="javascript:void(0);" style="display: inline-block;padding: 0px 15px; line-height: 30px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">一键清除重复商机</a>
+    <a class="startImportCustomer" href="javascript:void(0);" style="display: inline-block;padding: 0px 15px; line-height: 30px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">开始导入表格数据</a>
+</div>
+<div class="J_tablelist table_list" data-acturi="">
+    <table width="100%" cellspacing="0" id="table_list">
+        <thead>
+        <tr>
+            <th align="center">姓名</th>
+            <th align="center">手机号</th>
+            <th align="center">渠道</th>
+            <th align="center">申请金额</th>
+            <th align="center">城市</th>
+            <th align="center">有无<br/>房</th>
+            <th align="center">有无<br/>车</th>
+            <th align="center">有无<br/>公积金</th>
+            <th align="center">有无<br/>保单</th>
+            <th align="center">有无<br/>微粒贷</th>
+            <th align="center">有无<br/>纳税</th>
+            <th align="center">申请时间<br/>（空为导入时间）</th>
+            <th align="center">重复？</th>
+            <th align="center">状态</th>
+            <th align="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="val" >
+            <tr class="action_tr">
+                <td class="name" align="left">{$val.name}</td>
+                <td class="mobile" align="left">{$val.mobile}</td>
+                <td class="utm_source" align="left">{$val.utm_source}</td>
+                <td class="loan_amount" align="left">{$val.loan_amount}</td>
+                <td class="city" align="left">{$val.city}</td>
+                <td class="has_house" align="left">{$val.has_house}</td>
+                <td class="has_car" align="left">{$val.has_car}</td>
+                <td class="has_gongjijin" align="left">{$val.has_gongjijin}</td>
+                <td class="has_baodan" align="left">{$val.has_baodan}</td>
+                <td class="has_weilidai" align="left">{$val.has_weilidai}</td>
+                <td class="has_nasui" align="left">{$val.has_nasui}</td>
+                <td class="create_time" align="left">{$val.create_time}</td>
+                <td class="is_repeat" align="left">{$val.status}</td>
+                <td class="action" align="left">待导入</td>
+                <td class="oprate" align="left">
+                    <a class="remove_tr" href="javascript:void(0);" style="display: inline-block;padding: 0px 10px; line-height: 20px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">删除</a>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<script>
+    //删除一行重复数据
+    $('.remove_tr').click(function(){
+        $(this).parent().parent().remove();
+    });
+    //处理重复商机数据操作
+    $('.remove_repeat').click(function () {
+        if($(this).text()=='一键清除重复商机'){
+            $(this).text('正在处理中...请等待');
+            remove_tr($('#table_list').find('.action_tr:first-child'));
+        }else{
+            $.yhxia.tip({content:$(this).text(), icon:'alert'});
+        }
+    });
+    /**
+     * 移除重复商机数据
+     */
+    function remove_tr(obj){
+        if(obj.text()){
+            remove_tr(obj.next('.action_tr'));
+            if (obj.find('.is_repeat').text() == '重复商机') {
+                obj.remove();
+            }
+        } else {
+            $.yhxia.tip({content:'已经结束'});
+            $('.remove_repeat').text('已经结束');
+            return true;
+        }
+    }
+
+    var url="{:U('add')}";
+    //导入表格数据操作
+    $('.startImportCustomer').click(function () {
+        if($(this).text()=='开始导入表格数据'){
+            $(this).text('正在处理中...请等待');
+            process($('#table_list').find('.action_tr:first-child'));
+        }else{
+            $.yhxia.tip({content:$(this).text(), icon:'alert'});
+        }
+    });
+    /**
+     * 执行处理表格数据
+     */
+    function process(obj){
+        if(obj.text()){
+            obj.find('.action').text('处理中...');
+            var name=obj.find('.name').text();
+            var mobile=obj.find('.mobile').text();
+            var utm_source=obj.find('.utm_source').text();
+            var loan_amount=obj.find('.loan_amount').text();
+            var city=obj.find('.city').text();
+
+            var has_house=obj.find('.has_house').text();
+            var has_car=obj.find('.has_car').text();
+            var has_gongjijin=obj.find('.has_gongjijin').text();
+            var has_baodan=obj.find('.has_baodan').text();
+            var has_weilidai=obj.find('.has_weilidai').text();
+            var has_nasui=obj.find('.has_nasui').text();
+            var create_time=obj.find('.create_time').text();
+
+            $.post(url,{name:name,mobile:mobile,city:city,money:loan_amount,channel:utm_source,has_house:has_house,has_car:has_car,has_gongjijin:has_gongjijin,
+                has_baodan:has_baodan,has_weilidai:has_weilidai,has_nasui:has_nasui,create_time:create_time},function(result){
+                if(result.errNum ===0){
+                    obj.find('.action').text('成功');
+                }else{
+                    obj.find('.action').text(result.errMsg);
+                }
+                obj.find('.oprate').html('');
+                process(obj.next('.action_tr'));
+            });
+        }else{
+            $.yhxia.tip({content:'已经结束'});
+            $('.startImportCustomer').text('已经结束');
+            return true;
+        }
+    }
+</script>

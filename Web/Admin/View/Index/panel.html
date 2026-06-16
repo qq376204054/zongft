@@ -1,0 +1,48 @@
+<include file="Login:header" />
+<div class="pad_10">
+    <div class="clearfix">
+
+        <div class="col-2 fl mr10" style="width:100%">
+            <h6>个人信息</h6>
+            <div class="content" style="">
+                您好，<b style="color:#06C"> {$userInfo.user_name}</b> &nbsp;<foreach name="userInfo['role_names']" item="vo">[{$vo}]</foreach>
+                <input type="submit" class="smt mr10 J_showdialog" value="修改密码" data-uri="{:U('user/update_pwd')}" data-title="修改密码" data-id="add" data-width="500" data-height="150">
+                <input type="submit" class="smt mr10 J_showdialog" value="上传资料" data-uri="{:U('File/useradd')}" data-title="我的个人资料" data-id="add" data-width="500" data-height="150">
+                <br />
+                登录IP： {$ip} [ {$time}]<br />
+                <div class="bk20 hr"><hr /></div>
+                手机号：<span><font color="green">{$userInfo.mobile}</font></span><br />
+                邮  箱：<span><font color="green">{$userInfo.email}</font></span><br />
+                性  别：<span><font color="green"><if condition="$userInfo.sex eq 1">男<else/>女</if></font></span><br />
+                所在城市：<span><font color="green">{$userInfo.city}</font></span><br />
+                所在地：<span><font color="green">{$userInfo.area}</font></span><br />
+                所属组织：<span><font color="green">{$userInfo.branch_name}</font></span><br />
+                查看下属：
+                <input type="submit" class="smt_danger mr10 J_showdialog" value="查看下属" data-uri="{:U('user/look_sub_user',array('id'=>$userInfo['id']))}" data-title="查询 - {$userInfo.user_name} -的所有下属" data-id="look_sub_user" data-width="200" data-height="350" title="查询 - {$userInfo.user_name} -的所有下属">
+            </div>
+        </div>
+
+        <div class="bk10"></div>
+
+        <!--<div class="col-2 fl mr10" style="width:48%">-->
+            <!--<h6>系统信息</h6>-->
+            <!--<div class="content" style="height:113px;">-->
+                <!--服务器操作系统：{$system_info.server_os}<br />-->
+                <!--Web 服务器：{$system_info.web_server}<br />-->
+                <!--PHP 版本：{$system_info.php_version}<br />-->
+                <!--支持函数：<span class="{$system_info.curl}">远程读取</span>-->
+                <!--<span class="onCorrect">编码转换</span>-->
+                <!--<span class="{$system_info.zlib}">页面压缩</span>-->
+                <!--<br />-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-2 col-auto">-->
+            <!--<h6>特别声明</h6>-->
+            <!--<div class="content" style="height:113px;">-->
+                <!--1.本软件为收费软件，使用者必须在得到授权后使用。<br />-->
+                <!--2.后续对软件的任何修改和功能扩展，最好联系相关软件开发人员。-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+<include file="Login:footer" />

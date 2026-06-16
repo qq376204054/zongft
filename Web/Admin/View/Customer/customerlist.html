@@ -1,0 +1,677 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <input name="p" type="hidden" value="1" />
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            订单编号 :
+                            <input name="number" type="text" class="input-text" size="15" value="{$search.number}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            创建方式
+                            <select name="create_type">
+                                <option value="">-全部-</option>
+                                <option value="1" <if condition="$search.create_type eq '1'">selected="selected"</if>>自动生成</option>
+                                <option value="2" <if condition="$search.create_type eq '2'">selected="selected"</if>>手动添加</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            客户状态
+                            <select name="customer_status">
+                                <option value="">-全部-</option>
+                                <option value="1" <if condition="$search.customer_status eq '1'">selected="selected"</if>>普通客户</option>
+                                <option value="2" <if condition="$search.customer_status eq '2'">selected="selected"</if>>重点客户</option>
+                                <option value="3" <if condition="$search.customer_status eq '3'">selected="selected"</if>>会面客户</option>
+                                <option value="4" <if condition="$search.customer_status eq '4'">selected="selected"</if>>签约客户</option>
+                                <option value="5" <if condition="$search.customer_status eq '5'">selected="selected"</if>>批款客户</option>
+                                <option value="6" <if condition="$search.customer_status eq '6'">selected="selected"</if>>放款客户</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            用户名 :
+                            <input name="name" type="text" class="input-text" size="10" value="{$search.name}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            手机号 :
+                            <input name="mobile" type="text" class="input-text" size="10" value="{$search.mobile}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            申请金额：
+                            <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                            -
+                            <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            城市 :
+                            <input name="city" type="text" class="input-text" size="10" value="{$search.city}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            等级
+                            <select name="level">
+                                <option value="">-全部-</option>
+                                <if condition="$customer_top_star egt 1">
+                                    <option value="A" <if condition="$search.level eq 'A'">selected="selected"</if>>1星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 2">
+                                    <option value="B" <if condition="$search.level eq 'B'">selected="selected"</if>>2星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 3">
+                                    <option value="C" <if condition="$search.level eq 'C'">selected="selected"</if>>3星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 4">
+                                    <option value="D" <if condition="$search.level eq 'D'">selected="selected"</if>>4星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 5">
+                                    <option value="E" <if condition="$search.level eq 'E'">selected="selected"</if>>5星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 6">
+                                    <option value="F" <if condition="$search.level eq 'F'">selected="selected"</if>>6星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 7">
+                                    <option value="G" <if condition="$search.level eq 'G'">selected="selected"</if>>7星</option>
+                                </if>
+                                <if condition="$customer_top_star egt 8">
+                                    <option value="H" <if condition="$search.level eq 'H'">selected="selected"</if>>8星</option>
+                                </if>
+                            </select>
+                            &nbsp;&nbsp;
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            渠道 :
+                            <input name="channel" type="text" class="input-text" size="10" value="{$search.channel}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            业务员名 :
+                            <input name="user_name" type="text" class="input-text" size="10" value="{$search.user_name}" />
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            公司部门：
+                            <select name="branch_id">
+                                <option value="">全部</option>
+                                {$select_menus}
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无房子
+                            <select name="has_house">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_house eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_house eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无车
+                            <select name="has_car">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_car eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_car eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无保单
+                            <select name="has_baodan">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_baodan eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_baodan eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无公积金
+                            <select name="has_gongjijin">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_gongjijin eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_gongjijin eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无微粒贷
+                            <select name="has_weilidai">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_weilidai eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_weilidai eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            有无纳税
+                            <select name="has_nasui">
+                                <option value="">-全部-</option>
+                                <option value="有" <if condition="$search.has_nasui eq '有'">selected="selected"</if>>有</option>
+                                <option value="无" <if condition="$search.has_nasui eq '无'">selected="selected"</if>>无</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            是否接通 :
+                            <select name="is_jietong">
+                                <option value="">-是否接通-</option>
+                                <option value="1" <if condition="$search.is_jietong eq '1'">selected="selected"</if>>接通</option>
+                                <option value="0" <if condition="$search.is_jietong eq '0'">selected="selected"</if>>未接通</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            是否意向 :
+                            <select name="is_yixiang">
+                                <option value="">-是否意向-</option>
+                                <option value="1" <if condition="$search.is_yixiang eq '1'">selected="selected"</if>>有意向</option>
+                                <option value="0" <if condition="$search.is_yixiang eq '0'">selected="selected"</if>>无意向</option>
+                            </select>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            创建时间：
+                            <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                            -
+                            <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            跟进时间：
+                            <input type="text" name="start_time1" id="time_start1" class="date" size="10" value="{$search.start_time1}" readonly>
+                            -
+                            <input type="text" name="end_time1" id="time_end1" class="date" size="10" value="{$search.end_time1}" readonly>
+                        </div>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                        <if condition="$list_type eq 'index'">
+                            <input type="submit" class="smt mr10 J_showdialog" value="添加客户" data-uri="{:U('Communicate/add')}" data-title="添加客户" data-id="add-communicate" data-width="800" data-height="450">
+                        </if>
+                        <div style="display: inline-block;margin-bottom: 5px;margin-right: 15px;">
+                            <div style="width: 12px;height: 12px;background: #FFCCA7;display: inline-block;"></div>：从未被沟通过的客户
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 5px">
+                            <div style="width: 12px;height: 12px;background: #f7ecb5;display: inline-block;"></div>：变动负责人后没有被沟通过
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+    <div class="tongji_table">
+        提示：该盘当前有
+        <span class="defaultSearch <if condition="$search.search_fenzu eq 'countOneDay'">action</if>" rel="countOneDay">{$tableCount['countOneDay']}</span>位客户超过1天未跟进，
+        <span class="defaultSearch <if condition="$search.search_fenzu eq 'countThreeDay'">action</if>" rel="countThreeDay">{$tableCount['countThreeDay']}</span>位客户超过3天未跟进，
+        <span class="defaultSearch <if condition="$search.search_fenzu eq 'countFiveDay'">action</if>" rel="countFiveDay">{$tableCount['countFiveDay']}</span>位客户超过5天未跟进，
+        <span class="defaultSearch <if condition="$search.search_fenzu eq 'countSerDay'">action</if>" rel="countSerDay">{$tableCount['countSerDay']}</span>位客户超过7天未跟进，
+        其中超过1天未跟进的1星客户有<span class="defaultSearch <if condition="$search.search_fenzu eq 'countOneDayxing1'">action</if>" rel="countOneDayxing1">{$tableCount['countOneDayxing1']}</span>位,
+        2星客户1天未跟进有<span class="defaultSearch <if condition="$search.search_fenzu eq 'countOneDayxing2'">action</if>" rel="countOneDayxing2">{$tableCount['countOneDayxing2']}</span>位，
+        请注意及时跟进！<div onclick="reflassaa()" class="reflashss">刷新</div>
+    </div>
+
+    <style>
+        .tongji_table{
+            background: #f0ead8;
+            padding: 9px 15px;
+            line-height: 20px;
+        }
+        .tongji_table span{
+            height: 20px;
+            line-height: 20px;
+            background: #0a6999;
+            color: #ffffff;
+            padding: 0px 8px;
+            margin: 0px 3px;
+            cursor: pointer;
+        }
+        .tongji_table .action{
+            height: 20px;
+            line-height: 20px;
+            background: #ff0000;
+            color: #ffffff;
+            padding: 0px 8px;
+            margin: 0px 3px;
+            cursor: pointer;
+        }
+        .tongji_table div{
+            height: 20px;
+            line-height: 20px;
+            background: #fc4f02;
+            color: #ffffff;
+            padding: 0px 8px;
+            display: inline-block;
+            margin: 0px 3px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th align="left" width="180px">
+                    订单编号 /
+                    <span data-tdtype="order_by" data-field="name">姓名</span> /
+                    <span data-tdtype="order_by" data-field="mobile">手机号</span>
+                </th>
+                <th align="left" width="80px">
+                    <span data-tdtype="order_by" data-field="user_id">负责人</span><br>
+                    <span data-tdtype="order_by" data-field="city">城市</span>
+                </th>
+                <th align="left" width="80px"><span data-tdtype="order_by" data-field="money">申请金额(元)</span></th>
+                <th align="left" width="50px"><span data-tdtype="order_by" data-field="level">等级</span></th>
+                <if condition="$list_type eq 'all_customer'">
+                    <th align="left"><span data-tdtype="order_by" data-field="channel">渠道</span></th>
+                </if>
+
+                <if condition="$customer_list_remark eq 'remark'">
+                    <th align="left">客户备注</th>
+                    <else/>
+                    <th align="left">沟通日志</th>
+                </if>
+
+                <th align="left" width="135px">
+                    <span data-tdtype="order_by" data-field="create_time">创建时间</span><br>
+                    <span data-tdtype="order_by" data-field="communicate_time">跟进时间</span>
+                </th>
+                <th align="left" width="60px">
+                    <span data-tdtype="order_by" data-field="customer_status">客户状态</span><br>
+                    <span data-tdtype="order_by" data-field="create_type">创建方式</span>
+                </th>
+
+                <if condition="($list_type eq 'index')||($list_type eq 'new_customer')||($list_type eq 'old_customer')||($list_type eq 'important_customer')">
+                    <th width="40">重要客户</th>
+                </if>
+
+                <if condition="$list_type eq 'shenqian_customer'">
+                    <th width="80">状态管理</th>
+                </if>
+
+                <if condition="$list_type eq 'all_customer'">
+                    <th width="145">操作</th>
+                </if>
+
+                <if condition="$list_type eq 'all_del_customer'">
+                    <th align="left"><span data-tdtype="order_by" data-field="is_delete">是否被废弃</span></th>
+                    <th align="left"><span data-tdtype="order_by" data-field="delete_user">废弃操作人</span></th>
+                </if>
+
+                <if condition="$list_type eq 'leave_user_customer'">
+                    <th width="85">操作</th>
+                </if>
+
+                <if condition="$list_type eq 'shield_customer'">
+                    <th width="85">操作</th>
+                </if>
+
+                <if condition="$list_type eq 'no_company_customer'">
+                    <th width="50">操作</th>
+                </if>
+
+                <if condition="$list_type eq 'receive'">
+                    <th width="50">操作</th>
+                </if>
+
+                <if condition="($list_type eq 'index')||($list_type eq 'new_customer')||($list_type eq 'old_customer')||($list_type eq 'important_customer')||($list_type eq 'mianjian_customer')||($list_type eq 'qianyue_customer')||($list_type eq 'pidai_customer')||($list_type eq 'team')||($list_type eq 'company_customer')">
+                    <th width="80">操作</th>
+                </if>
+
+                <if condition="($list_type eq 'shenqian_customer')||($list_type eq 'fangkuan_customer')">
+                    <th width="120">操作</th>
+                </if>
+
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr id="receive_tr_id_{$val.id}" style="background:<if condition="$val['communicate_status'] eq '1'">#FFCCA7<elseif condition="$val['communicate_status'] eq '2'"/>#f7ecb5<else/>#ffffff</if>">
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="left">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Order/look',array('id'=>$val['id']))}" data-title="查看客户 - {$val.number} - 的详细信息" data-id="add" data-width="800" data-height="350" style="color: #5f7fbb; font-weight: bold;">
+                            {$val.number}
+                        </a>
+                        <div>
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Customer/look',array('id'=>$val['id']))}" data-title="查看客户 - {$val.name} - 的详细信息" data-id="look" data-width="800" data-height="350" style="color: #5f7fbb; font-weight: bold;">
+                                {$val.name}
+                            </a>
+                            <!--
+                            <a href="javascript:;" class="dustess" rel="{$val.id}" style="display: inline-block;padding: 0px 8px;line-height: 23px;font-size: 12px;text-decoration:none;background: #33bbee;border-radius: 5px;color: #FFF;">一键外呼</a>
+                            -->
+                            <!--{$val.mobile}-->
+                        </div>
+                    </td>
+                    <td align="left">
+                        {$userInfos[$val['user_id']]['user_name']}<br>{$val.city}
+                    </td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">
+                        <!--{$val.level}-->
+                        <if condition="$val.level eq 'A'">1星</if>
+                        <if condition="$val.level eq 'B'">2星</if>
+                        <if condition="$val.level eq 'C'">3星</if>
+                        <if condition="$val.level eq 'D'">4星</if>
+                        <if condition="$val.level eq 'E'">5星</if>
+                        <if condition="$val.level eq 'F'">6星</if>
+                        <if condition="$val.level eq 'G'">7星</if>
+                        <if condition="$val.level eq 'H'">8星</if>
+                    </td>
+                    <if condition="$list_type eq 'all_customer'">
+                        <td align="left">{$val.channel}</td>
+                    </if>
+
+                    <if condition="$customer_list_remark eq 'remark'">
+                        <td align="left">{$val['remark']} </td>
+                        <else/>
+                        <td align="left">
+                            <foreach name="val['communicate_list']" item="vo_child" key="index_child">
+                                <if condition="$index_child lt 5">
+                                    <div>{$index_child+1}：{$vo_child.content} <span style="color: #4f71e0;">{$vo_child.user_name}</span> | {$vo_child['create_time']}</div>
+                                </if>
+                            </foreach>
+                        </td>
+                    </if>
+
+                    <td align="left">
+                        {:date('Y-m-d H:i:s',$val['create_time'])}<br>
+                        <if condition="$val['communicate_time'] neq 0">{:date('Y-m-d H:i:s',$val['communicate_time'])}<else/>未跟进</if>
+                    </td>
+                    <td align="left">
+                        {$val.customer_status_name}<br>
+                        <if condition="$val['create_type'] eq 1">自动生成<else/>手动添加</if>
+                    </td>
+
+                    <if condition="($list_type eq 'index')||($list_type eq 'new_customer')||($list_type eq 'old_customer')||($list_type eq 'important_customer')">
+                        <td align="center">
+                            <if condition="($val['customer_status'] eq 1) || ($val['customer_status'] eq 2)">
+                                <input rel="{$val.id}" type="button" style="width: auto;padding-left: 10px;padding-right: 10px;font-size: 10px;border-radius: 5px;" class="smt customer_is_zhongyao {$val['customer_status']==2?'customer_is_zhongyao_action':''}" value= "{$val['customer_status']==2?'√':'--'}" data-title="标记重要">
+                            </if>
+                        </td>
+                    </if>
+
+
+                    <if condition="$list_type eq 'shenqian_customer'">
+                        <td align="center">
+                        <if condition="$val['customer_status'] eq 4">
+                            <input rel="{$val.id}" type="button" style="width: auto;padding-left: 10px;padding-right: 10px;font-size: 10px;border-radius: 5px;background: #65A2F3" class="smt customer_is_pikuan" value= "设为已批款" data-title="设为已批款">
+                            <input rel="{$val.id}" type="button" style="width: auto;padding-left: 10px;padding-right: 10px;font-size: 10px;border-radius: 5px;background: #f37f65" class="smt customer_is_judan" value= "设为已拒单" data-title="设为已拒单">
+                            <else/>
+                            <input rel="{$val.id}" type="button" style="width: auto;padding-left: 10px;padding-right: 10px;font-size: 10px;border-radius: 5px;background: #6f75b0" class="smt customer_is_fangkuan" value= "设为已放款" data-title="设为已放款">
+                        </if>
+                        </td>
+                    </if>
+
+
+                    <if condition="$list_type eq 'all_customer'">
+                        <td align="left">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通" data-id="add-communicate" data-width="900" data-height="350">沟通</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a> |
+                            <if condition="$data_auth eq 1">
+                                <a href="javascript:;" class="J_showdialog" data-uri="{:U('Customer/update_important',array('id'=>$val['id']))}" data-title="{$val.name} - 修改他的重要信息" data-id="important" data-width="500" data-height="100">重要操作</a>
+                            </if>
+                        </td>
+                    </if>
+
+                    <if condition="$list_type eq 'all_del_customer'">
+                        <td align="left">
+                            <if condition="$val['is_delete'] eq 1">
+                                <span style="color: #FF5151;">被废弃</span><else/>未废弃
+                            </if>
+                        </td>
+                        <td align="left">
+                            {$userInfos[$val['delete_user']]['user_name']}
+                        </td>
+                    </if>
+
+                    <if condition="$list_type eq 'leave_user_customer'">
+                        <td align="left">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通" data-id="add-communicate" data-width="900" data-height="350">沟通</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a>
+                        </td>
+                    </if>
+
+                    <if condition="$list_type eq 'shield_customer'">
+                        <td align="left">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通" data-id="add-communicate" data-width="900" data-height="350">沟通</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a>
+                        </td>
+                    </if>
+
+                    <if condition="$list_type eq 'no_company_customer'">
+                        <td align="left">
+                            <a href="javascript:;" class="receive_action" rel="{$val.id}">领取</a>
+                        </td>
+                    </if>
+
+                    <if condition="$list_type eq 'receive'">
+                        <td align="left">
+                            <a href="javascript:;" class="receive_action" rel="{$val.id}">领取</a>
+                        </td>
+                    </if>
+
+
+                    <if condition="($list_type eq 'index')||($list_type eq 'new_customer')||($list_type eq 'old_customer')||($list_type eq 'important_customer')||($list_type eq 'mianjian_customer')||($list_type eq 'qianyue_customer')||($list_type eq 'pidai_customer')||($list_type eq 'team')||($list_type eq 'company_customer')">
+                        <td align="left">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通并编辑" data-id="add-communicate" data-width="900" data-height="450">沟通</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Meeting/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} - 进行面见" data-id="mianjian_add" data-width="500" data-height="150">面见</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Protocol/add',array('id'=>$val['id']))}" data-title="操作 - {$val.number} -的合作协议" data-id="protocol_add" data-width="500" data-height="220">协议</a> |
+                        </td>
+                    </if>
+
+                    <if condition="($list_type eq 'shenqian_customer')||($list_type eq 'fangkuan_customer')">
+                        <td align="left">
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通并编辑" data-id="add-communicate" data-width="900" data-height="450">沟通</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Protocol/add',array('id'=>$val['id']))}" data-title="操作 - {$val.number} -的合作协议" data-id="protocol_add" data-width="500" data-height="220">协议 </a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Loan/add',array('id'=>$val['id']))}" data-title="操作 - {$val.number} -的放款信息" data-id="add" data-width="800" data-height="350">放款</a> |
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Account/add',array('id'=>$val['id']))}" data-title="添加 - {$val.number} 的账单信息" data-id="account_add" data-width="700" data-height="350">账单</a>
+                        </td>
+                    </if>
+
+
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+        <div style="height:60px;"></div>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+
+            <if condition="$list_type eq 'all_customer'">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_away_all')}?ok=1" data-name="id" data-msg="确认 丢回领取池" value="丢回领取池" />
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax_form" data-uri="{:U('Customer/remove_user')}?ok=1" data-name="remove_user" data-title="设置负责人" value="设置负责人" data-id="remove_user" data-width="500" data-height="350" />
+            </if>
+
+            <if condition="$list_type eq 'leave_user_customer'">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_away_all')}?ok=1" data-name="id" data-msg="确认 丢回领取池" value="丢回领取池" />
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax_form" data-uri="{:U('Customer/remove_user')}?ok=1" data-name="remove_user" data-title="设置负责人" value="设置负责人" data-id="remove_user" data-width="500" data-height="350" />
+            </if>
+
+            <if condition="$list_type eq 'shield_customer'">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/out_shield')}?ok=1" data-name="id" data-msg="确认 移出黑名单，客户有负责人将重新回到负责人名下，没负责人将回到领取盘" value="移出黑名单" />
+            </if>
+
+
+            <if condition="$list_type eq 'receive'">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/piliang_receive_action')}?ok=1" data-name="id" data-msg="确认 批量领取" value="批量领取" />
+            </if>
+
+            <if condition="$list_type eq 'no_company_customer'">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/piliang_receive_action')}?ok=1" data-name="id" data-msg="确认 批量领取" value="批量领取" />
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax_form" data-uri="{:U('Customer/remove_user')}?ok=1" data-name="remove_user" data-title="设置负责人" value="设置负责人" data-id="remove_user" data-width="500" data-height="350" />
+            </if>
+            <if condition="($list_type eq 'index')||($list_type eq 'team')||($list_type eq 'new_customer')||($list_type eq 'old_customer')||($list_type eq 'important_customer')||($list_type eq 'mianjian_customer')||($list_type eq 'qianyue_customer')||($list_type eq 'pidai_customer')||($list_type eq 'shenqian_customer')||($list_type eq 'fangkuan_customer')||($list_type eq 'company_customer')">
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_away')}?ok=1" data-name="id" data-msg="确认 丢回领取池" value="丢回领取池" />
+                <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax_form" data-uri="{:U('Customer/remove_user')}?ok=1" data-name="remove_user" data-title="移动负责人" value="移动负责人" data-id="remove_user" data-width="500" data-height="350" />
+                <!--<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_shield')}?ok=1" data-name="id" data-msg="确认 丢到黑名单" value="丢到黑名单" />-->
+            </if>
+
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_start1",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end1",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+<script>
+    function dd(obj){$(obj).remove();}
+
+    $('.receive_action').click(function(){
+        var order_id=$(this).attr('rel');
+        $.post("{:U('Customer/receive_action')}", {order_id:order_id}, function(result){
+            if(result.errNum === 0){
+                $('#receive_tr_id_'+order_id).remove();
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        });
+    });
+
+    /**
+     * 更改标记为重点跟进客户
+     */
+    $('.customer_is_zhongyao').click(function(){
+        var customer_id = $(this).attr('rel');
+        var _this = $(this);
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Customer/changeIsZhongyao')}",
+            data: {id:customer_id},
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    if(result.retData==2){
+                        _this.val("√");
+                        _this.addClass('customer_is_zhongyao_action');
+                    }else{
+                        _this.val("--");
+                        _this.removeClass('customer_is_zhongyao_action');
+                    }
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                }
+            }
+        });
+    });
+
+    /**
+     * 设为已批款
+     */
+    $('.customer_is_pikuan').click(function(){
+        var customer_id = $(this).attr('rel');
+        var _this = $(this);
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Customer/changeIsPikuan')}",
+            data: {id:customer_id},
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    window.location.reload();
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                }
+            }
+        });
+    });
+
+    /**
+     * 设为已拒单
+     */
+    $('.customer_is_judan').click(function(){
+        var customer_id = $(this).attr('rel');
+        var _this = $(this);
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Customer/changeIsJudan')}",
+            data: {id:customer_id},
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    window.location.reload();
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                }
+            }
+        });
+    });
+
+    /**
+     * 设为已放款
+     */
+    $('.customer_is_fangkuan').click(function(){
+        var customer_id = $(this).attr('rel');
+        var _this = $(this);
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Customer/changeIsFangkuan')}",
+            data: {id:customer_id},
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    window.location.reload();
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                }
+            }
+        });
+    });
+
+    /**
+     * 一键外呼
+     */
+    $('.dustess').click(function(){
+        let customer_id = $(this).attr('rel');
+        $.ajax({
+            type: "GET",
+            url: "{:U('Admin/Dustess/callPhone')}",
+            data: {id: customer_id},
+            dataType: "json",
+            success: function (result) {
+                if(result.errNum === 0){
+                    $.yhxia.tip({content:'呼叫中...',time: 3000});
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert',time: 2000});
+                }
+            }
+        });
+    });
+</script>
+<style>
+    .customer_is_zhongyao{background: #cccccc;}
+    .customer_is_zhongyao_action{background: #3f913f;}
+</style>
+</body>
+<script>
+    function reflassaa() {
+        location.reload();
+    }
+    $('.defaultSearch').click(function(){
+        var search_fenzu = $(this).attr('rel');
+        location=location+"?p=1&search_fenzu="+search_fenzu;
+    })
+</script>
+</html>

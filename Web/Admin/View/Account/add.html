@@ -1,0 +1,56 @@
+<!--菜单添加-->
+<style type="text/css">
+    .account_form_tab{font-size: 14px; font-weight: bold; padding: 0 15px 0px 15px;line-height:35px;display: block;float: left; border-bottom: 3px solid #ffffff;}
+    .account_form_tab_action{ border-bottom: 3px solid #ff2222;}
+</style>
+<div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+    <form id="info_form" name="info_form" action="{:U('Account/add')}" method="post">
+        <div style="overflow: auto; border-bottom: 1px solid #cecece;">
+            <span class="account_form_tab_action account_form_tab" rel="1">收入</span>
+            <span class="account_form_tab" rel="2">支出</span>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="height: 15px;"></div>
+        <div class="account_form_table_div" style="margin: 0 20px;">
+        </div>
+        <input type="hidden" name="order_id" class="input-text" value="{$order_id}">
+    </form>
+    <div style="padding: 5px; margin: 5px 20px;background: #c287ff;color: #ffffff;">
+        请准确填写支付日期，支付日期定义为入账和出账时间
+    </div>
+    <div class="account_list" style="margin: 10px 20px 20px 20px;">
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.yhxia.tip({content:result.retData});
+                //下面自动加载收入列表
+                var link = "{:U('Account/account_list')}?order_id={$order_id}";
+                loadURL(link,'.account_list');
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+
+        $('.account_form_tab').click(function(){
+            $('.account_form_tab').removeClass('account_form_tab_action');
+            $(this).addClass('account_form_tab_action');
+            var rel=$(this).attr('rel');
+            var link = "{:U('Account/form_add')}?type="+rel;
+            loadURL(link,'.account_form_table_div');
+        })
+    })
+</script>
+<script>
+    //下面自动加载收入表单
+    var link = "{:U('Account/form_add')}?type=1";
+    loadURL(link,'.account_form_table_div');
+    //下面自动加载收入列表
+    var link = "{:U('Account/account_list')}?order_id={$order_id}";
+    loadURL(link,'.account_list');
+</script>

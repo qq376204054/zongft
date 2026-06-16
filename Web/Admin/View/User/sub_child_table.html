@@ -1,0 +1,39 @@
+<table width="100%" cellspacing="0">
+    <thead>
+    <tr>
+        <th width=25></th>
+        <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+        <th align="left"><span data-tdtype="order_by" data-field="user_name">用户名</span></th>
+        <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+        <th><span data-tdtype="order_by" data-field="entry_time">入职时间</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="list" id="val" >
+        <tr>
+            <td align="center"><input type="radio" name="user_id" class="J_checkitem" value="{$val.id}"></td>
+            <td align="center">{$val.id}</td>
+            <td align="left">{$val.user_name}</td>
+            <td align="left">{$val.mobile}</td>
+            <td align="center">{:date('Y-m-d',$val['entry_time'])}</td>
+        </tr>
+    </volist>
+    </tbody>
+</table>
+<div id="pages">
+    <div>
+        <if condition="$page gt 1">
+            <a class="prev child_table_page" page="{$page-1}" style='cursor: pointer'>&lt;&lt;</a>
+        </if>
+        <span class="current">{$page}</span>
+        <if condition="$page lt $pageNum">
+            <a class="next child_table_page" page="{$page+1}" style='cursor: pointer'>&gt;&gt;</a>
+        </if>
+    </div>
+</div>
+<script>
+    $('.child_table_page').click(function(){
+        var link = "{:U('user/sub_child_table')}?user_name="+$('#search_user_name').val()+"&mobile="+$('#search_mobile').val()+"&p="+$(this).attr('page');
+        loadURL(link,'#remove_user_div');
+    });
+</script>

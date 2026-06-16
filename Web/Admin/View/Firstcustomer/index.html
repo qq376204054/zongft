@@ -1,0 +1,195 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="8" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="8" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="5" value="{$search.city}" />
+                        &nbsp;&nbsp;
+                        申请金额：
+                        <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                        -
+                        <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        渠道 :
+                        <input name="channel" type="text" class="input-text" size="8" value="{$search.channel}"/>
+                        创建时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                        是否重复
+                        <select name="is_repeat">
+                            <option value="">-全部-</option>
+                            <option value="1" <if condition="$search.is_repeat eq '1'">selected="selected"</if>>重复</option>
+                            <option value="0" <if condition="$search.is_repeat eq '0'">selected="selected"</if>>新商机</option>
+                        </select>
+                        有无房子
+                        <select name="has_house">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_house eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_house eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无车
+                        <select name="has_car">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_car eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_car eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无保单
+                        <select name="has_baodan">
+                            <option value="">-'有无保单-</option>
+                            <option value="有" <if condition="$search.has_baodan eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_baodan eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无公积金
+                        <select name="has_gongjijin">
+                            <option value="">-有无保单-</option>
+                            <option value="有" <if condition="$search.has_gongjijin eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_gongjijin eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无微粒贷
+                        <select name="has_weilidai">
+                            <option value="">-有无保单-</option>
+                            <option value="有" <if condition="$search.has_weilidai eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_weilidai eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无微粒贷
+                        <select name="has_nasui">
+                            <option value="">-有无纳税-</option>
+                            <option value="有" <if condition="$search.has_nasui eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_nasui eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        状态
+                        <select name="status">
+                            <option value="">-全部-</option>
+                            <option value="0" <if condition="$search.status eq '0'">selected="selected"</if>>未处理</option>
+                            <option value="1" <if condition="$search.status eq '1'">selected="selected"</if>>已处理</option>
+                            <option value="2" <if condition="$search.status eq '2'">selected="selected"</if>>处理失败</option>
+                            <option value="3" <if condition="$search.status eq '3'">selected="selected"</if>>废弃</option>
+                            <option value="4" <if condition="$search.status eq '4'">selected="selected"</if>>申请频繁无效</option>
+                        </select>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="name">姓名</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="city">城市</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="money">申请金额</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="channel">渠道</span></th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_house"> 房 </span>
+                </th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_car"> 车  </span>
+                </th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_baodan"> 保单  </span>
+                </th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_gongjijin"> 公积金  </span>
+                </th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="weilidai"> 微粒贷  </span>
+                </th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_nasui"> 纳税  </span>
+                </th>
+                <th align="left"><span data-tdtype="order_by" data-field="create_time">申请时间</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="is_repeat">重复？</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">{$val.channel}</td>
+                    <td align="left">
+                        {$val.has_house}
+                    </td>
+                    <td align="left">
+                       {$val.has_car}
+                    </td>
+                    <td align="left">
+                      {$val.has_baodan}
+                    </td>
+                    <td align="left">
+                       {$val.has_gongjijin}
+                    </td>
+                    <td align="left">
+                       {$val.has_weilidai}
+                    </td>
+                    <td align="left">
+                        {$val.has_nasui}
+                    </td>
+                    <td align="left">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="left">
+                        <if condition="$val['is_repeat'] eq 1">
+                            <span style="color: #ff0000">重复</span>
+                            <else/>
+                            <span style="color: #00b050">新商机</span>
+                        </if>
+                    </td>
+                    <td align="left">{$status_name[$val['status']]}</td>
+                    <td align="center">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('show',array('id'=>$val['id']))}" data-title="详情" data-id="add-communicate" data-width="800" data-height="350">详情</a> |
+                        <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Firstcustomer/delete', array('id'=>$val['id']))}" data-msg="废弃 - {$val['name']}">废弃</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Firstcustomer/delete')}" data-name="id" data-msg="确认废弃" value="废弃" />
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

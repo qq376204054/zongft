@@ -1,0 +1,38 @@
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" style="background: #ff0000;"><em style="background: #ff0000;">{$city} 公司选择</em></a><span>|</span>
+        <foreach name="cityCompanys" item="vo">
+            <a class="goto_table1 {$key==0?'goto_detaillist_action':''}" rel="{$vo['id']}"><em>{$vo['name']}<span>（{$vo['score']}）</span></em></a><span>|</span>
+        </foreach>
+    </div>
+</div>
+<style>
+    .goto_table1 span{
+        color: #fc4f02;
+    }
+    .goto_detaillist_action{
+        background: #f0ad4e;
+        line-height: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+    }
+    .goto_detaillist_action em{
+        color: #ffffff;
+    }
+</style>
+<div class="pad_lr_10" >
+    <div class="J_tablelist table_list allocate_user_table" data-acturi="">
+
+    </div>
+</div>
+<script>
+    var link = "{:U('Allocate/table')}?channel={$channel}&city={$city}&company_id={$cityCompanys[0]['id']}";
+    loadURL(link,'.allocate_user_table');
+    $('.goto_table1').click(function(){
+        $('.goto_table1').removeClass('goto_detaillist_action');
+        $(this).addClass('goto_detaillist_action');
+        var link = "{:U('Allocate/table')}?channel={$channel}&city={$city}&company_id="+$(this).attr('rel');
+        loadURL(link,'.allocate_user_table');
+    });
+</script>

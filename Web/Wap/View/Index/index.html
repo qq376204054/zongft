@@ -1,0 +1,150 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="referrer" content="never">
+<title>我的客户</title>
+<link href="__ROOT__/static/mobile/call/css/app.css?version=20203168" rel="stylesheet">
+<script type="text/javascript">
+    (function (d, c, w) {
+        var e = d.documentElement, b = "orientationchange" in window ? "orientationchange" : "resize",
+            a = function () {
+                var h = e.clientWidth;
+                if (!h) {
+                    return
+                }
+                if (h >= 640) {
+                    e.style.fontSize = "100px"
+                } else {
+                    e.style.fontSize = 100 * (h / w) + "px";
+                    var i = document.createElement("div");
+                    i.style.width = "1.4rem";
+                    i.style.height = "0";
+                    document.body.appendChild(i);
+                    var f = 140 * h / w;
+                    var g = (i.clientWidth / f);
+                    if (g > 1.2 || g < 0.8) {
+                        e.style.fontSize = 100 * (h / w) / g + "px"
+                    }
+                    document.body.removeChild(i)
+                }
+            };
+        if (!d.addEventListener) {
+            return
+        }
+        c.addEventListener(b, a, false);
+        d.addEventListener("DOMContentLoaded", a, false)
+    })(document, window, 750);
+</script>
+</head>
+<body>
+<div id="app">
+    <div data-v-3a05a57a="">
+        <div data-v-0859149e="" data-v-3a05a57a="">
+            <header data-v-0859149e="">
+                <a data-v-0859149e="" href="{:U('/wap/index/index')}" class="ps-back2"></a>
+                <h1 data-v-0859149e="" class="flex-center ellipsis">我的客户</h1>
+                <a data-v-0859149e="" href="{:U('/wap/index/loginout')}" class="ps-back"></a>
+            </header>
+            <div data-v-0859149e="" class="header-seat"></div>
+        </div>
+        <main data-v-3a05a57a="" style="padding-top: 0">
+            <div data-v-3a05a57a="" class="loadmore">
+                <section data-v-3a05a57a="">
+                    <ul data-v-3a05a57a="" class="main-sec-ul">
+                        <volist name="list" id="val">
+                        <li data-v-6372e806="" data-v-3a05a57a="" class="house-li por">
+                            <div data-v-6372e806="" class="flex"
+                                 style="border-bottom: 0.02rem solid rgb(238, 238, 238);">
+                                <div data-v-6372e806="" class="right-sec">
+                                    <div data-v-6372e806="" class="pra1">
+                                        {$val.name}
+                                        <span data-v-6372e806="" class="pra1" style="padding-left: 10px;"> {$val.city} </span>
+                                        <span data-v-6372e806="" class="pra1" style="padding-left: 10px;"> {$val.money}元 </span>
+                                    </div>
+                                    <div data-v-6372e806="" class="praliu oh" style="display: none;"></div>
+                                    <div data-v-6372e806="" class="pra2 oh">
+                                        <div data-v-6372e806="" class="fl">
+                                            <span data-v-6372e806=""><if condition="$val['communicate_time'] neq 0">最后沟通时间 {:date('Y-m-d H:i',$val['communicate_time'])}<else/>尚未拨打过电话</if></span>
+                                        </div>
+                                        <a href="tel:{$val.mobile}">
+                                            <div data-v-6372e806="" class="fr"></div>
+                                        </a>
+                                    </div>
+                                    <div data-v-6372e806="" class="oh pra3">
+                                        <div data-v-6372e806="" class="fl">
+                                            <span data-v-6372e806="">{$val.has_house}房 {$val.has_car}车 {$val.has_baodan}保单 {$val.has_gongjijin}公积金 {$val.has_weilidai}微粒贷</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        </volist>
+                    </ul>
+                    <empty name="list"><div data-v-3a05a57a="" class="no-data-block">暂无数据</div></empty>
+                    <div data-v-3a05a57a="" class="no-more-block" style="display: none;padding-top: 10px;padding-bottom: 10px;">没有更多了~</div>
+                </section>
+            </div>
+        </main>
+        <!--<div data-v-3a05a57a="">-->
+        <!--<footer class="footer-tab-area flex" style="z-index: 100;">-->
+        <!--<div class="footer-tab-area-tab1 flex-center-column router-link-exact-active router-link-active footer-tab-area-tab-active">-->
+        <!--<div></div>-->
+        <!--<div>房源</div>-->
+        <!--</div>-->
+        <!--<div class="footer-tab-area-tab2 flex-center-column">-->
+        <!--<div></div>-->
+        <!--<div>客户</div>-->
+        <!--</div>-->
+        <!--<div class="footer-tab-area-tab5 flex-center-column">-->
+        <!--<div class=""></div>-->
+        <!--<div>发布</div>-->
+        <!--</div>-->
+        <!--<div class="footer-tab-area-tab3 flex-center-column">-->
+        <!--<div></div>-->
+        <!--<div>订阅</div>-->
+        <!--</div>-->
+        <!--<div class="footer-tab-area-tab4 flex-center-column">-->
+        <!--<div></div>-->
+        <!--<div>我的</div>-->
+        <!--</div>-->
+        <!--</footer>-->
+        <!--</div>-->
+    </div>
+</div>
+<script src="__ROOT__/static/mobile/call/js/jquery-1.11.1.min.js"></script>
+<script src="__ROOT__/static/mobile/layer/layer.js"></script>
+<script type="text/javascript">
+    let page = 1; //当前页码
+    let isDown = true; //是否可以获取继续下拉
+
+    //监听滚动条
+    $(window).scroll(function(){
+        //下面这句主要是获取网页的总高度，主要是考虑兼容性所以把Ie支持的documentElement也写了，这个方法至少支持IE8
+        var htmlHeight=document.body.scrollHeight||document.documentElement.scrollHeight;
+        //clientHeight是网页在浏览器中的可视高度，
+        var clientHeight=document.body.clientHeight||document.documentElement.clientHeight;
+        //scrollTop是浏览器滚动条的top位置，
+        var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+        //通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
+        if(scrollTop+clientHeight==htmlHeight && isDown){
+            $.ajax({
+                type: "post",
+                url: "{:U('index/getNextData')}",
+                data: {page: page},
+                dataType:"json",
+                success:function(data){
+                    if(data.errNum===0){
+                        page = page + 1;
+                        $(".main-sec-ul").append(data.retData);
+                    }else{
+                        isDown = false;
+                        $(".no-more-block").css("display",'block');
+                    }
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

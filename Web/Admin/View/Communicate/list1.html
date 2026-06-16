@@ -1,0 +1,8 @@
+<div class="communicate_list" style="max-height:110px;overflow-y:auto;padding-right: 20px;">
+    <foreach name="list" item="vo">
+        <div class="onelist" style="line-height: 25px;">
+            <div>{$userInfo[$vo['user_id']]} | {$vo.create_time} | {$vo.money}元 | {$vo.follow_type}</div>
+            <div style="text-indent:2em; background: #eeeeee">{$vo.content}</div>
+        </div>
+    </foreach>
+</div>

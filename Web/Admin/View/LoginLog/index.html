@@ -1,0 +1,91 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <div style="display: inline-block;margin-bottom: 10px">
+                            登录账户：
+                            <select name="user_id">
+                                <option value="">-全部-</option>
+                                <foreach name="allUser" item="vo">
+                                    <option value="{$vo['id']}" <if condition="$search.user_id eq $vo['id']">selected="selected"</if>>{$vo['user_name']}</option>
+                                </foreach>
+                            </select>
+                            &nbsp;&nbsp;
+                        </div>
+                        <div style="display: inline-block;margin-bottom: 10px">
+                            登录时间：
+                            <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                            -
+                            <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                            &nbsp;&nbsp;
+                        </div>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('Roles/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="30"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="action">日志类型</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="user_id">登录账户</span></th>
+                <th align="left">登录方式</th>
+                <th align="left"><span data-tdtype="order_by" data-field="create_time">登录时间</span></th>
+                <th width="170">管理操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center"><input type="checkbox" value="{$val.id}" class="J_checkitem"></td>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val['action']==1?'登录':'退出'}</td>
+                    <td align="left">{$val.user_name}</td>
+                    <td align="left">{$val.from}</td>
+                    <td align="left">{$val.create_time}</td>
+                    <td align='center'>
+                       <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('LoginLog/delete',array('id'=>$val['id']))}" data-msg="确认删除此条日志记录？">删除</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

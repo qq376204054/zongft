@@ -1,0 +1,35 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <form action="{:U('csvProcess')}" id="csv_process" class="navbar-form form-inline" method="post" enctype="multipart/form-data">
+            <input type="file" name="csv_file" value="" placeholder="csv文件" class="input-sm" style="width:190px";>
+            <button type="submit"  id="button-filter" class="btn btn-primary btn-sm">
+                <i class="fa fa-play"></i> 上传
+            </button>
+            <a href="__ROOT__/static/file/customer_import.csv" target="_blank" class="btn btn-download btn-sm btn-info" >
+                <i class="fa fa-arrow-down"></i>下载csv模板
+            </a>
+            <div style="padding: 5px; margin: 5px 0px;background: #ffffff;color: #000000;">
+                注意：这里导入请导入获客资源，导入后，客户资源会按照自动分配进行对员工分配<br/>请先上传csv获客客户列表文件，系统再比对后会先分析出需导入的列表，核对无误后可以点击“导入”进行客户录入
+            </div>
+        </form>
+    </div>
+    <div id="ajax-content">
+
+    </div>
+</div>
+<include file="Login:footer" />
+<script>
+    $('#csv_process').ajaxForm({beforeSend:checkForm,success:success});
+    function checkForm(){
+        $('#button-filter').hide();
+        $('#ajax-content').html('正在分析文件数据,请等待................');
+    }
+    function success(data){
+        $('#ajax-content').html(data);
+        $('#button-filter').html('<i class="fa fa-play"></i> 上传');
+        $('#button-filter').show();
+    }
+</script>
+</body>
+</html>

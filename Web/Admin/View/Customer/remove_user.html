@@ -1,0 +1,46 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+                <div class="explain_col">
+                    员工名 :
+                    <input name="user_name" id="search_user_name" type="text" class="input-text" size="15" value="" />
+                    &nbsp;&nbsp;
+                    手机号 :
+                    <input name="mobile" type="text" id="search_mobile" class="input-text" size="15" value="" />
+                    <input type="submit" name="search" class="btn" id="searchform_form_btn" value="搜索" />
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form id="info_form" name="info_form" action="{:U('Customer/remove_user')}" method="post">
+        <input name="ids" value="{$ids}" type="hidden">
+        <div class="J_tablelist table_list" id="remove_user_div">
+
+        </div>
+    </form>
+</div>
+<script>
+    var link = "{:U('user/sub_child_table')}";
+    loadURL(link,'#remove_user_div');
+    $(function(){
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('remove_user').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+    $('#searchform_form_btn').click(function () {
+        var link = "{:U('user/sub_child_table')}?user_name="+$('#search_user_name').val()+"&mobile="+$('#search_mobile').val();
+        loadURL(link,'#remove_user_div');
+    });
+</script>

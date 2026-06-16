@@ -1,0 +1,253 @@
+<!--菜单添加-->
+<div class="dialog_content" style="max-height: 450px; overflow-y: auto;">
+    <form id="info_form" name="info_form" action="{:U('Communicate/add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <td colspan="6" style="color: #666666;padding-left: 20px">
+                    客户名: <input type="text" style="width: 100px;margin-left: 30px;" name="name" class="input-text" value="{$info.name}">
+                    手机号:
+                    <if condition="$info['id']">
+                        {$info.mobile}
+                        <else/>
+                        <input style="width: 100px" type="text" name="mobile" class="input-text" value="{$info.mobile}">
+                    </if>
+                    <!--
+                    <a href="javascript:;" class="J_confirmurl" style="display: inline-block;padding: 0px 8px;line-height: 23px;font-size: 12px;text-decoration:none;background: #33bbee;border-radius: 5px;color: #FFF;" data-acttype="ajax" data-uri="{:U('Dustess/callPhone', array('id'=>$info['id']))}" data-title="一键外呼" data-msg="确认开始拨打电话嘛？">一键外呼</a>
+                    -->
+                    <b style="margin-left: 20px">城市:</b>
+                    <if condition="$info['id']">
+                        {$info.city}
+                        <else/>
+                        <select name="city" id="add_city">
+                            <option value=""></option>
+                            <foreach name="allocateCity" item="vo">
+                                <option value="{$vo}">{$vo}</option>
+                            </foreach>
+                        </select>
+                    </if>
+                    <b style="margin-left: 20px">性别 :</b>
+                    <select name="sex" id="communicate_sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                    <b style="margin-left: 20px">等级 :</b>
+                    <select name="level" id="add_level">
+                        <option value="">请选择</option>
+                        <if condition="$customer_top_star egt 1">
+                            <option value="A">1星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 2">
+                            <option value="B">2星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 3">
+                            <option value="C">3星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 4">
+                            <option value="D">4星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 5">
+                            <option value="E">5星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 6">
+                            <option value="F">6星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 7">
+                            <option value="G">7星</option>
+                        </if>
+                        <if condition="$customer_top_star egt 8">
+                            <option value="H">>8星</option>
+                        </if>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="color: #666666;padding-left: 20px">
+                    需求金额(元): <input type="text" style="width: 100px" name="money" class="input-text" value="{$info.money}">
+                    是否接通 :
+                    <select name="is_jietong" id="communicate_is_jietong">
+                        <option value="">请选择</option>
+                        <option value="1">接通</option>
+                        <option value="0">未接通</option>
+                    </select>
+                    是否意向 :
+                    <select name="is_yixiang" id="communicate_is_yixiang">
+                        <option value="">请选择</option>
+                        <option value="1">有意向</option>
+                        <option value="0">无意向</option>
+                    </select>
+                    跟进类型 :
+                    <select name="follow_type" id="communicate_follow_type">
+                        <option value="">请选择跟进类型</option>
+                        <foreach name="customer_follow_type" item="vo">
+                            <option value="{$vo}">{$vo}</option>
+                        </foreach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="color: #666666;padding-left: 20px">
+                    房产 :
+                    <select name="has_house" id="communicate_has_house">
+                        <option value="">请选择</option>
+                        <option value="有">有</option>
+                        <option value="无">无</option>
+                    </select>
+                    车 :
+                    <select name="has_car" id="communicate_has_car">
+                        <option value="">请选择</option>
+                        <option value="无">无</option>
+                        <option value="有">有</option>
+                    </select>
+                    保单 :
+                    <select name="has_baodan" id="communicate_has_baodan">
+                        <option value="">请选择</option>
+                        <option value="无">无</option>
+                        <option value="有">有</option>
+                    </select>
+                    公积金 :
+                    <select name="has_gongjijin" id="communicate_has_gongjijin">
+                        <option value="">请选择</option>
+                        <option value="无">无</option>
+                        <option value="有">有</option>
+                    </select>
+                    微粒贷 :
+                    <select name="has_weilidai" id="communicate_has_weilidai">
+                        <option value="">请选择</option>
+                        <option value="无">无</option>
+                        <option value="有">有</option>
+                    </select>
+                    纳税 :
+                    <select name="has_nasui" id="communicate_has_nasui">
+                        <option value="">请选择</option>
+                        <option value="无">无</option>
+                        <option value="有">有</option>
+                    </select>
+                </td>
+            </tr>
+            <if condition="$info['id']">
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">沟通内容 :</th>
+                    <td colspan="5">
+                        <textarea name="content" style="width: 630px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">沟通记录 :</th>
+                    <td colspan="5" class="communicate_list"> </td>
+                </tr>
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">客户备注描述：</th>
+                    <td colspan="5">
+                        <div style="color: #fc4f02;">为了非常直观的了解客户，请仔细对客户进行描述。</div>
+                        <textarea name="remark" style="width: 630px;background: #fffdeb;text-align: left;">{$info.remark}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">下次联系</th>
+                    <td colspan="5">
+                        闹铃提醒时间：<input type="text" name="last_lianxi_time" id="last_lianxi_time" class="date" size="15" value="" readonly><br>
+                        提醒内容：<textarea name="last_lianxi_content" id="last_lianxi_content" style="width: 430px"></textarea><br>
+                        <input id="add_last_lianxi" type="button" style="width: auto;padding-left: 10px;padding-right: 10px;" class="smt mr10" value="新增闹铃备忘" data-title="新增闹铃备忘">
+                    </td>
+                    <script>
+                        /**
+                         * 更改锁定客户
+                         */
+                        $('#add_last_lianxi').click(function(){
+                            var order_id = "{$info.id}";
+                            var last_lianxi_time = $('#last_lianxi_time').val();
+                            var last_lianxi_content = $('#last_lianxi_content').val();
+                            $.ajax({
+                                type: "POST",
+                                url: "{:U('Admin/Communicate/addLastLianxi')}",
+                                data: {id:order_id,last_lianxi_time:last_lianxi_time,last_lianxi_content:last_lianxi_content},
+                                dataType: "json",
+                                success: function (result) {
+                                    if(result.errNum === 0){
+                                        var link_lianxi = "{:U('Communicate/contact_list')}?order_id={$info.id}";
+                                        loadURL(link_lianxi,'.beiwangjilu_list');
+                                        $('#last_lianxi_time').val("")
+                                        $('#last_lianxi_content').val("");
+                                        $.yhxia.tip({content:result.retData});
+                                    } else {
+                                        $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    alert("error");
+                                }
+                            });
+                        });
+                    </script>
+                </tr>
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">备忘记录</th>
+                    <td colspan="5" class="beiwangjilu_list"> </td>
+                </tr>
+            </if>
+
+            <tr>
+                <th style="border-right:1px solid #ebeef5;">客户地址 :</th>
+                <td colspan="5"><input type="text" name="address" id="address" class="input-text" value="{$info.address}" style="width: 100%;"></td>
+            </tr>
+            <tr>
+                <th style="border-right:1px solid #ebeef5;">房产地址 :</th>
+                <td colspan="5"><input type="text" name="house_address" id="house_address" class="input-text" value="{$info.house_address}" style="width: 100%;"></td>
+            </tr>
+            <tr>
+                <th colspan="6" style="text-align: left;background: #cecece;">其他信息 :</th>
+            </tr>
+            <foreach name="info.ext" item="vo">
+                <tr>
+                    <th style="border-right:1px solid #ebeef5;">{$vo.filed_name} :</th>
+                    <td colspan="5"><input type="text" name="{$vo.filed}" class="input-text" value="{$vo.value}" style="width: 100%;"></td>
+                </tr>
+            </foreach>
+        </table>
+        <input type="hidden" name="id" class="input-text" value="{$info.id}">
+    </form>
+</div>
+
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('add-communicate').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>
+<if condition="$info['id']">
+    <script>
+        Calendar.setup({
+            inputField : "last_lianxi_time",
+            ifFormat   : "%Y-%m-%d %H:%M:00",
+            showsTime  : true,
+            timeFormat : "24"
+        });
+        var link = "{:U('Communicate/list1')}?order_id={$info.id}";
+        loadURL(link,'.communicate_list');
+        var link_lianxi = "{:U('Communicate/contact_list')}?order_id={$info.id}";
+        loadURL(link_lianxi,'.beiwangjilu_list');
+    </script>
+    <script type="text/javascript">
+        $('#communicate_sex').val("{$info['sex']}");
+        $('#add_city').val("{$info['city']}");
+        $('#communicate_follow_type').val("{$info['follow_type']}");
+        $('#add_level').val("{$info['level']}");
+        $('#communicate_has_house').val("{$info['has_house']}");
+        $('#communicate_has_car').val("{$info['has_car']}");
+        $('#communicate_has_baodan').val("{$info['has_baodan']}");
+        $('#communicate_has_gongjijin').val("{$info['has_gongjijin']}");
+        $('#communicate_has_weilidai').val("{$info['has_weilidai']}");
+        $('#communicate_has_nasui').val("{$info['has_nasui']}");
+        $('#communicate_is_jietong').val("{$info['is_jietong']}");
+        $('#communicate_is_yixiang').val("{$info['is_yixiang']}");
+    </script>
+</if>

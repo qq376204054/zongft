@@ -1,0 +1,118 @@
+<div style="padding: 5px 10px; color: #ffffff; background: #666666;">
+    设置 <if condition="$search['channel'] eq ''">通用队列<else/>{$search['channel']}</if> - {$search['city']} 的分配队列（并设置每天能分配数）
+</div>
+<div class="table">
+    <div class="J_tablelist table_list allocate_user_table" style="width: 70%; float: left;">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th align="left">员工信息</th>
+                <th align="left">是否api</th>
+                <th align="left" width="80px">账户余额</th>
+                <th align="left" width="80px">当日已分配</th>
+                <th align="left" width="80px">当日可分配</th>
+                <th align="left" width="90px">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="userBranchInfo" id="val" >
+                <tr>
+                    <td align="left">
+                        <div>{$val.user_name}（{$val.user_id}）</div>
+                        <div>{$val.mobile}</div>
+                        <div>{$val.branch_name}</div>
+                    </td>
+                    <td align="left">
+                        <if condition="$val.allocate_status eq 1">
+                            <div>
+                                <if condition="$val['mall_company_id']">
+                                    <span style="color: #ff0000;">{$mall_company_Infos[$val['mall_company_id']]}</span>
+                                    <else/>
+                                    分配给人
+                                </if>
+                            </div>
+                            <div>
+                                <a href="javascript:;" class="J_showdialog" data-uri="{:U('Allocate/settingapi',array('user_id'=>$val['user_id']))}?channel={$search['channel']}&city={$search['city']}" data-title="设置 - {$val.user_name} - 是否api分配" data-id="setting_allocate_api" data-width="500" data-height="250">【设置】</a>
+                            </div>
+                            <else/>
+                            未开启，不可设置
+                        </if>
+                    </td>
+                    <td align="left">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Allocate/edit_user_balance',array('user_id'=>$val['user_id']))}" title="设置账户余额-{$val.user_name}" data-title="设置账户余额-{$val.user_name}" data-id="userBalance" data-width="450" data-height="100">
+                            {$val.balance}
+                        </a>
+                    </td>
+                    <td align="left">{$val.has_allocate}</td>
+                    <td align="left" style="position: relative;">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Allocate/editCanAllocate',
+                        array('user_id'=>$val['user_id'],'company_id'=>$search['company_id']))}?channel={$search['channel']}&city={$search['city']}" title="设置能分配数-{$val.user_name}" data-title="设置能分配数-{$val.user_name}" data-id="companyPrice" data-width="450" data-height="100">
+                            {$val.can_allocate}
+                        </a>
+                        <div class="jia_allocate" rel="{$val.user_id}">加</div>
+                        <div class="jian_allocate" rel="{$val.user_id}">减</div>
+                    </td>
+                    <td>
+                        <if condition="$val.allocate_status eq 1">
+                            <span style="cursor:pointer;background: #ff0000; color:#ffffff;border-radius: 5px; padding: 5px 10px;" user_id="{$val.user_id}" class="select_allocate">踢出队列</span>
+                            <else/>
+                            <span style="cursor:pointer;background: #0f9ae0; color:#ffffff;border-radius: 5px; padding: 5px 10px;" user_id="{$val.user_id}" class="select_allocate">加入队列</span>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <div class="J_tablelist table_list allocate_user_list" style="width: 28%; float: right;">
+
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<style>
+    .jia_allocate{
+        border-radius: 50%;background: #497F7F;text-align: center;line-height: 20px;width: 20px;height: 20px;top: 20px;color: #ffffff;right: 3px;position: absolute;cursor: pointer;
+    }
+    .jian_allocate{
+        border-radius: 50%;background: #ff4c43;text-align: center;line-height: 20px;width: 20px;height: 20px;top: 50px;color: #ffffff;right: 3px;position: absolute;cursor: pointer;
+    }
+</style>
+<script>
+    var link = "{:U('Allocate/allocate_user_list')}?channel={$search['channel']}&city={$search['city']}";
+    loadURL(link,'.allocate_user_list');
+
+    $('.select_allocate').click(function(){
+        var user_id=$(this).attr('user_id');
+        var htmlText=$(this).text();
+        var thisClick=$(this);
+        $.post("{:U('Allocate/select_user_allocate')}", {user_id:user_id,city:"{$search['city']}",channel:"{$search['channel']}"}, function(result){
+            if(result.errNum === 0){
+                var link = "{:U('Allocate/table')}?channel={$search['channel']}&city={$search['city']}&company_id={$search['company_id']}";
+                loadURL(link,'.allocate_user_table');
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        });
+    });
+
+    $('.jian_allocate').click(function () {
+        setAllocateNum(2,$(this).attr('rel'));
+    });
+
+    $('.jia_allocate').click(function () {
+        setAllocateNum(1,$(this).attr('rel'));
+    });
+
+    function setAllocateNum(type,user_id){
+        $.post("{:U('Allocate/set_allocate_num')}", {type:type,user_id:user_id,city:"{$search['city']}",channel:"{$search['channel']}"}, function(result){
+            if(result.errNum === 0){
+                var link = "{:U('Allocate/table')}?channel={$search['channel']}&city={$search['city']}&company_id={$search['company_id']}";
+                loadURL(link,'.allocate_user_table');
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        });
+    }
+</script>

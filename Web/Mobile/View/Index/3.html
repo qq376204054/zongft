@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$all_config['seo_default_title']}</title>
+    <meta name="description" content="{$all_config['seo_default_keys']}">
+    <meta name="keywords" content="{$all_config['seo_default_desc']}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <script src="__ROOT__/static/wap3/jquery-1.10.2.min.js"></script>
+    <script src="__ROOT__/static/wap3/jquery.form.js"></script>
+    <link type="text/css" rel="stylesheet" href="__ROOT__/static/wap3/style.css">
+</head>
+<body>
+<div class="index1">
+    <img src="__ROOT__/static/wap3/index1.jpg">
+    <div class="logo">舒心贷</div>
+</div>
+<div class="fenge">
+    <div class="xian"></div>
+    <div class="text"><span>所在城市</span></div>
+</div>
+<div class="cityDiv">
+    <foreach name="customer_apply_city" item="city">
+        <span class="selectCity">{$city}</span>
+    </foreach>
+</div>
+<script>
+    $('.selectCity').click(function(){
+        $('.selectCity').removeClass('on');
+        $(this).addClass('on');
+        $('#city').val($(this).text());
+    })
+</script>
+<div class="formDiv">
+    <form id="queryOffer" name="info_form" action="{:U('Action/apply_mobile')}" method="post">
+        <input type="hidden" value="" name="city" id="city">
+        <div class="input_div">
+            <span class="title">贷款金额</span>
+            <span class="remark">万元</span>
+            <div class="text">
+                <input type="text" placeholder="输入意向贷款金额" name="money">
+            </div>
+        </div>
+        <div class="input_div">
+            <span class="title">手机号码</span>
+            <div class="text">
+                <input type="text" placeholder="输入你的手机号" name="mobile" id="mobile">
+            </div>
+        </div>
+        <div class="input_div">
+            <span class="title">短信验证码</span>
+            <span class="getCode">获取验证码</span>
+            <div class="text">
+                <input type="text" placeholder="输入验证码" name="code">
+            </div>
+        </div>
+        <div class="aggrement">
+            <input type="checkbox" name="services" checked="checked ">  我已阅读并同意<a href="{:U('mobile/index/article',array('id'=>'2875'))}">《用户服务与隐私条款》</a>
+        </div>
+        <input type="hidden" name="channel" value="3">
+        <input type="submit" class="submit" value="立即申请">
+        <div class="down-submit">具体到账时间、放款额度因个人资质而异</div>
+    </form>
+</div>
+<script>
+    var sec=60;
+    $('.getCode').click(function(){
+        if($(this).text()=='获取验证码'){
+            var myreg = /^((1{1})+\d{10})$/;
+            var mobile=$('#mobile').val();
+            if(!myreg.test(mobile)) {
+                alert('请输入有效的手机号码！');return false;
+            }
+            $('.getCode').html("获取中...");
+            $.ajax({
+                type:"post",
+                url:"{:U('Action/make_mobile_code')}",
+                data:{
+                    mobile:mobile,
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.errNum===0){
+                        time();
+                        sec=60;
+                    }else{
+                        $('.getCode').html('获取验证码');
+                        alert(data.errMsg);
+                    }
+                },
+                error:function(){
+                    $('.getCode').html('获取验证码');
+                    alert("系统异常，请稍后重试！");
+                }
+            });
+        }
+    });
+    function time()
+    {
+        if(sec>0){
+            $('.getCode').html(sec+'秒');
+            sec=sec-1;
+            setTimeout(time,1000);
+        }else{
+            $('.getCode').html('获取验证码');
+        }
+    }
+    $('#queryOffer').ajaxForm({success:complate_queryOffer,dataType:'json'});
+    function complate_queryOffer(result){
+        if(result.errNum === 0){
+            alert(result.retData);
+            location.reload();
+        } else {
+            alert(result.errMsg);
+        }
+    }
+</script>
+</body>
+</html>

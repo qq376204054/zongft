@@ -1,0 +1,252 @@
+<include file="Login:header" />
+<div class="pad_lr_10">
+	<form id="info_form" action="{:u('setting/edit')}" method="post" enctype="multipart/form-data">
+		<table width="100%" class="table_form">
+			<tr>
+				<th width="150">公司名称 :</th>
+				<td><input type="text" name="setting[company_name]" class="input-text" size="30" value="{$info['company_name']}"></td>
+			</tr>
+			<tr>
+				<th>固定电话 :</th>
+				<td><input type="text" name="setting[company_fixed_phone]" class="input-text" size="30" value="{$info['company_fixed_phone']}">
+					<span class="gray ml10">多个固定电话用,号隔开（必须是英文的逗号）</span>
+				</td>
+			</tr>
+			<tr>
+				<th>移动电话 :</th>
+				<td><input type="text" name="setting[company_mobile]" class="input-text" size="30" value="{$info['company_mobile']}">
+					<span class="gray ml10">多个固定电话用,号隔开（必须是英文的逗号）</span>
+				</td>
+			</tr>
+			<tr>
+				<th>客服QQ :</th>
+				<td><input type="text" name="setting[company_qq]" class="input-text" size="30" value="{$info['company_qq']}">
+					<span class="gray ml10">多个固定电话用,号隔开（必须是英文的逗号）</span>
+				</td>
+			</tr>
+			<tr>
+				<th>客服微信号 :</th>
+				<td><input type="text" name="setting[company_weixin]" class="input-text" size="30" value="{$info['company_weixin']}">
+					<span class="gray ml10">多个固定电话用,号隔开（必须是英文的逗号）</span>
+				</td>
+			</tr>
+			<tr>
+				<th>公司邮箱 :</th>
+				<td><input type="text" name="setting[company_email]" class="input-text" size="30" value="{$info['company_email']}">
+				</td>
+			</tr>
+			<tr>
+				<th> 公司地址:</th>
+				<td><input type="text" name="setting[company_address]" class="input-text" size="60" value="{$info['company_address']}"></span>
+				</td>
+			</tr>
+			<tr>
+				<th>后台Logo图片 :</th>
+				<td>
+					<input type="text" name="setting[company_admin_logo]" id="J_company_admin_logo" class="input-text fl mr10" size="50" value="{$info['company_admin_logo']}">
+					<div id="J_company_admin_logo_upload" class="upload_btn"><span>上传</span></div><span class="gray ml10">建议宽:300  高:60  </span><br><br>
+					<img src="{$info['company_admin_logo']}" height="100" id="show_company_admin_logo" /><span class="attachment_icon J_attachment_icon" file-type="image" ></span>
+				</td>
+			</tr>
+			<tr>
+				<th>后台登录背景 :</th>
+				<td>
+					<input type="text" name="setting[company_admin_bg]" id="J_company_admin_bg" class="input-text fl mr10" size="50" value="{$info['company_admin_bg']}">
+					<div id="J_company_admin_bg_upload" class="upload_btn"><span>上传</span></div><span class="gray ml10">建议宽:300  高:60  </span><br><br>
+					<img src="{$info['company_admin_bg']}" height="100" id="show_company_admin_bg" /><span class="attachment_icon J_attachment_icon" file-type="image" ></span>
+				</td>
+			</tr>
+			<tr>
+				<th>微信二维码 :</th>
+				<td>
+					<input type="text" name="setting[company_weixin_code_logo]" id="J_weixin_code_img" class="input-text fl mr10" size="50" value="{$info['company_weixin_code_logo']}">
+					<div id="J_weixin_code_img_upload" class="upload_btn"><span>上传</span></div><span class="gray ml10">建议宽:180  高:180  </span><br><br>
+					<img src="{$info['company_weixin_code_logo']}" height="100" id="show_J_weixin_code_img" /><span class="attachment_icon J_attachment_icon" file-type="image" ></span>
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><input type="submit" class="smt mr10" value="提交"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script>
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+</script>
+<script type="text/javascript">
+	$(function(){
+		//上传后台logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_company_admin_logo_upload'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_company_admin_logo_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_company_admin_logo_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_company_admin_logo').attr('src',result.url);
+					$('#J_company_admin_logo').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+		//上传后台背景
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_company_admin_bg_upload'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_company_admin_bg_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_company_admin_bg_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_company_admin_bg').attr('src',result.url);
+					$('#J_company_admin_bg').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+		//上传手机logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_company_mobile_logo_upload'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_company_mobile_logo_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_company_mobile_logo_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_company_mobile_logo').attr('src',result.url);
+					$('#J_company_mobile_logo').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+		//上传logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_logo_upload_img'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_logo_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_logo_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_logo_J_img').attr('src',result.url);
+					$('#J_logo_img').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+		//上传微信二维码
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_weixin_code_img_upload'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_weixin_code_img_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_weixin_code_img_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_J_weixin_code_img').attr('src',result.url);
+					$('#J_weixin_code_img').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+	});
+</script>
+</body>
+</html>

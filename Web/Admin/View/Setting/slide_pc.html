@@ -1,0 +1,93 @@
+<include file="Login:header" />
+<style>
+	.delete_tr{cursor:pointer;line-height: 30px;padding-left: 10px; padding-right: 10px; border: 1px solid #cccccc;float: right;border-radius: 5px;background: #ff6e4f; color: #ffffff; }
+	.delete_tr:hover{color: #ffffff;background: #f0ad4e;}
+</style>
+<div class="pad_lr_10">
+	<form id="info_form" action="{:u('setting/slide_pc')}" method="post" enctype="multipart/form-data">
+		<table width="100%" class="table_form" id="table_form_slide">
+			<tr>
+				<th width="120px"><b style="">添加pc官网的幻灯片 :</b></th>
+				<td>
+					<div id="J_upload_img" class="upload_btn"><span>上传</span></div><span class="gray ml10">建议宽:1920  高:663  </span>
+				</td>
+			</tr>
+			<foreach name="info" item="vo">
+				<tr>
+					<th>
+						设定的图片：<br>
+						<div class="delete_tr">删除</div>
+					</th>
+					<td>
+						跳转链接：<input type="text" name="url[]" class="input-text fl mr10" size="50" value="{$vo.url}"><br><br>
+						图片地址：<input type="text" name="image[]" class="input-text fl mr10" size="50" value="{$vo.image}"><br><br>
+						<img src="{$vo.image}" width="500" />
+					</td>
+				</tr>
+			</foreach>
+		</table>
+		<table width="100%" class="table_form">
+			<tr>
+				<th width="120px"></th>
+				<td><input type="submit" class="smt mr10" value="提交"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script>
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+	$('.delete_tr').click(function(){
+		$(this).parent().parent().remove();
+	})
+</script>
+<script type="text/javascript">
+	$(function(){
+		//上传logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_upload_img'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_logo_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_logo_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					var str='<tr><th>设定的图片：<br><div class="delete_tr">删除</div></th><td>' +
+							'跳转链接<input type="text" name="url[]" class="input-text fl mr10" size="50" value=""><br><br>' +
+							'图片地址<input type="text" name="image[]" class="input-text fl mr10" size="50" value="'+result.url+'"><br><br>' +
+							'<img src="'+result.url+'"  width="500" /></td></tr>';
+					$('#table_form_slide').append(str);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+	});
+</script>
+</body>
+</html>

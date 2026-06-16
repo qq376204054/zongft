@@ -1,0 +1,55 @@
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tbody>
+    <tr>
+        <th width="60px">ID：</th>
+        <td>{$info['id']}</td>
+        <th width="60px">姓名：</th>
+        <td>{$info['name']}</td>
+        <th>手机号：</th>
+        <td>{$info['mobile']}</td>
+    </tr>
+    <tr>
+        <th>性别：</th>
+        <td>{$info['sex']}</td>
+        <th>城市：</th>
+        <td>{$info['city']}</td>
+        <th>申请金额：</th>
+        <td>{$info['money']}</td>
+    </tr>
+    <tr>
+        <th>是否有房：</th>
+        <td>{$info['has_house']}</td>
+        <th>渠道：</th>
+        <td>{$info['channel']}</td>
+        <th>创建时间：</th>
+        <td>{:date('Y-m-d H:i:s',$info['create_time'])}</td>
+    </tr>
+    <tr>
+        <th>最后更新时间：</th>
+        <td>{$info['update_time']}</td>
+        <th>状态：</th>
+        <td>
+            <if condition="$info['status'] eq 0">未处理</if>
+            <if condition="$info['status'] eq 1">已经处理</if>
+            <if condition="$info['status'] eq 2">处理失败</if>
+            <if condition="$info['status'] eq 3">废弃</if>
+        </td>
+        <th>是否重复：</th>
+        <td>
+            <if condition="$info['is_repeat'] eq 0">不重复</if>
+            <if condition="$info['is_repeat'] eq 1">重复</if>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div style="text-align: center;line-height: 30px;background: #cecece;">其他自定义扩展字段</div>
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tbody>
+    <foreach name="ext" item="vo" key="k" >
+        <tr>
+            <th width="50%">{$customer_ext_filed[$k]}({$k})：</th>
+            <td>{$vo}</td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>

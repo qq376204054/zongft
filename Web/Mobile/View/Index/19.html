@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{$all_config['seo_default_title']}</title>
+    <meta name="description" content="{$all_config['seo_default_keys']}">
+    <meta name="keywords" content="{$all_config['seo_default_desc']}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/wap19/css/style.css">
+</head>
+<body style="font-size: 15px;">
+<div id="app" style="height:100%;overflow: scroll;">
+    <div data-v-cef84f40="" class="register">
+        <div data-v-cef84f40="" class="pinpai">
+            <img data-v-cef84f40="" src="__ROOT__/static/wap19/images/logo.png" class="logo">
+        </div>
+        <div data-v-cef84f40="" class="headbox" style="background-image: url('__ROOT__/static/wap19/images/top.png'); background-repeat: no-repeat; background-size: 100% 100%;"></div>
+        <div data-v-cef84f40="" class="box">
+            <div data-v-cef84f40="" class="yzm">
+                <span data-v-cef84f40="" class="h2">产品详情</span>
+            </div>
+            <div data-v-cef84f40="" class="yzm">
+                <span data-v-cef84f40="" class="label">最低日息</span>
+                <div data-v-cef84f40="" class="value">
+                    <span data-v-cef84f40="">0.01% </span>1w借一天最低利息1元
+                </div>
+            </div>
+            <div data-v-cef84f40="" class="yzm">
+                <span data-v-cef84f40="" class="label">最高借款</span>
+                <div data-v-cef84f40="" class="value">最高可借￥200,000元</div>
+            </div>
+            <div data-v-cef84f40="" class="yzm">
+                <span data-v-cef84f40="" class="label">借款期限</span>
+                <div data-v-cef84f40="" class="value">可分3/6/12/24/36期</div>
+            </div>
+            <input data-v-cef84f40="" type="tel" id="mobile" placeholder="请输入您的手机号">
+            <div data-v-cef84f40="" class="yzm">
+                <input data-v-cef84f40="" type="text" id="code" placeholder="请输入验证码">
+                <input type="hidden" name="channel" id="channel" value="19">
+                <button data-v-cef84f40="" class="" id="getCode" onclick="sendSms()">获取验证码</button>
+            </div>
+        </div>
+        <div data-v-cef84f40="" class="btnWrap">
+            <button data-v-cef84f40="" class="btn" onclick="btnSubmit()">立即申请</button>
+            <div data-v-cef84f40="" class="xieyiActive"></div>
+        </div>
+        <div data-v-cef84f40="" class="info">
+            <div data-v-cef84f40="">投资有风险，借贷需谨慎</div>
+            <div data-v-cef84f40="">贷款资金均来源于合规持牌机构</div>
+            <div data-v-cef84f40="">具体放款金额和放款时间视个人情况而定 </div>
+            <div data-v-cef84f40="">请根据个人能力合理贷款，理性消费，避免逾期</div>
+            <div data-v-cef84f40="">安徽全行通金融外包服务有限公司 沪ICP备19008178号</div>
+            <div data-v-cef84f40="" style="display: none;">年利率不超过36%</div>
+            <div data-v-cef84f40="" style="display: none;">放款机构：南京市天下捷融互联网科技小额贷款有限公司</div>
+            <div data-v-cef84f40="" style="display: none;">杭州江来科技有限公司和浙ICP备18030242号-6 </div>
+            <div data-v-cef84f40="" style="display: none;">浙江省杭州经济技术开发区白杨街道之江铭楼1022室 </div>
+            <div data-v-cef84f40="" style="display: none;">凭借 芝麻分即可借款</div>
+            <div data-v-cef84f40="" style="display: none;">成都远创腾跃商务服务有限公司</div>
+            <div data-v-cef84f40="" style="display: none;">金条信用客服电话：18606503918</div>
+            <div data-v-cef84f40="" style="display: none;">客服电话：17178168799</div>
+            <div data-v-cef84f40="" style="display: none;">贷款资金由海南宜信普惠小额贷款有限公司提供</div>
+            <div data-v-cef84f40="" style="display: none;">杭州江来科技有限公司版权所有 浙ICP备18030242号</div>
+            <div data-v-cef84f40="" style="display: none;">预期年化利率：7.2%-24%</div>
+            <div data-v-cef84f40="" style="display: none;">广州广信普惠小额贷款有限公司 </div>
+            <div data-v-cef84f40="" style="display: none;">粤ICP备2021056534号-2</div>
+            <div data-v-cef84f40="" style="display: none;">郑重声明：平台只提供贷款咨询服务，放款由银行或金融机构进行，所有贷款申请在未成功贷款前绝不收取任何费用，为了保证您的资金安全，请不要相信任何要求您支付费用的信息、邮件、电话等不实信息。</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__ROOT__/static/wap19/js/app.js"></script>
+<script type="text/javascript" src="__ROOT__/static/wap19/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="__ROOT__/static/wap19/layer/layer.js"></script>
+<script type="text/javascript">
+   //表单提交操作
+   function btnSubmit() 
+   {
+        var mobile = $("#mobile").val();
+        var regMobile = /(^1[3|4|5|6|7|8|9][0-9]{9}$)/;
+        var code = $("#code").val();
+        var channel = $("#channel").val();
+        if(mobile == ''){
+            return layer.msg("请输入手机号", {icon: 2});
+        }
+        if (mobile!="" && !regMobile.test(mobile)) {
+            return layer.msg("手机号码格式不正确", {icon: 2});
+        }
+        if(code == ''){
+            return layer.msg("请输入验证码", {icon: 2});
+        }
+        $.ajax({
+            type: "post",
+            url: "{:U('Action/make_apply_mobile')}",
+            data: {mobile:mobile,code:code,channel:channel},
+            dataType:"json",
+            success:function(data){
+                if(data.errNum===0){
+                    window.location.href = "{:U('mobile/index/success')}";
+                }else{
+                    layer.msg(data.errMsg, {icon: 2});
+                }
+            }
+        })
+    }
+    
+    //发送验证码
+    function sendSms()
+    {
+        var mobile = $('#mobile').val();
+        var regMobile = /(^1[3|4|5|6|7|8|9][0-9]{9}$)/;
+        if(mobile!=""){
+            if (!regMobile.test(mobile)) {
+                layer.msg("手机号码格式不正确", {icon: 2});
+                $('#mobile').focus();
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "{:U('Action/make_mobile_code')}",
+                    data: {mobile: mobile},
+                    dataType:"json",
+                    success:function(data){
+                        if(data.errNum===0){
+                            layer.msg('短信发送成功', {icon: 1});
+                        }else{
+                            layer.msg(data.errMsg, {icon: 2});
+                            $('#getCode').text("获取验证码");
+                        }
+                    }
+                });
+                pp();
+            }
+        } else {
+            layer.msg('请输入手机号', {icon: 2});
+            $('#mobile').focus();
+        }
+    }
+    
+    //倒计时按钮
+    function pp()
+    {
+        $('#getCode').attr("disabled", true);
+        $('#getCode').addClass("active");
+        speed = 1000; //速度
+        wait = 60; //停留时间
+        updateinfo();
+    }
+    
+    //倒计时效果
+    function updateinfo()
+    {
+        if(wait == 0){
+            $('#getCode').text("获取验证码");
+            $('#getCode').attr("disabled", false);
+            $('#getCode').removeClass("active");
+        }else{
+            $('#getCode').text(wait+"s");
+            wait--;
+            window.setTimeout("updateinfo()",speed);
+        }
+    }
+</script>
+</body>
+</html>

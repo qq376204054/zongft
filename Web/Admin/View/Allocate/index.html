@@ -1,0 +1,81 @@
+<include file="Login:header" />
+<div class="can_city">
+    <div class="cityAllocateStatus" style="background: #ffffff;color: #65A2F3;padding: 0 0;font-size: 16px;font-weight: bold;">城市暂停开关：</div>
+    <foreach name="allocateCityAndConfig" item="vo">
+        <if condition="$vo['status'] eq 1">
+            <div class="cityAllocateStatus" rel="{$vo.name}"><em>{$vo.name}</em></div>
+            <else/>
+            <div class="cityAllocateStatus nostatus" rel="{$vo.name}"><em>{$vo.name}</em></div>
+        </if>
+    </foreach>
+</div>
+<style>
+    .can_city{
+        border: 1px dotted #ffb385;
+        border-radius: 5px;
+        margin: 0 20px 10px 20px;
+    }
+    .can_city .cityAllocateStatus{
+        display: inline-block;
+        background: #008800;
+        color: #ffffff;
+        line-height: 35px;
+        margin: 10px 0px 10px 20px;
+        padding: 0 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .can_city .nostatus{
+        display: inline-block;
+        background: #9B410E;
+    }
+</style>
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+        <a class="on" style="background: #ff0000;"><em style="background: #ff0000;">队列归类</em></a><span>|</span>
+        <a class="goto_allocate_city goto_city_action" rel=""><em>通用队列</em></a><span>|</span>
+        <foreach name="specialChannel" item="vo">
+            <a class="goto_allocate_city" rel="{$vo}"><em>{$vo}</em></a><span>|</span>
+        </foreach>
+    </div>
+</div>
+<style>
+    .goto_city_action{
+        background: #f0ad4e;
+        line-height: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+    }
+    .goto_city_action em{
+        color: #ffffff;
+    }
+</style>
+<div class="allocate_city_manger">
+
+</div>
+<include file="Login:footer" />
+<script>
+    var link = "{:U('Allocate/allocate_city')}?channel=";
+    loadURL(link,'.allocate_city_manger');
+    $('.goto_allocate_city').click(function(){
+        $('.goto_allocate_city').removeClass('goto_city_action');
+        $(this).addClass('goto_city_action');
+        var link = "{:U('Allocate/allocate_city')}?channel="+$(this).attr('rel');
+        loadURL(link,'.allocate_city_manger');
+    });
+
+    $(".cityAllocateStatus").click(function(){
+        var city = $(this).text();
+        $.post("{:U('Allocate/set_city_allocate_status')}", {city:city}, function(result){
+            if(result.errNum === 0){
+                location.reload();
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        });
+    });
+</script>
+</body>
+</html>

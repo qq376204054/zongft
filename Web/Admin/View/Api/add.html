@@ -1,0 +1,84 @@
+<!--添加栏目-->
+<div class="dialog_content" style="max-height: 350px; overflow:auto;">
+	<form id="info_form" action="{:U('Api/add')}" method="post">
+		<table width="100%" class="table_form">
+			<tr>
+				<th>接口名称 :</th>
+				<td><input type="text" name="name" id="add_name" class="input-text" size="30" value="{$info.name}"></td>
+			</tr>
+			<tr>
+				<th>链接 :</th>
+				<td><input type="text" name="action" id="add_action" class="input-text" size="30" value="{$info.action}"></td>
+			</tr>
+			<tr>
+				<th>传参方式 :</th>
+				<td>
+					<select name="type" id="add_type">
+						<option value="">请选择</option>
+						<option value="post">post</option>
+						<option value="get">get</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>备注 :</th>
+				<td><input type="text" name="remark" id="add_remark" class="input-text" size="30" value="{$info.remark}"></td>
+			</tr>
+			<tr>
+				<td>
+					<span id="addFiled" style="line-height: 30px; border: 1px solid #0f9ae0;padding: 5px 10px; cursor: pointer">添加字段</span>
+				</td>
+				<td></td>
+			</tr>
+			<tr><td colspan="2">
+				<div id="field_content">
+					<div style="float: left; text-align: center; width: 33%">字段标识</div>
+					<div style="float: left; text-align: center; width: 33%">字段名称</div>
+					<div style="float: left; text-align: center; width: 33%">默认值</div>
+				</div>
+			</td></tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>
+</div>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$("#add_name").formValidator({onshow:lang.please_input+'接口名称',onfocus:lang.please_input+'接口名称'}).inputValidator({min:1,onerror:lang.please_input+'接口名称'});
+		$("#add_action").formValidator({onshow:lang.please_input+'链接',onfocus:lang.please_input+'链接'}).inputValidator({min:1,onerror:lang.please_input+'链接'});
+		$("#add_type").formValidator({onshow:lang.please_input+'传参方式',onfocus:lang.please_input+'传参方式'}).inputValidator({min:1,onerror:lang.please_input+'传参方式'});
+		$('#info_form').ajaxForm({success:complate,dataType:'json'});
+		function complate(result){
+			if(result.errNum === 0){
+				$.dialog.get('add').close();
+				$.yhxia.tip({content:result.retData});
+				window.location.reload();
+			} else {
+				$.yhxia.tip({content:result.errMsg, icon:'alert'});
+			}
+		}
+	});
+
+	//下面定义添加字段函数
+	$('#addFiled').click(function () {
+		addFiled('','','');
+	});
+	function addFiled(key,name,value){
+		var temp='<div style="float: left; text-align: center; width: 33%; margin-top: 10px;"><input class="form-control" name="field[key][]" value="' +key+
+				'"> </div> <div style="float: left; text-align: center; width: 33%; margin-top: 10px;"> <input class="form-control" name="field[name][]" value="' +name+
+				'"> </div> <div style="float: left; text-align: center; width: 33%; margin-top: 10px;"> <input class="form-control" name="field[value][]" value="' +value+
+				'"> </div>';
+		$('#field_content').append(temp);
+	}
+</script>
+
+<notempty name="info">
+	<script type="text/javascript">
+		$('#add_type').val("{$info['type']}");
+	</script>
+	<foreach name="info['config']" item="vo">
+		<script type="text/javascript">
+			addFiled("{$key}","{$vo[0]}","{$vo[1]}");
+		</script>
+	</foreach>
+</notempty>

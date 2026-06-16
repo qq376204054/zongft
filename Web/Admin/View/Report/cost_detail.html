@@ -1,0 +1,104 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        姓名：
+                        <input type="text" name="user_name" size="12" class="input-text" value="{$search.user_name}">
+                        发生时间：
+                        <input type="text" name="start_time" class="date" size="12" value="{$search.start_time}" id="time_start" readonly>
+                        -
+                        <input type="text" name="end_time" class="date" size="12" value="{$search.end_time}" id="time_end" readonly>
+                        <if condition="$is_show_branch_select">
+                            选择公司：
+                            <select name="company_id" id="search_company_id">
+                                <option value="">全部</option>
+                                <foreach name="all_company" item="item">
+                                    <option value="{$item.id}" <if condition="$search.company_id eq $item.id">selected="selected"</if>>{$item.name}</option>
+                                </foreach>
+                            </select>
+                        </if>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+                <div class="explain_col">
+                    统计范围内总的花费积分数：{$totalRemainSore}分
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th align="left">花费积分数</th>
+                <th align="left">分配顾问</th>
+                <th align="left">客户订单编号</th>
+                <th align="left">客户名</th>
+                <th align="left">操作备注</th>
+                <th align="left">发生时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.price}</td>
+                    <td align="left">{$userInfos[$val['new_user_id']]['user_name']}</td>
+                    <td align="left">{$customerInfos[$val['order_id']]['number']}</td>
+                    <td align="left">{$customerInfos[$val['order_id']]['name']}</td>
+                    <td align="left">{$val.remark}</td>
+                    <td align="left">{$val.create_time}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+        <div style="height: 60px"></div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+
+<if condition="$search['company_id']">
+    <script type="text/javascript">
+        $('#search_company_id').val("{$search['company_id']}");
+    </script>
+</if>
+</body>
+</html>

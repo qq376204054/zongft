@@ -1,0 +1,64 @@
+<include file="Login:header" />
+<div class="J_tablelist table_list">
+    <div style="padding-right:17px;">
+        <table width="100%" cellspacing="0">
+            <colgroup><col style="width: 100%;" /><col /></colgroup>
+            <thead>
+                <tr style="display:table;width:100%;table-layout:fixed;">
+                    <th style="background: #ffffff;width:100px;">渠道名称</th>
+                    <volist name="allCompany" id="val1" >
+                        <th>{$val1['name']}({$val1['score']})</th>
+                    </volist>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div>
+        <table width="100%" cellspacing="0">
+            <colgroup><col style="width: 100%;" /><col /></colgroup>
+            <tbody style="display:block;overflow-y:scroll;height: 750px;">
+                <volist name="allChannel" id="val2" >
+                    <tr style="display:table;width:100%;table-layout:fixed;">
+                        <td style="background: #ffffff;width:100px;;">{$val2}</td>
+                        <volist name="allCompany" id="val3" >
+                            <td>
+                                <a href="javascript:;" class="J_showdialog" data-uri="{:U('Cooperation/editCompanyPrice',array('company_id'=>$val3['id']))}?channel={$val2}" title="{$val3['name']}-{$val2}" data-title="{$val3['name']}-{$val2}" data-id="companyPrice" width="300">
+                                    {$allCompanyChannel[$val3['id']][$val2]?$allCompanyChannel[$val3['id']][$val2]:0}
+                                </a>
+                            </td>
+                        </volist>
+                    </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--<div class="J_tablelist table_list">-->
+    <!--<table width="100%" cellspacing="0">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th style="background: #ffffff;width:100px;"></th>-->
+            <!--<volist name="allCompany" id="val1" >-->
+                <!--<th>{$val1['name']}({$val1['score']})</th>-->
+            <!--</volist>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<volist name="allChannel" id="val2" >-->
+            <!--<tr>-->
+                <!--<td style="background: #ffffff;width:100px;;">{$val2}</td>-->
+                <!--<volist name="allCompany" id="val3" >-->
+                    <!--<td>-->
+                        <!--<a href="javascript:;" class="J_showdialog" data-uri="{:U('Cooperation/editCompanyPrice',array('company_id'=>$val3['id']))}?channel={$val2}" title="{$val3['name']}-{$val2}" data-title="{$val3['name']}-{$val2}" data-id="companyPrice" data-width="450" data-height="100">-->
+                            <!--{$allCompanyChannel[$val3['id']][$val2]?$allCompanyChannel[$val3['id']][$val2]:0}-->
+                        <!--</a>-->
+                    <!--</td>-->
+                <!--</volist>-->
+            <!--</tr>-->
+        <!--</volist>-->
+        <!--</tbody>-->
+    <!--</table>-->
+<!--</div>-->
+<include file="Login:footer" />
+</body>
+</html>

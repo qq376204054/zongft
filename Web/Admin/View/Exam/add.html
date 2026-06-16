@@ -1,0 +1,64 @@
+<!--添加栏目-->
+<div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+	<form id="info_form" action="{:U('exam/add')}" method="post">
+		<input type="hidden" name="id" value="{$info.id}">
+		<table width="100%" class="table_form" id="table_form">
+			<tr><td>
+				标题：
+				<textarea name="name" style="width: 400px" id="name" cols="40" rows="3" class="form-control input-text">{$info.name}</textarea>
+			</td></tr>
+			<tr><td>
+				分值：<input class="form-control input-text" style="width: 60px;" name="score" value="{$info.score}">
+			</td></tr>
+			<tr><td>类型：
+				<select name="type" class="form-control input-text" id="exam_add_type">
+					<option value="radio">单选</option>
+					<option value="checkbox">多选</option>
+				</select>
+			</td></tr>
+			<tr><td>选项：（顺序依次为ABCDEFG...,不填写的那个答案不生效）添加：<input type="button" class="btn btn-default addFiled" value="添加"></td></tr>
+			<tr><td style="color: #ff0000;font-weight: bold;">如果是正确答案，请在前面打钩</td></tr>
+			<empty name="info.content">
+				<tr class="answer"><td>
+					<select name="key[]" class="form-control input-text"><option value="false">非答案</option><option value="true">答案</option></select><input class="form-control input-text" style="width: 300px;margin-left: 30px;" name="value[]">
+				</td></tr>
+				<else/>
+				<foreach name="info.content" item="vo" key="key_chh">
+					<tr class="answer"><td>
+						<select name="key[]" class="form-control input-text" id="child_answer_{$key_chh}"><option value="false">非答案</option><option value="true">答案</option></select><input class="form-control input-text" style="width: 300px;margin-left: 30px;" name="value[]" value="{$vo}">
+					</td></tr>
+				</foreach>
+			</empty>
+
+		</table>
+	</form>
+</div>
+<foreach name="info.answer" item="vo" key="key_chh">
+	<script type="text/javascript">
+		$('#child_answer_{$key_chh}').val("true");
+	</script>
+</foreach>
+<notempty name="info">
+	<script type="text/javascript">
+		$('#exam_add_type').val("{$info['type']}");
+	</script>
+</notempty>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.dialog.get('add_exam').close();
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+});
+$('.addFiled').click(function () {
+	var temp='<tr class="answer"><td><select name="key[]" class="form-control input-text"><option value="false">非答案</option><option value="true">答案</option></select><input class="form-control input-text" style="width: 300px;margin-left: 30px;" name="value[]"></td></tr>';
+	$('#table_form').append(temp);
+});
+</script>

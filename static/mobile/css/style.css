@@ -1,0 +1,61 @@
+*{padding:0;margin:0;box-sizing:border-box;/*transition: all 0.6s;*/}
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,lengend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,textarea{font:12px Helvetica, Arial, "\5FAE\8F6F\96C5\9ED1",sans-serif,'Microsoft YaHei';border:none; overflow-x:hidden;}
+body{font-family:"Microsoft YaHei";}
+
+*,html{font-size:12px;}
+img,input{vertical-align: middle; border:none;}
+ul,ol,li{list-style: none;}
+a{text-decoration:none;outline:none}
+a:hover{text-decoration: underline;}
+table{border-collapse: collapse;border-spacing: 0;}
+body { background:#fff; font-size:12px;overflow-x:hidden}
+.clear{height:1px;clear:both;overflow:hidden;visibility:hidden;display:block;}
+i,em{font-style: normal;}
+a{color:#333;cursor:pointer;}
+a:hover{text-decoration:none;}
+input,button,select{font-family:'Microsoft Yahei';outline: none;font-size:14px; }
+button,input[type=button]{cursor: pointer;}
+/*a:hover{text-decoration:underline;}*/
+/* img{transition: all 0.6s;}  img:hover{ transform: scale(1.1);}  */
+/* @media screen and (max-width:auto)  */
+img{max-width:100%}
+.w640{width:640px;display:table;margin:auto;}
+.w100,video{width:100%;}
+.w50{width:50%;}
+.w95{width:95%;margin:auto;display:table;}
+input::-webkit-input-placeholder{color:#999;}
+
+/*.main{display:table;background:#6f9cff;}*/
+.main{display:table;}
+.i-wrap{width:604px;margin:auto;display:table;padding:32px;padding-bottom:0;background:#fff;position:relative;top:-1px}
+.text{background:#f8f8f8;height:60px;color:#999;font-size:26px;padding:5px;padding-left:20px;}
+#customname{width:360px;float:left;}
+.i-wrap li{width:100%;display:table;position:relative;margin-bottom:15px;}
+.radio{position:absolute;opacity:0}
+.label-1{width:110px;height:60px;text-align:center;float:left;margin-left:9px;font-size:26px;color:#666;line-height:60px;border:1px solid #f2f2f2;}
+.radio:checked+label{background-image:url(../images/i2.png);background-position:bottom right;background-repeat: no-repeat;}
+#mobile,#age,#livingAddr{width:100%;}
+#code{width:300px;float:left;}
+#i-code{width:230px;height:60px;float:right;line-height:60px;color:#fff;background:#ff9351;font-size:26px;text-align:center;}
+.i-wrap .l2{background:#f8f8f8;height:60px;}
+#money{width:80%;float:left;}
+.i-wrap .l2 i{float:right;font-size:26px;color:#666;line-height:60px;padding-right:30px;}
+.i-wrap .l2 select{width:100%;background:#f8f8f8;border:none;color:#999;height:60px;font-size:26px;padding-left:20px;-webkit-appearance: none;background-image:url(../images/i3.png);background-position:95%;background-repeat: no-repeat;}
+.i-wrap .l3 select{width:49%;background:#f8f8f8;border:none;color:#999;height:60px;font-size:26px;padding-left:20px;-webkit-appearance: none;background-image:url(../images/i3.png);background-position:95%;background-repeat: no-repeat;}
+.i-wrap .l2 .loc{width:100%;background:#f8f8f8;border:none;color:#999;height:60px;font-size:26px;padding-left:20px;-webkit-appearance: none;background-image:url(../images/i3.png);background-position:95%;background-repeat: no-repeat;}
+#zone-left{float:left;}
+#zone-right{float:right;}
+.i-wrap-1{width:604px;margin:auto;display:table;background:#f5f5f5;padding:32px;position:relative;top:-1px}
+.i-wrap p{font-size:26px;color:#666;padding:20px 0;}
+.checkbox{position:absolute;opacity:0}
+.checkbox-1{width:170px;background:#fff;height:60px;color:#666;font-size:26px;line-height:60px;text-align:center;float:left;margin-left:15px;margin-bottom:15px;}
+.checkbox-2{width:355px;background:#fff;height:60px;color:#666;font-size:26px;line-height:60px;text-align:center;float:left;margin-left:15px;margin-bottom:15px;}
+.checkbox:checked+label{background-image:url(../images/i2.png);background-position:bottom right;background-repeat: no-repeat;}
+.ml0{margin-left:0;}
+.mb0{margin-bottom:0;}
+#submit{width:100%;height:80px;line-height:80px;color:#fff;background:#ff9351;font-size:40px;text-align:center;margin-bottom:32px;-webkit-appearance: none;}
+.page-tjcg{width:100%;display:table;background:#fff;padding:20px;}
+.page-tjcg img{ width:100%; height:100%; float:left; padding:50px  100px; }
+.page-tjcg p{ width:100%; height:auto; float:left; margin:0px; padding:0px; text-align:center; color:#666; font-size:18px; padding-bottom:60px;font-family:"Microsoft YaHei";}
+.page-tjcg p span{font-size:18px; font-family:"Microsoft YaHei";}

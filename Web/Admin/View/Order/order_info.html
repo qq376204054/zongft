@@ -1,0 +1,28 @@
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tbody>
+    <tr>
+        <th width="60px">订单编号：</th>
+        <td>{$orderInfo['number']}</td>
+        <th width="60px">需求金额：</th>
+        <td>{$orderInfo['money']} 元</td>
+        <th>订单状态：</th>
+        <td>
+            <if condition="$orderInfo['status'] eq 2">
+                协议交易<elseif condition="$orderInfo['status'] eq 3"/>放款交易<else/>意向交易
+            </if>
+        </td>
+    </tr>
+    <tr>
+        <th>创建方式：</th>
+        <td>
+            <if condition="$orderInfo['create_type'] eq 1">
+                自动生成<else/>手动添加
+            </if>
+        </td>
+        <th>创建时间：</th>
+        <td>{:date('Y-m-d H:i:s',$orderInfo['create_time'])}</td>
+        <th>客户名：</th>
+        <td>{$orderInfo['name']}</td>
+    </tr>
+    </tbody>
+</table>

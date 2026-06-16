@@ -1,0 +1,20 @@
+<table width="100%" cellspacing="0">
+    <thead>
+    <tr>
+        <th align="left">城市</th>
+        <th align="left">商机总数</th>
+        <th align="left">重复商机数</th>
+        <th align="left">新商机数</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="list" id="val" >
+        <tr>
+            <td align="left">{$val.city}</td>
+            <td align="left">{$val['repeat']+$val['no_repeat']}</td>
+            <td align="left">{$val.repeat}</td>
+            <td align="left">{$val.no_repeat}</td>
+        </tr>
+    </volist>
+    </tbody>
+</table>

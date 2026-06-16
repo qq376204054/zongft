@@ -1,0 +1,50 @@
+
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#Allocate_num").formValidator({ onshow:lang.please_input+'能分配数', onfocus:lang.please_input+'能分配数', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'能分配数'});
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('companyPrice').close();
+                var link = "{:U('Allocate/table')}?channel={$search['channel']}&city={$search['city']}&company_id={$search['company_id']}";
+                loadURL(link,'.allocate_user_table');
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>
+
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Allocate/edit_user_balance')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>设置变动金额 :</th>
+                <td>
+                    <input type="text" name="balance" id="balance" class="input-text" value="">
+                    <input name="user_id" type="hidden" value="{$user_id}">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#balance").formValidator({ onshow:lang.please_input+'变动金额', onfocus:lang.please_input+'变动金额', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'变动金额'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('userBalance').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

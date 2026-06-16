@@ -1,0 +1,55 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+            共查出的条数为：{$count}
+        </div>
+    </div>
+</div>
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="15" value="{$search.mobile}" />
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th align="left">手机号</th>
+                <th align="left">内容</th>
+                <th align="left">发送时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.content}</td>
+                    <td align="left">{$val.create_time}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

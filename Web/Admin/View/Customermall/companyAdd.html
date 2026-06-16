@@ -1,0 +1,47 @@
+<!--添加栏目-->
+<div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+	<form id="info_form" action="{:U('companyAdd')}" method="post">
+		<input type="hidden" name="id" value="{$info['id']}">
+		<table width="100%" class="table_form" id="table_form">
+			<tr>
+				<th colspan="2" style="float: left;">合作方名称 : <input type="text" name="name" id="name" class="input-text" value="{$info.name}"></th>
+			</tr>
+			<tr>
+				<th colspan="2" style="float: left;">调用指定方法 : <input type="text" name="action" id="action" class="input-text" value="{$info.action}"></th>
+			</tr>
+			<tr>
+				<td colspan="2">
+					下面添加渠道转换规则，没有设定的会采用系统的渠道：添加：<input type="button" class="btn btn-default addFiled" value="添加">
+				</td>
+			</tr>
+			<tr><td>本系统渠道</td><td>转出成渠道输出</td></tr>
+			<empty name="info['utm_source_config']">
+				<tr>
+					<td><input class="input-text" name="key[]"></td> <td><input class="input-text" name="value[]"></td></tr>
+				<else/>
+				<foreach name="info['utm_source_config']" item="vo">
+					<tr><td><input class="input-text" name="key[]" value="{$key}"></td><td><input class="input-text" name="value[]" value="{$vo}"></td></tr>
+				</foreach>
+			</empty>
+		</table>
+	</form>
+</div>
+<script>
+	$(function(){
+		$.formValidator.initConfig({formid:"info_form",autotip:true});
+		$('#info_form').ajaxForm({success:complate,dataType:'json'});
+		function complate(result){
+			if(result.errNum === 0){
+				$.dialog.get('add').close();
+				$.yhxia.tip({content:result.retData});
+				window.location.reload();
+			} else {
+				$.yhxia.tip({content:result.errMsg, icon:'alert'});
+			}
+		}
+	});
+	$('.addFiled').click(function () {
+		var temp='<tr><td><input class="input-text" name="key[]"></td> <td><input class="input-text" name="value[]"></td></tr>';
+		$('#table_form').append(temp);
+	});
+</script>

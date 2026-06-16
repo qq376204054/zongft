@@ -1,0 +1,38 @@
+<include file="Login:header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_cate_edit')}">
+    <table width="100%" cellspacing="0" id="J_cate_tree">
+        <thead>
+            <tr>
+                <th width="30"><input type="checkbox" name="checkall" class="J_checkall"></th>
+              	<th align="left">分类名称</th>
+                <th align="left">pc访问链接</th>
+                <th align="left">移动访问链接</th>
+                <th width="60"><span data-tdtype="order_by" data-field="id">ID</span></th>
+              	<th width="80"><span data-tdtype="order_by" data-field="ordid">排序</span></th>
+                <th width="60"><span data-tdtype="order_by" data-field="status">状态</span></th>
+                <th width="150">管理操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        {$list}
+    	</tbody>
+    </table>
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/cate_delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+    </div>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+$(function(){
+    $("#J_cate_tree").treeTable({indent:20,treeColumn:1});
+    $(".J_preview").preview();
+});
+</script>
+</body>
+</html>

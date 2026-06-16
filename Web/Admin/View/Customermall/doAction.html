@@ -1,0 +1,158 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+            在使用之前请仔细阅读输出规则：在输出之前您可以根据选择条件选择出您要处理的那部分客户，搜索出后在将符合条件的客户展现在界面上，每次最大展现
+            2000个客户。如果客户很多可以分批处理，对于每个买方，之前已经输出过得客户（手机号）不会被再次搜索出来。搜出客户比对后可以点击“开始输出”
+            按钮进行对买方的输出，操作者可以实时查看每个客户的输出状态。切记，在运行输出的过程中，请勿刷新界面。
+        </div>
+    </div>
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+           输出到买家 对象为：{$companyInfo['name']},本页查出的条数为：{:count($list)} （如对方不接受我方渠道，渠道名以对方的规则为主）
+        </div>
+    </div>
+</div>
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="15" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="15" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="15" value="{$search.city}" />
+                        等级
+                        <select name="level">
+                            <option value="">-全部-</option>
+                            <option value="A" <if condition="$search.level eq 'A'">selected="selected"</if>>A</option>
+                            <option value="B" <if condition="$search.level eq 'B'">selected="selected"</if>>B</option>
+                            <option value="C" <if condition="$search.level eq 'C'">selected="selected"</if>>C</option>
+                            <option value="D" <if condition="$search.level eq 'D'">selected="selected"</if>>D</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        渠道 :
+                        <input name="channel" type="text" class="input-text" size="15" value="{$search.channel}" />
+                        业务员名 :
+                        <input name="user_name" type="text" class="input-text" size="10" value="{$search.user_name}" />
+                        创建时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div id="button-filter-text" style="padding: 5px; margin: 5px 0px;;text-align: center;">
+        <a class="startImportCustomer" href="javascript:void(0);" style="display: inline-block;padding: 0px 15px; line-height: 30px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">开始输出</a>
+    </div>
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0" id="table_list">
+            <thead>
+            <tr>
+                <th align="left">姓名</th>
+                <th align="left">手机号</th>
+                <th align="left">申请金额</th>
+                <th align="left">城市</th>
+                <th align="left">等级</th>
+                <th align="left">创建时间</th>
+                <th align="left">本系统渠道</th>
+                <th align="left">需转出渠道</th>
+                <th align="left">状态</th>
+                <th align="left">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr class="action_tr" rel="{$val.id}">
+                    <td class="name" align="left">{$val.name}</td>
+                    <td class="mobile" align="left">{$val.mobile}</td>
+                    <td class="loan_amount" align="left">{$val.money}</td>
+                    <td class="city" align="left">{$val.city}</td>
+                    <td class="level" align="left">{$val.level}</td>
+                    <td align="left">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td class="utm_source" align="left">{$val.channel}</td>
+                    <td class="utm_source" align="left">{$val.to_channel}</td>
+                    <td class="action" align="left">待导入</td>
+                    <td class="oprate" align="left">
+                        <a class="remove_tr" href="javascript:void(0);" style="display: inline-block;padding: 0px 10px; line-height: 20px;font-size: 12px; background: #FF5151;border-radius: 5px; color: #ffffff;">剔除</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+
+<script>
+    var company_id="{$companyInfo['id']}";
+    var url="{:U($companyInfo['action'])}";
+    $('.remove_tr').click(function(){
+        $(this).parent().parent().remove();
+    });
+
+    $('.startImportCustomer').click(function () {
+        if($(this).text()=='开始输出'){
+            $(this).text('正在处理中...请等待');
+            process($('#table_list').find('.action_tr:first-child'));
+        }else{
+            $.yhxia.tip({content:$(this).text(), icon:'alert'});
+        }
+
+    });
+    /**
+     * 执行处理电话
+     * @param i
+     * @param count
+     * @returns {boolean}
+     */
+    function process(obj){
+        if(obj.text()){
+            obj.find('.action').text('处理中...');
+            var id=obj.attr('rel');
+            $.post(url,{company_id:company_id,first_customer_id:id},function(result){
+                if(result.errNum ===0){
+                    obj.find('.action').text('成功');
+                }else{
+                    obj.find('.action').text(result.errMsg);
+                }
+                obj.find('.oprate').html('');
+                process(obj.next('.action_tr'));
+            });
+        }else{
+            $.yhxia.tip({content:'已经结束'});
+            $('.startImportCustomer').text('已经结束');
+            return true;
+        }
+    }
+
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

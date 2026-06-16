@@ -1,0 +1,50 @@
+<input type="hidden" name="type" value="{$type}">
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tr>
+        <th width="25%">选择账目类别</th>
+        <td width="25%">
+            <select name="title" style="width: 90%">
+                <foreach name="list" item="vo">
+                    <option value="{$vo}">{$vo}</option>
+                </foreach>
+            </select>
+        </td>
+        <th width="25%">金额（元） :</th>
+        <td>
+            <input style="width: 90%" type="text" name="money" class="input-text" value="{$info.want_money}">
+        </td>
+    </tr>
+    <tr>
+        <th>支付类型 :</th>
+        <td>
+            <select name="pay_type" style="width: 90%">
+                <option value="">请选择支付类型</option>
+                <foreach name="money_pay_type" item="vo">
+                    <option value="{$vo}">{$vo}</option>
+                </foreach>
+            </select>
+        </td>
+        <th>支付日期 :</th>
+        <td>
+            <input type="text" name="pay_time" id="pay_time_form" class="date" size="14" value="" readonly>
+        </td>
+    </tr>
+    <tr>
+        <th>付款人 :</th>
+        <td>
+            <input style="width: 90%" type="text" name="pay_user_name" class="input-text" value="">
+        </td>
+        <th>付款账户 :</th>
+        <td>
+            <input style="width: 90%" type="text" name="pay_account" class="input-text" value="">
+        </td>
+    </tr>
+</table>
+<script>
+    Calendar.setup({
+        inputField : "pay_time_form",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>

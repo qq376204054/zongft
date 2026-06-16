@@ -1,0 +1,80 @@
+<include file="Login:header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div style="background: #333333;padding: 15px;color: #ffffff;font-size: 15px;margin-bottom: 15px;">
+        更多的培训资料，点击这里吧
+        <div class="content_menu ib_a blue" style="display: inline-block;padding-bottom: 0;margin-left: 20px;">
+            <a class="add fb J_showdialog" href="javascript:void(0);" data-uri="{:U('showfile_list')}" data-title="获取培训资料" data-id="add_file_exam" data-width="500" data-height="80"><em>获取培训资料</em></a>
+        </div>
+    </div>
+    <div style="color: #0b0b0b;position: absolute;font-size: 26px;font-weight: bold;cursor: pointer;" class="gotoback">返回</div>
+    <div style="font-size: 32px;font-weight: bold;line-height: 45px;text-align: center;margin-top: 10px;">考试结果（得{$count['all_get_score']}分,答对{$count['right_num']}题）</div>
+    <div style="font-size: 15px;font-weight: bold;line-height: 30px;text-align: center;margin-bottom: 30px;">
+        <span style="margin-right: 25px;">考试人：{$user_name}</span>
+        <span style="margin-right: 25px;">总分：{$count['all_score']}分</span>
+        <span style="margin-right: 25px;">总题目数：{$count['all_num']}分</span>
+    </div>
+    <div class="J_tablelist table_list" data-acturi="{:U('Config/ajax_edit')}">
+        <form id="info_form" action="{:U('exam/workaction')}" method="post">
+            <table width="100%" cellspacing="0" id="J_cate_tree">
+                <tbody>
+                <foreach name="list" item="item">
+                    <tr>
+                        <td style="background: #f3e7e3;padding-left: 30px;">
+                    <span style="color: #3f913f;font-weight: bold;">(<if condition="$item['type'] eq 'radio'">单选
+                        <else/>多选
+                    </if> {$item.score}分题 )</span>
+                            {$item.name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 30px;">
+                            <foreach name="item.content" item="item_child" key="key_child">
+                                <div style="display: inline-block;margin-right: 50px;">
+                                    {$zimu_arr[$key_child]}：{$item_child}
+                                </div>
+                            </foreach>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 30px;text-align: right;">
+                            选择：<foreach name="item.user_answer" item="item_child" key="key_child">
+                                <span> {$zimu_arr[$item_child]}</span>
+                            </foreach>
+
+                            ---<if condition="$item['right'] eq '1'"><span style="color: #3f913f;font-weight: bold;">答对</span>
+                                <else/><span style="color: #ff0000;font-weight: bold;">错误</span>
+                            </if>
+
+                            ---答案：<foreach name="item.answer" item="item_child" key="key_child">
+                               <span> {$zimu_arr[$item_child]}</span>
+                            </foreach>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                window.location.href="{:U('exam/examdetail')}?user_id="+result.retData.user_id+"&time=0000"+result.retData.time;
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    });
+    $('.gotoback').click(function(){
+        window.history.back(-1);
+    })
+</script>
+</body>
+</html>

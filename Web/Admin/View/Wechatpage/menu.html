@@ -1,0 +1,73 @@
+<include file="Login:header" />
+<div class="pad_lr_10" style="margin-top: 20px;" >
+	<div class="J_tablelist table_list">
+		<form id="info_form" name="info_form" method="post" action="{:U('Wechatpage/menu')}">
+			<table width="100%" cellspacing="0">
+				<thead>
+				<tr>
+					<th width=20></th>
+					<th width=60>导航</th>
+					<th width=80>导航类型</th>
+					<th width="60">导航名</th>
+					<th>设置链接 / 弹出消息 绑定的智能回复编号</th>
+				</tr>
+				</thead>
+				<tbody>
+				<for start="0" end="3" name="i">
+					<tr>
+						<td></td>
+						<td>导航{$i}</td>
+						<td align="center">
+							<select name="daohang[{$i}][action]">
+								<option value="view" <if condition="$menu[$i]['type'] eq 'view'">selected="selected"</if>>跳转到链接</option>
+								<option value="click"<if condition="$menu[$i]['type'] eq 'click'">selected="selected"</if>>弹出消息</option>
+							</select>
+						</td>
+						<td align="center">
+							<input name="daohang[{$i}][name]" value="{$menu[$i]['name']}" type="text" style="width: 100%;">
+						</td>
+						<td>
+							<input name="daohang[{$i}][url]" value="<if condition="$menu[$i]['type'] eq 'view'">{$menu[$i]['url']}<else/>{$menu[$i]['key']}</if>" type="text" style="width: 100%">
+						</td>
+					</tr>
+					<for start="0" end="5" name="ii">
+						<tr>
+							<td></td>
+							<td>-------导航{$ii}</td>
+							<td align="center">
+								<select name="daohang[{$i}][sub][action][]">
+									<option value="view" <if condition="$menu[$i]['sub_button'][$ii]['type'] eq 'view'">selected="selected"</if>>跳转到链接</option>
+									<option value="click"<if condition="$menu[$i]['sub_button'][$ii]['type'] eq 'click'">selected="selected"</if>>弹出消息</option>
+								</select>
+							</td>
+							<td align="center">
+								<input name="daohang[{$i}][sub][name][]" value="{$menu[$i]['sub_button'][$ii]['name']}" type="text" style="width: 100%;">
+							</td>
+							<td>
+								<input name="daohang[{$i}][sub][url][]"value="<if condition="$menu[$i]['sub_button'][$ii]['type'] eq 'view'">{$menu[$i]['sub_button'][$ii]['url']}<else/>{$menu[$i]['sub_button'][$ii]['key']}</if>" type="text" style="width: 100%">
+							</td>
+						</tr>
+					</for>
+				</for>
+				<tr><td colspan="4">
+					<input type="submit" value="提交" id="dosubmit" name="dosubmit" class="smt mr10" style="color:#ffffff;background:#ff0000;margin:0 0 10px 100px;">
+				</td></tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+<include file="Login:footer" />
+<script>
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+</script>
+</body>
+</html>

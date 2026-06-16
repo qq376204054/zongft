@@ -1,0 +1,34 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('User/update_pwd')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>旧密码 :</th>
+                <td><input type="text" name="password" class="input-text" value=""></td>
+            </tr>
+            <tr>
+                <th>新密码 :</th>
+                <td><input type="text" name="new_password" class="input-text" value=""></td>
+            </tr>
+            <tr>
+                <th>确认密码 :</th>
+                <td><input type="text" name="re_new_password" class="input-text" value=""></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

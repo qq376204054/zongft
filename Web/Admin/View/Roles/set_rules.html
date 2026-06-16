@@ -1,0 +1,44 @@
+<div class="pad_10" style="overflow-y: auto;max-height: 350px;">
+    <form id="info_form" name="info_form" action="{:U('roles/set_rules')}" method="post">
+        <div class="J_tablelist table_list">
+            <table width="100%" cellspacing="0" id="J_auth_tree">
+                <tbody>
+                <volist name="list" id="val" >
+                    <tr>
+                        <td style='padding-left:10px;'>
+                            <input type='checkbox' id="checkbox-{$val.id}" name='rule_id[]' value='{$val.id}' class='J_checkitem'>
+                        </td>
+                        <td style='padding-left:10px;'>
+                           {$val.title}
+                        </td>
+                        <td style='padding-left:10px;'>
+                           {$val.name}
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+            <input type="hidden" name="id" value="{$role_id}">
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('set_roles').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>
+<volist name="has_rules" id="val" >
+    <script>
+        $('#checkbox-{$val}').attr("checked", true);
+    </script>
+</volist>

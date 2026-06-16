@@ -1,0 +1,114 @@
+<include file="Login:header" />
+<style>
+    .J_panes .utm_soure_span{background:#aaaaaa;display: inline-block;padding: 3px 8px;border-radius: 5px;color: #ffffff;margin-right: 10px;cursor: pointer;}
+    .J_panes .action{background: #ff0000;}
+    .select_city .select_city_div{line-height:25px;background:#aaaaaa;display: inline-block;padding: 0px 8px;border-radius: 5px;color: #ffffff;margin-right: 10px;cursor: pointer;}
+    .select_city .action{background: #ff0000;}
+</style>
+<div class="pad_lr_10">
+    <form id="info_form" name="info_form" action="{:U('first_customer_table')}" method="get">
+        <div style="line-height: 45px; font-size: 20px; padding-left: 20px;">获客数据报表</div>
+        <div style="height: 2px; background: #eeeeee;margin: 0 0px 10px 0px;"></div>
+        <div class="select_time" style="line-height: 35px;">
+            <b>申请时间选择：</b>
+            <input type="text" name="time_start" id="time_start" class="date" size="12" value="" readonly>-
+            <input type="text" name="time_end" id="time_end" class="date" size="12" value="" readonly>
+            <b> 申请金额区间选择：</b>金额大于等于
+            <input type="text" name="money_start" id="money_start" size="8" value=""> 小于
+            <input type="text" name="money_end" id="money_end" size="8" value=""> 元
+        </div>
+        <div style="height: 2px; background: #eeeeee;margin: 0 0px 10px 0px;"></div>
+        <div class="select_city" style="line-height: 35px;">
+            <b>城市选择：</b>
+            <foreach name="customer_apply_city" item="val">
+            <span class="select_city_div">
+                <input class="input_select" type="checkbox" name="city[]" value="{$val}"/>
+                {$val}
+            </span>
+            </foreach>
+        </div>
+        <div style="height: 2px; background: #eeeeee;margin: 0 0px 10px 0px;"></div>
+        <div class="select_utm_source">
+            <div class="title" style="line-height: 35px;">
+                <b>请选择渠道：</b>
+                <span class="utm_select_all" style="background: #ff0000;line-height:25px;display: inline-block;padding: 0px 8px;border-radius: 5px;color: #ffffff;margin-right: 10px;cursor: pointer;">全选渠道</span>
+                <span class="utm_select_no" style="background: #aaaaaa;line-height:25px;display: inline-block;padding: 0px 8px;border-radius: 5px;color: #ffffff;margin-right: 10px;cursor: pointer;">全部取消选择</span>
+            </div>
+            <div class="col_tab">
+                <ul class="J_tabs tab_but cu_li">
+                    <foreach name="utmSourceConfig" item="val">
+                        <li class="current">{$val['name']}</li>
+                    </foreach>
+                    <div style="clear: both;"></div>
+                </ul>
+                <div style="clear: both;"></div>
+                <div class="J_panes">
+                    <foreach name="utmSourceConfig" item="val">
+                        <div class="content_list pad_10">
+                            <foreach name="val['child']" item="val_child">
+                            <span class="utm_soure_span">
+                                <input class="input_select" type="checkbox" name="utm_soure[]" value="{$val_child}"/>
+                                {$val_child}
+                            </span>
+                            </foreach>
+                            <div style="clear: both;"></div>
+                        </div>
+                    </foreach>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+        <div style="height: 2px; background: #eeeeee;margin: 0 0px 10px 0px;"></div>
+        <div style="height: 40px;">
+            <input type="submit" value="提交" id="dosubmit" name="dosubmit" class="smt" style="margin:0 0 10px 0px;">
+        </div>
+        <div style="height: 2px; background: #eeeeee;margin: 0 0px 10px 0px;"></div>
+    </form>
+    <div class="J_tablelist table_list">
+
+    </div>
+</div>
+<include file="Login:footer" />
+<script>
+    $(function() {
+        $('ul.J_tabs').tabs('div.J_panes > div');
+    });
+    $('.input_select').change(function(){
+        if($(this).is(":checked")){
+            $(this).parent().addClass('action');
+        }else{
+            $(this).parent().removeClass('action');
+        }
+    });
+    $('.utm_select_all').click(function(){
+        $('.utm_soure_span').addClass('action');
+        $('.select_utm_source').find('.input_select').attr("checked","checked");
+    });
+    $('.utm_select_no').click(function(){
+        $('.utm_soure_span').removeClass('action');
+        $('.select_utm_source').find('.input_select').attr("checked",false);
+    });
+</script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    //下面是数据提交
+    $('#info_form').ajaxForm({success:complate,dataType:'html'});
+    function complate(result){
+        $('.J_tablelist').html(result);
+    }
+</script>
+</body>
+</html>

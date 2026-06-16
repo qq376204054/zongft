@@ -1,0 +1,70 @@
+<if condition="$info.status eq 1">
+    <div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>姓名 :</th>
+                <td>{$info.user_name}</td>
+            </tr>
+            <tr>
+                <th>手机号 :</th>
+                <td>{$info.mobile}</td>
+            </tr>
+            <tr>
+                <th>详细地址 :</th>
+                <td>{$info.address}</td>
+            </tr>
+            <tr>
+                <th>{$info.type} :</th>
+                <td>{$info.content}</td>
+            </tr>
+            <tr>
+                <th>解决方案 :</th>
+                <td>{$info.answer}</td>
+            </tr>
+        </table>
+    </div>
+    <else/>
+    <!--编辑菜单-->
+    <div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+        <form id="info_form" name="info_form" action="{:U('suggest/edit')}" method="post">
+            <table width="100%" class="table_form">
+                <tr>
+                    <th>姓名 :</th>
+                    <td>{$info.user_name}</td>
+                </tr>
+                <tr>
+                    <th>手机号 :</th>
+                    <td>{$info.mobile}</td>
+                </tr>
+                <tr>
+                    <th>详细地址 :</th>
+                    <td>{$info.address}</td>
+                </tr>
+                <tr>
+                    <th>{$info.type} :</th>
+                    <td>{$info.content}</td>
+                </tr>
+                <tr>
+                    <th>解决方案 :</th>
+                    <td><textarea name="answer" cols="40" rows="3"></textarea></td>
+                </tr>
+            </table>
+            <input name="id" type="hidden" value="{$info.id}">
+        </form>
+    </div>
+    <script>
+        $(function(){
+            $.formValidator.initConfig({formid:"info_form",autotip:true});
+            $('#info_form').ajaxForm({success:complate,dataType:'json'});
+            function complate(result){
+                if(result.errNum === 0){
+                    $.dialog.get('edit').close();
+                    $.yhxia.tip({content:result.retData});
+                    window.location.reload();
+                } else {
+                    $.yhxia.tip({content:result.errMsg, icon:'alert'});
+                }
+            }
+        });
+    </script>
+</if>

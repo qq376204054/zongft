@@ -1,0 +1,63 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        链接 :
+                        <input name="url" type="text" class="input-text" size="25" value="{$search.url}" />
+                        &nbsp;&nbsp;
+                        方式 :
+                        <input name="type" type="text" class="input-text" size="25" value="{$search.type}" />
+                        &nbsp;&nbsp;
+                        key :
+                        <input name="key" type="text" class="input-text" size="25" value="{$search.key}" />
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="J_tablelist table_list" data-acturi="{:U('user/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="url">链接</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="type">方式</span></th>
+                <th align="left">key</th>
+                <th align="left"><span data-tdtype="order_by" data-field="create_time">创建时间</span></th>
+                <th width="180">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.url}</td>
+                    <td align="left">{$val.type}</td>
+                    <td align="left">{$val.key}</td>
+                    <td align="left">{$val.create_time}</td>
+                    <td align="center">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('api/look',array('id'=>$val['id']))}" data-title="查看" data-id="add" data-width="500" data-height="350">查看</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+</body>
+</html>

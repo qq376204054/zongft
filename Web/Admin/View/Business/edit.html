@@ -1,0 +1,72 @@
+<!--编辑菜单-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Business/edit')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>商户联系人 :</th>
+                <td><input type="text" name="name" id="add_name" class="input-text" value="{$info.name}"></td>
+            </tr>
+            <tr>
+                <th>手机号 :</th>
+                <td><input type="text" name="mobile" id="add_mobile" class="input-text" value="{$info.mobile}"></td>
+            </tr>
+            <tr>
+                <th>IP白名单 :</th>
+                <td><input type="text" name="white_ip" id="add_white_ip" class="input-text" value="{$info.white_ip}"></td>
+            </tr>
+            <tr>
+                <th>验证密匙 :</th>
+                <td>
+                    <input type="text" name="key" id="add_key" class="input-text" size="30" value="{$info.key}">
+                    <span id="make_key" style="line-height: 30px; border: 1px solid #0f9ae0;padding: 5px 10px; cursor: pointer">随机</span>
+                </td>
+            </tr>
+            <tr>
+                <th>到期日期 :</th>
+                <td><input type="text" name="end_time" id="add_end_time" class="date" size="12" value="{:date('Y-m-d',$info['end_time'])}" readonly></td>
+            </tr>
+            <tr>
+                <th>业务负责人 :</th>
+                <td><input type="text" name="business_name" id="business_name" class="input-text" value="{$info.business_name}"></td>
+            </tr>
+            <tr>
+                <th>负责人手机 :</th>
+                <td><input type="text" name="business_mobile" id="business_mobile" class="input-text" value="{$info.business_mobile}"></td>
+            </tr>
+            <tr>
+                <th>备注 :</th>
+                <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#add_name").formValidator({onshow:lang.please_input+'联系人',onfocus:lang.please_input+'联系人'}).inputValidator({min:1,onerror:lang.please_input+'联系人'});
+        $("#add_mobile").formValidator({onshow:lang.please_input+'手机号',onfocus:lang.please_input+'手机号'}).inputValidator({min:1,onerror:lang.please_input+'手机号'});
+        $("#add_white_ip").formValidator({onshow:lang.please_input+'IP白名单',onfocus:lang.please_input+'IP白名单'}).inputValidator({min:1,onerror:lang.please_input+'IP白名单'});
+        $("#business_name").formValidator({onshow:lang.please_input+'业务负责人',onfocus:lang.please_input+'业务负责人'}).inputValidator({min:1,onerror:lang.please_input+'业务负责人'});
+        $("#business_mobile").formValidator({onshow:lang.please_input+'负责人手机',onfocus:lang.please_input+'负责人手机'}).inputValidator({min:1,onerror:lang.please_input+'负责人手机'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('edit').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    });
+</script>
+<script>
+    Calendar.setup({
+        inputField : "add_end_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>

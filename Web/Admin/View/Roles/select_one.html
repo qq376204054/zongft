@@ -1,0 +1,28 @@
+<div class="pad_10" style="overflow-y: auto;max-height: 350px;">
+    <div class="J_tablelist table_list">
+        <table width="100%" cellspacing="0" id="J_auth_tree">
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td style='padding-left:10px;'>
+                        {$val.name}
+                    </td>
+                    <td style='padding-left:10px;'>
+                        <div role_id="{$val.id}" role_name="{$val.name}" class="select_one_role_button" style="width: 80px;line-height: 30px;border: 1px solid #3f913f;background: #0f9ae0;color: #ffffff;text-align: center; cursor: pointer;">选中</div>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<if condition="$action eq 'apply_add'">
+    <script>
+        $('.select_one_role_button').click(function(){
+            var str='<tr><td><input type="hidden" class="form-control" name="role_id[]" value="' + $(this).attr('role_id')+
+                    '"> '+$(this).attr('role_name')+'</td><td><a href="javascript:void(0)" class="btn del-field"><i class="fa fa-minus"></i></a></td></tr>';
+            $('#apply_add_role_table').append(str);
+            $.dialog.get('select_one').close();
+        });
+    </script>
+</if>

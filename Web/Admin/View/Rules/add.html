@@ -1,0 +1,57 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Rules/add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>标识 :</th>
+                <td><input type="text" name="name" id="name" class="input-text"></td>
+            </tr>
+            <tr>
+                <th>名称 :</th>
+                <td><input type="text" name="title" id="title" class="input-text"></td>
+            </tr>
+            <tr>
+                <th>权限类别 :</th>
+                <td>
+                    <label><input type="radio" name="type" class="radio_type" value="1" checked="checked"> 操作权限&nbsp;&nbsp;</label>
+                    <label><input type="radio" name="type" class="radio_type" value="2"> 菜单权限</label>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">状态 :</th>
+                <td>
+                    <select name="status">
+                        <option value="1">启用</option>
+                        <option value="2">停用</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>规则 :</th>
+                <td><input type="text" name="condition" id="condition" class="input-text">{name}=用户名</td>
+            </tr>
+            <tr>
+                <th>备注 :</th>
+                <td><textarea name="remark" id="remark" cols="40" rows="3"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#name").formValidator({ onshow:lang.please_input+'标识', onfocus:lang.please_input+'标识', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'标识'});
+        $("#title").formValidator({ onshow:lang.please_input+'名称', onfocus:lang.please_input+'名称', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'名称'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

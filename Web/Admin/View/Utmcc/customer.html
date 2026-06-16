@@ -1,0 +1,126 @@
+<include file="Login:header" />
+<!--菜单添加-->
+<style type="text/css">
+    .account_form_tab{font-size: 14px; font-weight: bold; padding: 0 15px 0px 15px;line-height:35px;display: block;float: left; border-bottom: 3px solid #ffffff;}
+    .account_form_tab_action{ border-bottom: 3px solid #ff2222;}
+</style>
+
+<div style="overflow: auto; border-bottom: 1px solid #cecece;">
+    <foreach name="utm_sources" item="vo">
+        <if condition="$search['channel'] eq $vo">
+            <span class="account_form_tab_action account_form_tab">{$vo}</span>
+            <else/>
+            <span class="account_form_tab">{$vo}</span>
+        </if>
+    </foreach>
+</div>
+<div style="clear: both;"></div>
+<div style="height: 15px;"></div>
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get">
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="10" value="{$search['name']}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="10" value="{$search['mobile']}" />
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="10" value="{$search['city']}" />
+                        &nbsp;&nbsp;
+                        申请金额：
+                        <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                        -
+                        <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        申请时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+                        是否重复
+                        <select name="is_repeat">
+                            <option value="">-全部-</option>
+                            <option value="1" <if condition="$search.is_repeat eq '1'">selected="selected"</if>>重复</option>
+                            <option value="0" <if condition="$search.is_repeat eq '0'">selected="selected"</if>>新商机</option>
+                        </select>
+                        <input name="channel" type="hidden" class="input-text" size="15" value="{$search.channel}" />
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" id="one_select_table" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th align="left"><span data-tdtype="order_by" data-field="name">姓名</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="city">城市</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="money">申请金额</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="channel">渠道</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="create_time">申请时间</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="is_repeat">重复？</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="left">{$val.name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">{$val.channel}</td>
+                    <td align="left">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="left">
+                        <if condition="$val['is_repeat'] eq 1">
+                            <span style="color: #ff0000">重复</span>
+                            <else/>
+                            <span style="color: #00b050">新商机</span>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div style="height: 60px;"></div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    $(function(){
+        $('.account_form_tab').click(function(){
+            $('.account_form_tab').removeClass('account_form_tab_action');
+            $(this).addClass('account_form_tab_action');
+            window.location.href="{:U('customer')}?channel="+$(this).text();
+        })
+    })
+</script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

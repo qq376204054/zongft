@@ -1,0 +1,33 @@
+<!--菜单添加-->
+<style type="text/css">
+    .account_form_tab{font-size: 14px; font-weight: bold; padding: 0 15px 0px 15px;line-height:35px;display: block;float: left; border-bottom: 3px solid #ffffff;}
+    .account_form_tab_action{ border-bottom: 3px solid #ff2222;}
+</style>
+<div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+    <div>
+        <div style="overflow: auto; border-bottom: 1px solid #cecece;">
+            <span class="account_form_tab_action account_form_tab" rel="{:U('Customer/allocateInfo',array('id'=>$id))}">流转日志</span>
+            <span class="account_form_tab" rel="{:U('Customer/one_info',array('id'=>$id))}">客户详情</span>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="height: 15px;"></div>
+        <div class="account_form_table_div" style="margin: 0 20px;overflow-y: auto;height: 280px;">
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('.account_form_tab').click(function(){
+            $('.account_form_tab').removeClass('account_form_tab_action');
+            $(this).addClass('account_form_tab_action');
+
+            var rel=$(this).attr('rel');
+            loadURL(rel,'.account_form_table_div');
+        })
+    })
+</script>
+<script>
+    //下面自动加载收入表单
+    var link = "{:U('Customer/allocateInfo',array('id'=>$id))}";
+    loadURL(link,'.account_form_table_div');
+</script>

@@ -1,0 +1,127 @@
+<include file="Login:header" />
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a href="{:U('Article/index')}" class="on"><em>文章列表</em></a><span>|</span>
+		<a href="{:U('Article/add')}" class=""><em>添加文章</em></a>
+	</div>
+</div>
+<!--添加文章-->
+<form id="info_form" action="{:U('article/add')}" method="post" enctype="multipart/form-data">
+	<div class="pad_lr_10">
+		<div class="col_tab">
+			<ul class="J_tabs tab_but cu_li">
+				<li class="current">基本信息</li>
+				<li>seo设置</li>
+			</ul>
+			<div class="J_panes">
+				<div class="content_list pad_10">
+					<input name="id" type="hidden" value="{$info.id}">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th width="120">所属分类 :</th>
+							<td>
+								<select name="cate_id" id="article_add_cate_id">
+									<foreach name="all_cate" item="val">
+										<option value="{$val['id']}">{$val['name']}</option>
+									</foreach>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>文章标题 :</th>
+							<td>
+								<input type="text" name="name" id="J_title" class="input-text" size="50" value="{$info.name}">
+							</td>
+						</tr>
+						<tr>
+							<th>文章的简介 :</th>
+							<td>
+								<textarea rows="6" cols="80" name="jieshao">{$info.jieshao}</textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>标题图片 :</th>
+							<td>
+								<input type="text" name="pic" id="J_company_mobile_logo" class="input-text fl mr10" size="50" value="{$info['pic']}">
+								<div id="J_company_mobile_logo_upload" class="upload_btn"><span>上传</span></div><span class="gray ml10">其他建议200 X 200  </span><br><br>
+								<img src="{$info['pic']}" height="100" id="show_company_mobile_logo" /><span class="attachment_icon J_attachment_icon" file-type="image" ></span>
+							</td>
+						</tr>
+						<tr>
+							<th>详细内容 :</th>
+							<td><textarea name="content" id="info" style="width:88%;height:400px;visibility:hidden;resize:none;">{$info.content}</textarea></td>
+						</tr>
+					</table>
+				</div>
+				<div class="content_list pad_10 hidden">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th width="120">Title :</th>
+							<td><input type="text" name="seo_title" id="seo_title" class="input-text" size="60" value="{$info.seo_title}"></td>
+						</tr>
+						<tr>
+							<th>Keyword :</th>
+							<td><input type="text" name="seo_keys" id="seo_keys" class="input-text" size="60" value="{$info.seo_keys}"></td>
+						</tr>
+						<tr>
+							<th>Description :</th>
+							<td><textarea name="seo_desc" id="seo_desc" cols="80" rows="8">{$info.seo_desc}</textarea></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="mt10"><input type="submit" value="提交" id="dosubmit" name="dosubmit" class="smt mr10" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+		</div>
+	</div>
+</form>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/colorpicker.js"></script>
+<script src="__ROOT__/static/js/kindeditor/kindeditor.js"></script>
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script>
+	$('.J_cate_select').cate_select('请选择');
+	$('#article_add_cate_id').val('{$info.cate_id}');
+	$(function() {
+		KindEditor.create('#info', {
+			uploadJson : '{:U("upload/file_upload")}',
+			fileManagerJson : '{:U("upload/file_manager")}',
+			allowFileManager : true
+		});
+		$('ul.J_tabs').tabs('div.J_panes > div');
+		//颜色选择器
+		$('.J_color_picker').colorpicker();
+	});
+	var upload = new qq.FileUploaderBasic({
+		allowedExtensions: ['jpg','gif','png'],
+		button: document.getElementById('J_company_mobile_logo_upload'),
+		multiple: false,
+		action: "{:U('upload/file_upload')}",
+		inputName: 'imgFile',
+		forceMultipart: true, //用$_FILES
+		messages: {
+			typeError: lang.upload_type_error,
+			sizeError: lang.upload_size_error,
+			minSizeError: lang.upload_minsize_error,
+			emptyError: lang.upload_empty_error,
+			noFilesError: lang.upload_nofile_error,
+			onLeave: lang.upload_onLeave
+		},
+		showMessage: function(message){
+			$.yhxia.tip({content:message, icon:'error'});
+		},
+		onSubmit: function(id, fileName){
+			$('#J_company_mobile_logo_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+		},
+		onComplete: function(id, fileName, result){
+			$('#J_company_mobile_logo_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+			if(result.error === 0){
+				$('#show_company_mobile_logo').attr('src',result.url);
+				$('#J_company_mobile_logo').val(result.url);
+			}else{
+				$.yhxia.tip({content:result, icon:'error'});
+			}
+		}
+	});
+</script>
+</body>
+</html>

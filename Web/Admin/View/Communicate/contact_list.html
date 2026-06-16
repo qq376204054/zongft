@@ -1,0 +1,12 @@
+<div class="communicate_list" style="max-height:250px;overflow-y:auto;padding-right: 20px;">
+    <empty name="list">暂无下次联系备注内容</empty>
+    <table width="100%" cellspacing="0">
+        <tbody>
+        <foreach name="list" item="vo" key="index">
+            <tr>
+                <td>{$index+1}：{$vo.content} <span style="color: #4f71e0;">{$userInfo[$vo['user_id']]}</span> | 提醒时间：{:date('Y-m-d H:i:s',$vo['last_contact_time'])}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>

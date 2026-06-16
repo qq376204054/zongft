@@ -1,0 +1,32 @@
+<foreach name="list" item="val">
+    <div id="loan_id_{$val['id']}">
+        <div style="background: #cecece;padding: 3px 10px;">放款信息{$val['id']}
+            <input data-callback="$('#loan_id_{$val.id}').remove()" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('loan/delete', array('id'=>$val['id'],'is_ajax'=>1))}" data-msg="删除 - 放款信息{$key+1}" type="button" value="删除" style="background: #FF5151;color: #ffffff;border: 0; padding: 3px 10px; border-radius: 5px;margin-left: 20px;">
+        </div>
+        <table width="100%" class="table_form" style="border: 1px solid #cecece;">
+            <tr>
+                <th>放款金额</th>
+                <td>{$val['money']}元</td>
+                <th>放款时间 :</th>
+                <td>{:date('Y-m-d',$val['lend_time'])}</td>
+                <th>放款月利率 :</th>
+                <td>{$val['month_rate']} %</td>
+            </tr>
+            <tr>
+                <th>产品类型</th>
+                <td>{$val['product_type']}</td>
+                <th>还款方式</th>
+                <td>{$val['payment_method']}</td>
+                <th>到期时间 :</th>
+                <td>{:date('Y-m-d',$val['expiry_time'])}</td>
+            </tr>
+            <tr>
+                <th>产品名称 :</th>
+                <td colspan="5">{$val['product_name']}</td>
+            </tr>
+        </table>
+    </div>
+</foreach>
+<empty name="list">
+    <div style="background: #cecece;padding: 3px 10px;text-align: center;">暂无放款信息</div>
+</empty>

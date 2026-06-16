@@ -1,0 +1,48 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="number">回复编号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="action">触发类型</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="keyword">关键字</span></th>
+                <th align="left">匹配方式</th>
+                <th align="left"><span data-tdtype="order_by" data-field="type">类型</span></th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="center">{$val.id}</td>
+                    <td align="left">{$val.number}</td>
+                    <td align="left">{$val.action}</td>
+                    <td align="left">{$val.keyword}</td>
+                    <td align="left">模糊匹配</td>
+                    <td align="left">
+                        <if condition="$val.type eq 'text'">文本消息<else/>图文消息</if>
+                    </td>
+                    <td align="center">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Wechatpage/system_answer_add',array('id'=>$val['id']))}" data-title="编辑 - {$val.number}" data-id="system_answer_add" data-width="500" data-height="350">编辑</a> |
+                        <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Wechatpage/delete', array('id'=>$val['id']))}" data-msg="确认删除 - {$val['number']}">删除</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Wechatpage/delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+</body>
+</html>

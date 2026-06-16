@@ -1,0 +1,21 @@
+<!--菜单列表-->
+<div class="pad_lr_10" style="overflow-y: auto; max-height: 350px;">
+        <div class="J_tablelist table_list" data-acturi="">
+            <table width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th width="40">ID</th>
+                    <th style="text-align: left;">姓名</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="list" item="item">
+                    <tr>
+                        <td width="40">{$item.id}</td>
+                        <td style="text-align: left;">{$item.user_name}</td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </div>
+</div>

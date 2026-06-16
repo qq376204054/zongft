@@ -1,0 +1,42 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Meeting/add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th colspan="2" style="text-align: center;">面见后，客户将被转移至我已面见客户！</th>
+            </tr>
+            <tr>
+                <th width="120px">面见时间 :</th>
+                <td><input type="text" name="last_lianxi_time" id="last_lianxi_time" class="date" size="15" value="" readonly></td>
+            </tr>
+            <tr>
+                <th width="120px">提醒内容 :</th>
+                <td><textarea name="last_lianxi_content" id="last_lianxi_content" style="width: 330px"></textarea></td>
+            </tr>
+        </table>
+        <input type="hidden" name="order_id" value="{$orderInfo['id']}">
+    </form>
+</div>
+<script>
+    Calendar.setup({
+        inputField : "last_lianxi_time",
+        ifFormat   : "%Y-%m-%d %H:%M:00",
+        showsTime  : true,
+        timeFormat : "24"
+    });
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#last_lianxi_time").formValidator({ onshow:lang.please_input+'面见时间', onfocus:lang.please_input+'面见时间', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'面见时间'});
+        $("#last_lianxi_content").formValidator({ onshow:lang.please_input+'提醒内容', onfocus:lang.please_input+'提醒内容', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'提醒内容'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('mianjian_add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

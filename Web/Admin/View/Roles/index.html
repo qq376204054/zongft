@@ -1,0 +1,51 @@
+<include file="Login:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('Roles/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                <th width="40"><span tdtype="order_by" fieldname="id">ID</span></th>
+      			<th style="text-align: left;">角色名</th>
+                <th style="text-align: left;">状态</th>
+                <th style="text-align: left;">员工手机号权限</th>
+                <th style="text-align: left;">客户手机号权限</th>
+                <th style="text-align: left;">数据权限</th>
+                <th style="text-align: left;">备注</th>
+                <th width="220">管理操作</th>
+            </tr>
+            </thead>
+    	   <tbody>
+           <foreach name="list" item="vo">
+               <tr>
+                   <td align="center"><input type="checkbox" value="{$vo.id}" class="J_checkitem"></td>
+                   <td align='center'>{$vo.id}</td>
+                   <td>{$vo.name}</td>
+                   <td>{$vo.status_name}</td>
+
+                   <td>{$vo.look_user_phone_name}</td>
+                   <td>{$vo.look_customer_phone_name}</td>
+                   <td>{$vo.data_auth_name}</td>
+
+                   <td>{$vo.remark}</td>
+                   <td align='center'>
+                       <a href="javascript:;" class="J_showdialog" data-uri="{:U('Roles/edit',array('id'=>$vo['id']))}" data-title="编辑 - {$vo.name}" data-id="edit" data-width="500" data-height="150">编辑</a> |
+                       <a href="javascript:;" class="J_showdialog" data-uri="{:U('Roles/set_rules',array('id'=>$vo['id']))}" data-title="赋予权限 - {$vo.name}" data-id="set_roles" data-width="600" data-height="350">赋予权限</a> |
+                       <a href="javascript:;" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('Roles/delete',array('id'=>$vo['id']))}" data-msg="确认删除 - {$vo.name}">删除</a>
+                   </td>
+               </tr>
+           </foreach>
+    	   </tbody>
+        </table>
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Roles/delete')}?ok=1" data-name="id" data-msg="确认删除" value="删除" />
+        <div id="pages">{$page}</div>
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

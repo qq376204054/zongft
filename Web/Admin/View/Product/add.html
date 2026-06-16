@@ -1,0 +1,189 @@
+<include file="Login:header" />
+<div class="subnav">
+	<div class="content_menu ib_a blue line_x">
+		<a href="{:U('Product/index')}" class="on"><em>产品列表</em></a><span>|</span>
+		<a href="{:U('Product/add')}" class=""><em>添加产品</em></a>
+	</div>
+</div>
+<!--添加文章-->
+<form id="info_form" action="{:U('Product/add')}" method="post" enctype="multipart/form-data">
+	<div class="pad_lr_10">
+		<div class="col_tab">
+			<ul class="J_tabs tab_but cu_li">
+				<li class="current">基本信息</li>
+				<li>介绍信息</li>
+				<li>产品logo</li>
+			</ul>
+			<div class="J_panes">
+				<div class="content_list pad_10">
+					<input name="id" type="hidden" value="{$info.id}">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th>产品名称 :</th>
+							<td>
+								<input type="text" name="name" id="J_name" class="input-text" size="50" value="{$info.name}">
+							</td>
+						</tr>
+						<tr>
+							<th>是否显示到官网 :</th>
+							<td>
+								<label><input type="radio" name="is_display" class="radio_style" value="1" <if condition="$info.is_display eq 1">checked="checked"</if>> 是&nbsp;&nbsp;</label>
+								<label><input type="radio" name="is_display" class="radio_style" value="0" <if condition="$info.is_display eq 0">checked="checked"</if>> 否</label>
+							</td>
+						</tr>
+						<tr>
+							<th>产品机构 :</th>
+							<td>
+								<input type="text" name="mechanism" id="J_mechanism" class="input-text" size="50" value="{$info.mechanism}">
+							</td>
+						</tr>
+						<tr>
+							<th>产品额度 :</th>
+							<td>
+								<input style="width: 80px" type="text" name="scope_start" id="J_scope_start" class="input-text" value="{$info.scope_start}"> -
+								<input style="width: 80px" type="text" name="scope_end" id="J_scope_end" class="input-text" value="{$info.scope_end}">元
+							</td>
+						</tr>
+						<tr>
+							<th>产品使用城市 :</th>
+							<td>
+								<input type="text" name="city" id="J_city" class="input-text" size="50" value="{$info.city}">
+							</td>
+						</tr>
+						<tr>
+							<th>产品月利率 :</th>
+							<td>
+								<input style="width: 80px" type="text" name="month_rate_start" id="J_month_rate_start" class="input-text" value="{$info.month_rate_start}">% -
+								<input style="width: 80px" type="text" name="month_rate_end" id="J_month_rate_end" class="input-text" value="{$info.month_rate_end}">%
+							</td>
+						</tr>
+						<tr>
+							<th>产品使用期限 :</th>
+							<td>
+								<input style="width: 80px" type="text" name="time_limit_start" id="J_time_limit_start" class="input-text" value="{$info.time_limit_start}"> -
+								<input style="width: 80px" type="text" name="time_limit_end" id="J_time_limit_end" class="input-text" value="{$info.time_limit_end}">月
+							</td>
+						</tr>
+						<tr>
+							<th width="120">所属分类 :</th>
+							<td>
+								<select name="type" id="J_type">
+									<foreach name="product_type" item="val">
+										<option value="{$val}">{$val}</option>
+									</foreach>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>产品的使用用途 :</th>
+							<td>
+								<input type="text" name="purpose" id="J_purpose" class="input-text" size="50" value="{$info.purpose}">
+							</td>
+						</tr>
+						<tr>
+							<th>产品的还款方式 :</th>
+							<td>
+								<input type="text" name="repay_type" id="J_repay_type" class="input-text" size="50" value="{$info.repay_type}">
+							</td>
+						</tr>
+						<tr>
+							<th>创建时间 :</th>
+							<td>
+								<input type="text" name="create_time" id="J_create_time" class="date" size="12" value="{:date('Y-m-d',$info['create_time'])}" readonly>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="content_list pad_10 hidden">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th>产品介绍 :</th>
+							<td><textarea name="introduce" id="J_introduce" cols="80" rows="8">{$info.introduce}</textarea></td>
+						</tr>
+						<tr>
+							<th>申请条件 :</th>
+							<td><textarea name="condition" id="J_condition" cols="80" rows="8">{$info.condition}</textarea></td>
+						</tr>
+						<tr>
+							<th>需要的材料 :</th>
+							<td><textarea name="material" id="J_material" cols="80" rows="8">{$info.material}</textarea></td>
+						</tr>
+					</table>
+				</div>
+				<div class="content_list pad_10 hidden">
+					<table width="100%" cellspacing="0" class="table_form">
+						<tr>
+							<th>电脑站Logo图片 :</th>
+							<td>
+								<input type="text" name="pic" id="J_product_pic" class="input-text fl mr10" size="50" value="{$info['pic']}">
+								<div id="J_product_pic_upload" class="upload_btn"><span>上传</span></div><span class="gray ml10">建议宽:220  高:180  </span><br><br>
+								<img src="{$info['pic']}" width="220" height="180" id="show_product_pic_upload" /><span class="attachment_icon J_attachment_icon" file-type="image" ></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="mt10"><input type="submit" value="提交" id="dosubmit" name="dosubmit" class="smt mr10" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+		</div>
+	</div>
+</form>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//上传logo
+		var upload = new qq.FileUploaderBasic({
+			allowedExtensions: ['jpg','gif','png'],
+			button: document.getElementById('J_product_pic_upload'),
+			multiple: false,
+			action: "{:U('upload/file_upload')}",
+			inputName: 'imgFile',
+			forceMultipart: true, //用$_FILES
+			messages: {
+				typeError: lang.upload_type_error,
+				sizeError: lang.upload_size_error,
+				minSizeError: lang.upload_minsize_error,
+				emptyError: lang.upload_empty_error,
+				noFilesError: lang.upload_nofile_error,
+				onLeave: lang.upload_onLeave
+			},
+			showMessage: function(message){
+				$.yhxia.tip({content:message, icon:'error'});
+			},
+			onSubmit: function(id, fileName){
+				$('#J_product_pic_upload').addClass('btn_disabled').find('span').text(lang.uploading);
+			},
+			onComplete: function(id, fileName, result){
+				$('#J_product_pic_upload').removeClass('btn_disabled').find('span').text(lang.upload);
+				if(result.error === 0){
+					$('#show_product_pic_upload').attr('src',result.url);
+					$('#J_product_pic').val(result.url);
+				}else{
+					$.yhxia.tip({content:result, icon:'error'});
+				}
+			}
+		});
+	});
+</script>
+<script>
+	Calendar.setup({
+		inputField : "J_create_time",
+		ifFormat   : "%Y-%m-%d",
+		showsTime  : false,
+		timeFormat : "24"
+	});
+</script>
+<script>
+	$(function() {
+		$('ul.J_tabs').tabs('div.J_panes > div');
+	});
+</script>
+<notempty name="info">
+	<script>
+		$('#J_type').val("{$info.type}");
+	</script>
+</notempty>
+</body>
+</html>

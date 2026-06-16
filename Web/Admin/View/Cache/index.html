@@ -1,0 +1,89 @@
+<include file="Login:header" />
+<div class="pad_lr_10" style="margin-top: 20px">
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit')}">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>缓存标识</th>
+                <th align="left">缓存存活时间</th>
+                <th align="left">缓存备注</th>
+                <th width="170">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>channel_key_manger</td>
+                <td>永久</td>
+                <td>这个是用来保存key和接口的管理关系的缓存</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'channel_key_manger'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'channel_key_manger'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>AUTH_LIST_用户的id</td>
+                <td>登录区间</td>
+                <td>用来保存登录区间，用户的所有权限</td>
+                <td align="center">
+                </td>
+            </tr>
+            <tr>
+                <td>all_config</td>
+                <td>永久</td>
+                <td>这个是用来存储系统的所有常量配置的</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'all_config'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'all_config'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>all_setting</td>
+                <td>永久</td>
+                <td>这个是用来存储系统的所有系统设置的</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'all_setting'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'all_setting'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>push_business_running</td>
+                <td>暂时</td>
+                <td>这个用来判断推送程序是不是在运行</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'push_business_running'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>all_system_menu_rules</td>
+                <td>永久</td>
+                <td>这个是用来存储系统的所有菜单权限的</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'all_system_menu_rules'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'all_system_menu_rules'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>all_system_menu</td>
+                <td>永久</td>
+                <td>这个是用来存储系统的所有配置好的菜单</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'all_system_menu'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'all_system_menu'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            <tr>
+                <td>one_user_all_menu_用户id</td>
+                <td>登陆区间</td>
+                <td>这个是用来存储一个登陆用户的所有后台菜单</td>
+                <td align="center">
+                    <a href="javascript:;" class="J_showdialog" data-uri="{:U('look_cache',array('name'=>'one_user_all_menu'))}" data-title="缓存详情" data-id="apply" data-width="700" data-height="350">查看缓存</a> |
+                    <a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('clear_cache', array('name'=>'one_user_all_menu'))}" data-msg="刷新缓存，刷新后会拉取最新的缓存">刷新缓存</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

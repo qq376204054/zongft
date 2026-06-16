@@ -1,0 +1,530 @@
+<!doctype html>
+<html class="off">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/css/admin/style_new.css" /><title>公司管理系统</title>
+	<link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<script>
+		//语言项目
+		var lang = new Object();
+		lang.connecting_please_wait = "请稍后...";
+		lang.confirm_title = "提示消息";
+		lang.move = "移动";
+		lang.title_empty = "请输入宝贝名称";
+		lang.iid_empty = "IID不能为空";
+		lang.dialog_title = "消息";
+		lang.dialog_ok = "确定";
+		lang.dialog_cancel = "取消";
+		lang.please_input = "请输入";
+		lang.please_select = "请选择";
+		lang.not_select = "不选择";
+		lang.all = "所有";
+		lang.input_right = "输入正确";
+		lang.plsease_select_rows = "请选择要操作的项目！";
+		lang.upload = "上传";lang.uploading = "上传中";
+		lang.upload_type_error = "不允许上传的文件类型！";
+		lang.upload_size_error = "文件大小不能超过{sizeLimit}！";
+		lang.upload_minsize_error = "文件大小不能小于{minSizeLimit}！";
+		lang.upload_empty_error = "文件为空，请重新选择！";
+		lang.upload_nofile_error = "没有选择要上传的文件！";
+		lang.upload_onLeave = "正在上传文件，离开此页将取消上传！";
+	</script>
+</head>
+<body scroll="no">
+<!--下面是手册的显示-->
+<div class="message_div" style="display: none;">
+	<div class="title">消息中心</div>
+	<div class="content" id="msg_content_div">
+	</div>
+	<i class="shouce_guanbi fa fa-times-circle"></i>
+	<a href="javascript:;" class="J_showdialog ge_to_log" data-uri="{:U('admin/message/index')}" data-title="消息列表" data-id="add" data-width="700">[所有消息]</a>
+</div>
+<style>
+	.message_div{  z-index:666;  width: 300px;  position: absolute;  background-color:#cccccc;
+		color: #333333;  top: 50px;  padding:10px;  right: 10px;  overflow-y: auto;border: 5px solid #000000;
+	    border-radius: 15px;}
+	.message_div .title{line-height: 30px; font-size: 16px;text-align: center; border-bottom: 2px solid #c8c7cc;}
+	.message_div .shouce_guanbi{  position: absolute;  top:6px;  right: 10px;  font-size:25px;  color: #ff0000;  }
+	.message_div .ge_to_log{  position: absolute;  top:15px;  left: 10px;  font-size:10px;  color: #cc6b17; }
+	.message_div .content{height: 450px; background: #f7ecb5; overflow-y: auto;}
+	.message_div .content .one_div{line-height: 25px; margin: 10px 10px 0 10px; background: #FF5151;padding: 5px 10px;border-radius: 20px;
+	    font-size: 14px; color: #ffffff;}
+	.message_div .content .one_div .time{text-align: right; font-size: 10px; line-height: 20px;color: #000000;}
+</style>
+<!--下面是手册的显示-->
+
+<div id="content" style="position: relative;">
+	<div class="left_menu fl">
+		<img src="{$all_setting['company_admin_logo']}" style="width: 173px;margin-top: 8px;margin-left: 10px"/>
+		<div id="J_lmenu" class="J_lmenu" data-uri="{:U('admin/index/left',array('menuid'=>$top_menus[0]['id']))}"></div>
+	</div>
+	<div class="right_main">
+		<div id="J_tmenu">
+			<div class="shousuo" id="J_lmoc" hidefocus="true" class="open" title="展开或关闭"><i class="fa fa-arrows-alt"></i></div>
+			<volist name="top_menus" id="val" >
+				<a data-id="{$val.id}" hidefocus="true" class="oneBigMenu">
+					<i class="fa fa-{$val.icon}"></i> {$val.name}
+				</a>
+			</volist>
+			<div style="position: absolute;right: 0;top: 10px;font-size: 20px;" class="opt">
+				<div id="my_message_button" style="margin-right: 10px;cursor: pointer; width: 35px;height:35px;line-height:35px;background: #e6a23c;display: inline-block;color: #ffffff;text-align: center;border-radius: 50%;;">
+					<i class="fa fa-envelope-o"></i>
+				</div>
+				<b style="color: #ff0000;position: absolute;font-size: 16px;right: 67px;top: -3px;" id="no_read_msg">0</b>
+				<div style="margin-right: 20px;cursor: pointer; width: 35px;height:35px;line-height:35px;background: #e6a23c;display: inline-block;color: #000000;text-align: center;border-radius: 50%;;">
+					<a href="{:U('Login/loginout')}" title="[ 退出 ]" style="color: #ffffff;"><i class="fa fa-step-forward"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="crumbs">
+			<div class="options">
+				<a href="javascript:;" title="刷新页面" id="J_refresh" class="refresh" hidefocus="true">刷新页面</a>
+			</div>
+			<div id="J_mtab" class="mtab">
+				<a href="javascript:;" id="J_prev" class="mtab_pre fl" title="上一页">上一页</a>
+				<a href="javascript:;" id="J_next" class="mtab_next fr" title="下一页">下一页</a>
+				<div class="mtab_p">
+					<div class="mtab_b">
+						<ul id="J_mtab_h" class="mtab_h">
+							<li class="current" data-id="0"><span><a>后台首页</a></span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="height: 15px;background: #eaedf1;"></div>
+		<div id="J_rframe" class="rframe_b">
+			<iframe id="rframe_0" src="{:U('admin/index/panel')}" frameborder="0" scrolling="auto" style="height:90%;width:100%;"></iframe>
+		</div>
+	</div>
+</div>
+<script src="__ROOT__/static/js/jquery/jquery.js"></script>
+
+<script src="__ROOT__/static/js/jquery/plugins/jquery.tools.min.js"></script>
+<script src="__ROOT__/static/js/jquery/plugins/formvalidator.js"></script>
+<script src="__ROOT__/static/js/yhxia.js"></script>
+<script src="__ROOT__/static/js/admin.js"></script>
+<script src="__ROOT__/static/js/dialog.js"></script>
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+	//初始化弹窗
+(function (d) {
+	d['okValue'] = lang.dialog_ok;
+	d['cancelValue'] = lang.dialog_cancel;
+	d['title'] = lang.dialog_title;
+})($.dialog.defaults);
+
+$(function(){
+	//初始化未读消息
+	init_noread_msg();
+
+	var set_h = function(){
+		var heights = document.documentElement.clientHeight-109;
+		$("#J_rframe").height(heights);
+		var openClose = $("#J_rframe").height()+9;
+		$('#center_frame').height(openClose+9);
+		$('body').css('overflow','hidden');
+	}
+	$(window).resize(function(){
+		set_h();
+	});
+	set_h();
+	//默认载入左侧菜单
+	$('#J_lmenu').load($('#J_lmenu').attr('data-uri'));
+	$(".J_switchs").live('click', function(i){
+		var ul = $(this).parent().next();
+		if(ul.is(':visible')){
+			ul.hide();
+			$(this).removeClass('on');
+		}else{
+			ul.show();
+			$(this).addClass('on');
+		}
+	});
+
+	//刷新
+	$('#J_refresh').live('click', function(){
+		$('#J_rframe iframe:visible')[0].contentWindow.location.reload();
+	});
+
+	//左侧开关
+	$('#J_lmoc').live('click', function(){
+		if($(this).data('clicknum')==1) {
+			$('.right_main').removeClass("right_main_on");
+			$('html').removeClass('on');
+			$('#J_lmenu').parent().removeClass('left_menu_on');
+			$(this).removeClass('close');
+			$(this).data('clicknum', 0);
+			$(this).find("i").removeClass("fa-bars");
+			$(this).find("i").addClass("fa-arrows-alt");
+		} else {
+			$('.right_main').addClass("right_main_on");
+			$('#J_lmenu').parent().addClass('left_menu_on');
+			$(this).addClass('close');
+			$('html').addClass('on');
+			$(this).data('clicknum', 1);
+			$(this).find("i").addClass("fa-bars");
+			$(this).find("i").removeClass("fa-arrows-alt");
+		}
+		return false;
+	});
+
+	//顶部菜单点击
+	$('#J_tmenu a').live('click', function(){
+		var data_id = $(this).attr('data-id');
+		//改变样式
+		$(this).parent().addClass("on").siblings().removeClass("on");
+		//改变左侧
+		$('#J_lmenu').load($('#J_lmenu').attr('data-uri'), {menuid:data_id});
+
+
+		$('.right_main').removeClass("right_main_on");
+		$('html').removeClass('on');
+		$('#J_lmenu').parent().removeClass('left_menu_on');
+		$('#J_lmoc').removeClass('close');
+		$('#J_lmoc').data('clicknum', 0);
+		$('#J_lmoc').find("i").removeClass("fa-bars");
+		$('#J_lmoc').find("i").addClass("fa-arrows-alt");
+	});
+
+	//左侧菜单点击
+	$('.J_lmenu a').live('click', function(){
+		$('#J_mtab_h li').removeClass('current');
+		var data_name=$(this).text(),
+				data_uri = $(this).attr('data-uri'),
+				data_id = $(this).attr('data-id'),
+				_li = $('#J_mtab li[data-id='+data_id+']');
+		if(_li[0]){
+			//存在则直接点击
+			_li.trigger('click');
+		}else{
+			//不存在新建frame和tab
+			var rframe = $('<iframe/>', {
+				src               : data_uri,
+				id                  : 'rframe_' + data_id,
+				allowtransparency : true,
+				frameborder       : 0,
+				scrolling          : 'auto',
+				width              : '100%',
+				height        : '100%'
+			}).appendTo('#J_rframe');
+			$(rframe[0].contentWindow.document).ready(function(){
+				rframe.siblings().hide();
+				var _li = $('<li data-id="'+data_id+'"><span><a>'+data_name+'</a><a class="del" title="关闭此页">关闭</a></span></li>').addClass('current');
+				_li.appendTo('#J_mtab_h').siblings().removeClass('current');
+				_li.trigger('click');
+			});
+		}
+		$(this).parent().addClass("on fb blue").siblings().removeClass("on fb blue");
+		$(this).parent().parent().siblings().find('.sub_menu').removeClass("on fb blue");
+		$('#rframe_'+ data_id).attr('src', $('#rframe_'+ data_id).attr('src'));
+	});
+
+	//TAB点击
+	$('#J_mtab li').live('click', function(){
+		//如果UL还在动画中则不处理，以免发生多次位移
+		if($('#J_mtab_h').is(":animated")){
+			return false;
+		}
+		var data_id = $(this).attr('data-id'),
+				_li_prev = $(this).prev(),
+				_li_next = $(this).next();
+		$(this).addClass('current').siblings('li').removeClass('current');
+		$(this).showMtab();
+		//左右切换按钮效果改变
+		if(_li_prev[0]){
+			$('#J_prev').removeClass('mtab_nopre');
+		}else{
+			$('#J_prev').addClass('mtab_nopre');
+		}
+		if(_li_next[0]){
+			$('#J_next').removeClass('mtab_nonext');
+		}else{
+			$('#J_next').addClass('mtab_nonext');
+		}
+		//frame页面切换
+		$('#rframe_'+ data_id).show().siblings('iframe').hide();
+	});
+
+	//上一个TAB
+	$('#J_prev').click(function(){
+		$('#J_mtab_h .current').prev().trigger('click');
+	});
+
+	//下一个TAB
+	$('#J_next').click(function(){
+		$('#J_mtab_h .current').next().trigger('click');
+	});
+
+	//关闭TAB
+	$('#J_mtab_h a.del').live('click', function(){
+		var _li = $(this).parent().parent(),
+				_prev_li = _li.prev('li'),
+				data_id = _li.attr('data-id');
+		_li.hide(60,function() {
+			$(this).remove();
+			$('#rframe_'+ data_id).remove();
+			var _curr_li = $('#J_mtab_h li.current');
+			if(!_curr_li[0]){
+				_prev_li.addClass('current').trigger('click');
+				$('#rframe_'+_prev_li.attr('data-id')).show();
+			}
+		});
+		return false;
+	});
+});
+//保持当前TAB可见
+(function($){
+	//调整TAB到可视区域
+	$.fn.showMtab = function() {
+		var _li = $(this),
+				_ul = $('#J_mtab_h'),
+				_li_left = _li.offset().left,
+				_li_right = _li_left + _li.outerWidth(),
+				_next_left = $('#J_next').offset().left,
+				_prev_right = $('#J_prev').offset().left + $('#J_prev').outerWidth();
+		if(_li_right > _next_left){
+			//如果在右侧隐藏
+			var distance = _li_right - _next_left;
+			_ul.animate({left:'-='+distance}, 200, 'swing');
+		}else if(_li_left < _prev_right){
+			//如果在左侧隐藏
+			var distance = _prev_right - _li_left;
+			_ul.animate({left:'+='+distance}, 200, 'swing');
+		}
+	}
+})(jQuery);
+</script>
+
+<!--==================这下面是处理消息通信的=======================-->
+<script>
+	var ws;
+	var has_socket = false;
+	var big_msg_id = 0;
+</script>
+<if condition="$all_setting['sys_message_status'] eq 1">
+<script>
+	//使用socket获取未读消息列表，只会触发一次
+	function time()
+	{
+		if (has_socket==false) {
+			//利用链接去拉取信息
+			init_noread_msg();
+			//下面判断有没有开启socket服务
+			//$.yhxia.tip({content:'尝试链接服务器，如果一直连接不成功，请通知管理员', icon:'alert'});
+			ws = new WebSocket("{$all_setting['sys_message_url']}");
+			ws.onopen = function(){
+				console.log('握手成功');
+			};
+			//下面是连接数据处理
+			ws.onmessage = function(res){
+				var data = eval("("+res.data+")");
+				switch (data['type']) {
+					case 'init':
+						//获取到client_id后，向服务器发送绑定登录用户的指令
+						bindUserClient(data['client_id']);
+						break;
+					case 'system_msg':
+						//接收到系统的消息
+						var msg_json=data['data'];
+						addOneMsg(msg_json['content'],msg_json['msg'],strToTime(msg_json['time']*1000),msg_json['count']);
+						$('.message_div').show();
+						$('#msg_content_div').animate({scrollTop:0},500);
+						break;
+				}
+			};
+		}
+	}
+	//用户和 client_id 绑定
+	function bindUserClient(client_id)
+	{
+		$.ajax({
+			type: "POST",
+			url: "{:U('admin/Message/bindclient')}",
+			data: {client_id: client_id},
+			dataType: "json",
+			success: function (result) {
+				if(result.errNum === 0){
+					has_socket = true;
+					setTimeout(function() {
+						$.yhxia.tip({content:'连接成功'});
+					}, 1000);
+				} else {
+					alert(result.errMsg);
+				}
+			}
+		});
+	}
+</script>
+<else/>
+<script>
+	//每隔10秒获取未读消息列表
+	function time()
+	{
+		if (has_socket==false) {
+			init_noread_msg();
+		}
+		setTimeout(time,10000); //time是指本身,延时递归调用自己,100为间隔调用时间,单位毫秒
+	}
+</script>
+</if>
+<script>
+	//10秒后调用一次方法获取未读消息列表，当socket不通时会每隔10秒获取未读消息列表
+	setTimeout(function() {
+		time()
+	}, 10000);
+
+	//获取未读消息列表
+	function init_noread_msg()
+	{
+		$.ajax({
+			type: "GET",
+			url: "{:U('admin/Message/noread_msg')}",
+			data: {big_msg_id: big_msg_id},
+			dataType: "json",
+			success: function (result) {
+				if(result.errNum === 0){
+					var cc=result.retData['list'];
+					var count=result.retData['count'];
+					for (var i=0;i<cc.length;i++) {
+						addOneMsg(cc[i].content,cc[i].id,strToTime(cc[i].create_time*1000),count);
+						big_msg_id=cc[i].id;
+					}
+				} else {
+					alert(result.errMsg)
+				}
+			}
+		});
+	}
+
+	//下面设置未读消息的个数
+	function setNoReadNumber(number){
+		$('#no_read_msg').html(number);
+	}
+
+	//添加消息到面板
+	function addOneMsg(content,msg_id,create_time,number){
+		var str='<div class="one_div"> <div>'+content+'</div> <div class="time"><span class="status">' +
+				'【<a href="javascript:;" msg_id="'+msg_id+'" class="reag_msg_a" style="color: #ffffff;"> 标记成已读 </a>】' +
+				' </span>'+create_time+'</div> </div>'+$('#msg_content_div').html();
+		$('#msg_content_div').html(str);
+		setNoReadNumber(number);
+	}
+
+	//已读一条消息
+	$(".reag_msg_a").live("click",function(){
+		var msg_id=$(this).attr('msg_id');
+		var thisdiv=$(this);
+		$.ajax({
+			type: "POST",
+			url: "{:U('admin/Message/read_msg')}",
+			data: {msg_id:msg_id},
+			dataType: "json",
+			success: function (result) {
+				if(result.errNum === 0){
+					setNoReadNumber(result.retData);
+					thisdiv.html('已读');
+					thisdiv.removeClass('reag_msg_a');
+				} else {alert(result.errMsg)}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				alert("error");
+			}
+		});
+	});
+
+	//时间截转化
+	function strToTime(number)
+	{
+		var date = new Date(number);
+		Y = date.getFullYear() + '-';
+		M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		D = date.getDate() + ' ';
+		h = date.getHours() + ':';
+		m = date.getMinutes() + ':';
+		s = date.getSeconds();
+		return Y+M+D+h+m+s;
+	}
+	
+	$('#my_message_button').click(function(){
+		$('.message_div').toggle(300);
+	});
+	$('.shouce_guanbi').click(function(){
+		$('.message_div').hide(300);
+	});	
+</script>
+<script>
+	//定义变量
+	var action_naoling = true;
+
+	//每隔10秒调用方法获取用户有没有设置闹铃提醒
+	setInterval(function(){
+		init_noread_naoling()
+	}, 10000);
+
+	//获取有没有闹铃提醒
+	function init_noread_naoling()
+	{
+		if (!action_naoling) {
+			return false;
+		}
+		$.ajax({
+			type: "GET",
+			url: "{:U('admin/Message/naoling')}",
+			data: {},
+			dataType: "json",
+			success: function (result) {
+				if(result.errNum === 0){
+					var want_goutong = result.retData['want_co'];
+					if(want_goutong && want_goutong.order_id){
+						var want_str = '<div class="want_last_goutong"> ' +
+								'<div class="goutong_content"> ' +
+								'<div style="font-size: 18px;font-weight: bold;line-height: 50px;">沟通提醒</div> ' +
+								'<div style="font-size: 16px;line-height: 30px;">您设置了一个客户需要沟通，快点点击去沟通吧</div> ' +
+								'<div style="font-size: 16px;line-height: 30px;">'+want_goutong.content+'</div> ' +
+								'<a href="javascript:;" class="J_showdialog closeWantGoutong" data-uri="/index.php/Admin/Communicate/add/id/'+ want_goutong.order_id +'.html" data-title="对 - 提醒客户 -进行沟通并编辑" title=去沟通" data-id="add-communicate" data-width="900" data-height="450"> ' +
+								'<input type="submit" class="smt mr10" value="去沟通"> ' +
+								'</a> <input type="submit" class="smt mr10 closeWantGoutong" style="background: #FF0000;" value="关闭"> ' +
+								'</div> ' +
+								'</div>';
+						$("body").append(want_str);
+						action_naoling = false;
+					}
+				}
+			}
+		});
+	}
+
+	$(".closeWantGoutong").live("click",function(){
+		$(this).parent().parent().remove();
+		action_naoling = true;
+	});
+</script>
+<style>
+	.want_last_goutong {
+		position:fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, .4);
+		z-index: 20000;
+		color: #666666;
+		text-align: center;
+	}
+	.want_last_goutong .goutong_content {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 380px;
+		box-sizing: bordre-box;
+		transform: translate(-50%, -50%);
+		overflow: hidden;
+		background: #ffffff;
+		border-radius: 10px;
+		padding-bottom: 30px;
+	}
+</style>
+</body>
+</html>

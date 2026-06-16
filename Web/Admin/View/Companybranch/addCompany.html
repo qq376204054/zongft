@@ -1,0 +1,53 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Companybranch/addCompany')}" method="post">
+        <input name="id" type="hidden" value="{$info.id}">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>公司名称 :</th>
+                <td><input type="text" name="name" id="name" class="input-text" value="{$info.name}"></td>
+            </tr>
+            <tr>
+                <th width="100">所在城市 :</th>
+                <td>
+                    <select name="city" id="companybranch_edit_city">
+                        <foreach name="job_city" item="val">
+                            <option value="{$val}">{$val}</option>
+                        </foreach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>业务负责人 :</th>
+                <td><input type="text" name="business_name" id="business_name" class="input-text" value="{$info.business_name}"></td>
+            </tr>
+            <tr>
+                <th>负责人手机 :</th>
+                <td><input type="text" name="business_mobile" id="business_mobile" class="input-text" value="{$info.business_mobile}"></td>
+            </tr>
+            <tr>
+                <th>备注 :</th>
+                <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+        $("#companybranch_edit_city").val("{$info.city}");
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#name").formValidator({ onshow:lang.please_input+'公司名', onfocus:lang.please_input+'公司名', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'公司名'});
+        $("#business_name").formValidator({onshow:lang.please_input+'业务负责人',onfocus:lang.please_input+'业务负责人'}).inputValidator({min:1,onerror:lang.please_input+'业务负责人'});
+        $("#business_mobile").formValidator({onshow:lang.please_input+'负责人手机',onfocus:lang.please_input+'负责人手机'}).inputValidator({min:1,onerror:lang.please_input+'负责人手机'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('addCompany').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

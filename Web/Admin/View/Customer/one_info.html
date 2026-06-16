@@ -1,0 +1,49 @@
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tbody>
+    <tr>
+        <th width="60px">客户名：</th>
+        <td>{$info['name']}</td>
+        <th width="60px">手机号：</th>
+        <td>{$info['mobile']}</td>
+        <th>城市：</th>
+        <td>{$info['city']}</td>
+    </tr>
+    <tr>
+        <th>性别：</th>
+        <td>{$info['sex']}</td>
+        <th>负责人：</th>
+        <td>{$userInfo}</td>
+        <th>有无房：</th>
+        <td>{$info['has_house']}</td>
+    </tr>
+    <tr>
+        <th>跟进状态：</th>
+        <td>{$info['follow_type']}</td>
+        <th>创建时间：</th>
+        <td>{:date('Y-m-d H:i:s',$info['create_time'])}</td>
+        <th>沟通时间：</th>
+        <td>
+            <if condition="$info['communicate_time']">
+                {:date('Y-m-d H:i:s',$info['communicate_time'])}
+            </if>
+        </td>
+    </tr>
+    <tr>
+        <th>现地址：</th>
+        <td colspan="2">{$info['address']}</td>
+        <th>房产地址：</th>
+        <td colspan="2">{$info['house_address']}</td>
+    </tr>
+    </tbody>
+</table>
+<div style="text-align: center;line-height: 30px;background: #cecece;">其他自定义扩展字段</div>
+<table width="100%" class="table_form" style="border: 1px solid #cecece;">
+    <tbody>
+    <foreach name="ext" item="vo" key="k" >
+        <tr>
+            <th width="50%">{$customer_ext_filed[$k]}：</th>
+            <td>{$vo}</td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>

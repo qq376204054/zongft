@@ -1,0 +1,76 @@
+<!--编辑菜单-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Roles/edit')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>角色名 :</th>
+                <td><input type="text" name="name" id="name" class="input-text" value="{$info.name}"></td>
+            </tr>
+            <tr>
+                <th width="100">状态 :</th>
+                <td>
+                    <select name="status" id="Roles_edit_status">
+                        <option value="1">启用</option>
+                        <option value="2">停用</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">员工手机号 :</th>
+                <td>
+                    <select name="look_user_phone" id="look_user_phone">
+                        <option value="1">能看到后台员工手机号</option>
+                        <option value="2">员工的手机号中间加密</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">客户手机号 :</th>
+                <td>
+                    <select name="look_customer_phone" id="look_customer_phone">
+                        <option value="1">只要展示出来的客户都显示出手机号</option>
+                        <option value="2">只展示自己负责的客户的手机号</option>
+                        <option value="3">隐藏所有客户的手机号</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">数据权限 :</th>
+                <td>
+                    <select name="data_auth" id="data_auth">
+                        <option value="1">能看到整个平台的数据</option>
+                        <option value="2">能看到自己以及下属部门的数据</option>
+                        <option value="3">只能看到自己当前部门的数据</option>
+                        <option value="4">只能看到自己名下的数据</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>备注 :</th>
+                <td><textarea name="remark" id="remark" cols="40" rows="3">{$info.remark}</textarea></td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+
+<script>
+    $(function(){
+        $("#Roles_edit_status").val("{$info.status}");
+        $("#look_user_phone").val("{$info.look_user_phone}");
+        $("#look_customer_phone").val("{$info.look_customer_phone}");
+        $("#data_auth").val("{$info.data_auth}");
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#name").formValidator({ onshow:lang.please_input+'角色名', onfocus:lang.please_input+'角色名', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'角色名'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('edit').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    });
+</script>

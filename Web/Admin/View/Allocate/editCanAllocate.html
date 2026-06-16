@@ -1,0 +1,35 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Allocate/editCanAllocate')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>设置能分配数 :</th>
+                <td>
+                    <input type="text" name="num" id="Allocate_num" class="input-text" value="{$num}">
+                    <input name="user_id" type="hidden" value="{$search['user_id']}">
+                    <input name="city" type="hidden" value="{$search['city']}">
+                    <input name="channel" type="hidden" value="{$search['channel']}">
+                    <input name="company_id" type="hidden" value="{$search['company_id']}">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#Allocate_num").formValidator({ onshow:lang.please_input+'能分配数', onfocus:lang.please_input+'能分配数', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'能分配数'});
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('companyPrice').close();
+                var link = "{:U('Allocate/table')}?channel={$search['channel']}&city={$search['city']}&company_id={$search['company_id']}";
+                loadURL(link,'.allocate_user_table');
+                $.yhxia.tip({content:result.retData});
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

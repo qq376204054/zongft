@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<link href="__ROOT__/static/css/admin/style_new2019.css" rel="stylesheet"/>
+	<link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<title>{:L('website_manage')}</title>
+	<script>
+	var URL = '__URL__';
+	var SELF = '__SELF__';
+	var PAGE = '__SELF__';
+	var ROOT_PATH = '__ROOT__';
+	var APP	 =	 '__APP__';
+	//语言项目
+	var lang = new Object();
+	lang.connecting_please_wait = "请稍后...";
+	lang.confirm_title = "提示消息";
+	lang.move = "移动";
+	lang.title_empty = "请输入宝贝名称";
+	lang.iid_empty = "IID不能为空";
+	lang.dialog_title = "消息";
+	lang.dialog_ok = "确定";
+	lang.dialog_cancel = "取消";
+	lang.please_input = "请输入";
+	lang.please_select = "请选择";
+	lang.not_select = "不选择";
+	lang.all = "所有";
+	lang.input_right = "输入正确";
+	lang.plsease_select_rows = "请选择要操作的项目！";
+	lang.upload = "上传";lang.uploading = "上传中";
+	lang.upload_type_error = "不允许上传的文件类型！";
+	lang.upload_size_error = "文件大小不能超过{sizeLimit}！";
+	lang.upload_minsize_error = "文件大小不能小于{minSizeLimit}！";
+	lang.upload_empty_error = "文件为空，请重新选择！";
+	lang.upload_nofile_error = "没有选择要上传的文件！";
+	lang.upload_onLeave = "正在上传文件，离开此页将取消上传！";
+	lang.menu_name="菜单名称";
+	lang.module_name="模块名";
+	lang.action_name="方法名";
+	</script>
+</head>
+
+<body>
+
+<div id="J_ajax_loading" class="ajax_loading">{:L('ajax_loading')}</div>
+<div style="height: 20px;width: 100%"></div>
+<if condition="($sub_menu neq '') OR ($big_menu neq '')">
+<div class="subnav">
+    <div class="content_menu ib_a blue line_x">
+    	<notempty name="big_menu">
+    	<a class="add fb J_showdialog" href="javascript:void(0);" data-uri="{$big_menu.iframe}" data-title="{$big_menu.title}" data-id="{$big_menu.id}" data-width="{$big_menu.width}" data-height="{$big_menu.height}"><em>{$big_menu.title}</em></a>　
+        </notempty>
+        <notempty name="sub_menu">
+        <volist name="sub_menu" id="val" key="key">
+        <if condition="$key neq 1"><span>|</span></if>
+        <a href="{:U($val['module_name'].'/'.$val['action_name'],array('menuid'=>$menuid))}{$val.data}" class="{$val.class}"><em>{$val['name']}</em></a>
+        </volist>
+        </notempty>
+    </div>
+</div>
+</if>

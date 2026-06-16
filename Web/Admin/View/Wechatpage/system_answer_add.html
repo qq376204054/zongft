@@ -1,0 +1,153 @@
+<!--菜单添加-->
+<div class="dialog_content" style="max-height: 350px;overflow-y: auto;">
+    <form id="info_form" name="info_form" action="{:U('Wechatpage/system_answer_add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>回复编号 :</th>
+                <td><input type="text" name="number" class="input-text" value="{$info.number}"></td>
+            </tr>
+            <tr>
+                <th>触发动作 :</th>
+                <td>
+                    <select name="action" id="system_answer_add_action">
+                        <option value="关键字回复">关键字回复</option>
+                        <option value="关注回复">关注回复</option>
+                        <option value="统一回复">统一回复</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="keyword_tr">
+                <th>关键字 :</th>
+                <td><input type="text" name="keyword" class="input-text" value="{$info.keyword}"></td>
+            </tr>
+            <tr>
+                <th width="100">匹配形式 :</th>
+                <td>模糊匹配</td>
+            </tr>
+            <tr>
+                <th width="100">回复类型 :</th>
+                <td>
+                    <select name="type" id="system_answer_add_type">
+                        <option value="news">图文消息</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td colspan="2">
+                <div id="text_div" style="display: none;">
+                    <table width="100%" class="table_form">
+                        <tr>
+                            <th>回复文本 :</th>
+                            <td><textarea name="text" style="width: 300px;" id="system_answer_add_text"></textarea>
+                        </tr>
+                    </table>
+                </div>
+                <div id="news_div">
+                    <table width="100%" class="table_form" id="table_form_tr">
+                        <for start="0" end="8" name="i" >
+                            <tr><th style="background: #f1ed78;">{$i+1}</th>
+                                <td>
+                                    标题：<input type="text" name="news_title[]" size="50" value="{$info['text'][$i]['title']}"><br><br>
+                                    文字：<textarea name="news_text[]" style="width: 300px;">{$info['text'][$i]['text']}</textarea><br><br>
+                                    点击跳转网址：<input type="text" name="news_url[]" size="50" value="{$info['text'][$i]['url']}"><br><br>
+                                    <div id="J_upload_img{$i}" class="upload_btn"><span>选择图片</span></div><span class="gray ml10">支持JPG、PNG格式，较好的效果为大图360*200，小图200*200  </span>
+                                    <input type="hidden" id="J_upload_input{$i}" name="news_pic[]" size="50" value="{$info['text'][$i]['pic']}">
+                                    <br><img src="{$info['text'][$i]['pic']}" height="100" id="J_upload_src{$i}" />
+                            </td></tr>
+                        </for>
+                    </table>
+                </div>
+            </td></tr>
+        </table>
+        <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script src="__ROOT__/static/js/fileuploader.js"></script>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('system_answer_add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    });
+
+    $("#system_answer_add_type").on("change",function(){
+        if($(this).val()=='text'){
+            $("#text_div").show();
+            $("#news_div").hide();
+        }else{
+            $("#news_div").show();
+            $("#text_div").hide();
+        }
+    });
+    $("#system_answer_add_action").on("change",function(){
+        if($(this).val()=='关键字回复'){
+            $("#keyword_tr").show();
+        }else{
+            $("#keyword_tr").hide();
+        }
+    });
+</script>
+<notempty name="info">
+    <script>
+        $('#system_answer_add_type').val("{$info.type}");
+        if("{$info.type}"=='news'){
+            $("#news_div").show();
+            $("#text_div").hide();
+        }else{
+            $('#system_answer_add_text').val("{$info.text}");
+            $("#text_div").show();
+            $("#news_div").hide();
+        }
+        $('#system_answer_add_action').val("{$info.action}");
+        if("{$info.action}"=='关键字回复'){
+            $("#keyword_tr").show();
+        }else{
+            $("#keyword_tr").hide();
+        }
+    </script>
+</notempty>
+<for start="0" end="8" name="i" >
+    <script>
+        $(function(){
+            //上传手机logo
+            var upload = new qq.FileUploaderBasic({
+                allowedExtensions: ['jpg','gif','png'],
+                button: document.getElementById('J_upload_img{$i}'),
+                multiple: false,
+                action: "{:U('upload/file_upload')}",
+                inputName: 'imgFile',
+                forceMultipart: true, //用$_FILES
+                messages: {
+                    typeError: lang.upload_type_error,
+                    sizeError: lang.upload_size_error,
+                    minSizeError: lang.upload_minsize_error,
+                    emptyError: lang.upload_empty_error,
+                    noFilesError: lang.upload_nofile_error,
+                    onLeave: lang.upload_onLeave
+                },
+                showMessage: function(message){
+                    $.yhxia.tip({content:message, icon:'error'});
+                },
+                onSubmit: function(id, fileName){
+                    $('#J_upload_img{$i}').addClass('btn_disabled').find('span').text(lang.uploading);
+                },
+                onComplete: function(id, fileName, result){
+                    $('#J_upload_img{$i}').removeClass('btn_disabled').find('span').text(lang.upload);
+                    if(result.error === 0){
+                        $('#J_upload_src{$i}').attr('src',result.url);
+                        $('#J_upload_input{$i}').val(result.url);
+                    }else{
+                        $.yhxia.tip({content:result, icon:'error'});
+                    }
+                }
+            });
+        });
+    </script>
+</for>

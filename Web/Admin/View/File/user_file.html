@@ -1,0 +1,18 @@
+<table width="100%" class="table_form">
+	<tr>
+		<td><b style="">ID</b></td>
+		<td><b style="">附件名</b></td>
+		<td><b style="">类型</b></td>
+		<td><b style="">上传时间</b></td>
+		<td><b style="">状态</b></td>
+	</tr>
+	<foreach name="list" item="vo">
+		<tr>
+			<td>{$vo['id']}</td>
+			<td><a target="_blank" href="__ROOT__/Files/{$vo['savepath']}{$vo['name']}" style="color: #3f913f;font-weight: bold;">{$vo['original']}</a></td>
+			<td>{$cate_list[$vo['cate_id']]}</td>
+			<td>{:date('Y-m-d H:i:s',$vo['createtime'])}</td>
+			<td>{$status_name[$vo['status']]}</td>
+		</tr>
+	</foreach>
+</table>

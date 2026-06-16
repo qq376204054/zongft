@@ -1,0 +1,38 @@
+<include file="Login:header" />
+<!--菜单列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="40"><span tdtype="order_by" fieldname="id">ID</span></th>
+      			<th style="text-align: left;">营销活动名称</th>
+                <th style="text-align: left;">使用签名</th>
+                <th style="text-align: left;">发送的内容</th>
+                <th style="text-align: left;">创建时间</th>
+                <th width="200">管理操作</th>
+            </tr>
+            </thead>
+    	   <tbody>
+           <foreach name="list" item="val">
+               <tr id="node-{$val['id']}">
+                   <td align='center'>{$val['id']}</td>
+                   <td>{$val['name']}</td>
+                   <td>{$val['qianming']}</td>
+                   <td>{$val['content']}</td>
+                   <td>{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                   <td align='center'>
+                       <a href="javascript:;" class="J_showdialog" data-uri="{:U('add',array('id'=>$val['id']))}" data-title="编辑 - {$val.name}" data-id="add" data-width="500" data-height="350">编辑</a> |
+                       <a href="{:U('doAction',array('id'=>$val['id']))}">发送客户控制面板</a> <br>
+                       <a href="{:U('doActionUser',array('id'=>$val['id']))}">发送员工控制面板</a> |
+                       <a href="{:U('hasTable',array('id'=>$val['id']))}">发送报表</a>
+                   </td>
+               </tr>
+           </foreach>
+    	   </tbody>
+        </table>
+    </div>
+</div>
+<include file="Login:footer" />
+</body>
+</html>

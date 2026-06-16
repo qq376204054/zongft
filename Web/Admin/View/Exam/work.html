@@ -1,0 +1,60 @@
+<include file="Login:header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div style="font-size: 32px;font-weight: bold;line-height: 45px;text-align: center;margin-top: 10px;">考试中心</div>
+    <div style="font-size: 15px;font-weight: bold;line-height: 30px;text-align: center;margin-bottom: 30px;">总分：{$count}分</div>
+    <div class="J_tablelist table_list" data-acturi="{:U('Config/ajax_edit')}">
+        <form id="info_form" action="{:U('exam/workaction')}" method="post">
+            <table width="100%" cellspacing="0" id="J_cate_tree">
+                <tbody>
+                <foreach name="list" item="item">
+                    <tr>
+                        <td style="background: #f3e7e3;padding-left: 30px;">
+                    <span style="color: #3f913f;font-weight: bold;">(<if condition="$item['type'] eq 'radio'">单选
+                        <else/>多选
+                    </if> {$item.score}分题 )</span>
+                            {$item.name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 30px;">
+                            <foreach name="item.content" item="item_child" key="key_child">
+                                <div style="display: inline-block;margin-right: 50px;">
+                                    <if condition="$item['type'] eq 'radio'">
+                                        <input type="radio" value="{$key_child}" name="answer[{$item['id']}][]" >
+                                        <else/>
+                                        <input type="checkbox" value="{$key_child}" name="answer[{$item['id']}][]">
+                                    </if>
+                                    {$zimu_arr[$key_child]}：{$item_child}
+                                </div>
+                            </foreach>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+
+            <div class="content_menu ib_a blue" style="text-align: center;margin-top: 30px;">
+                <button type="submit" style="padding: 10px;font-size: 17px;background: #6f75b0;color: #ffffff;" class="add fb" ><em>提交试卷（提交后将直接进行打分）</em></button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                window.location.href="{:U('exam/examdetail')}?user_id="+result.retData.user_id+"&time=0000"+result.retData.time;
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    });
+</script>
+</body>
+</html>

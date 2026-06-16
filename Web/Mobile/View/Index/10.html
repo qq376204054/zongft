@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{$all_config['seo_default_title']}</title>
+    <meta name="description" content="{$all_config['seo_default_keys']}">
+    <meta name="keywords" content="{$all_config['seo_default_desc']}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+    <meta name="baidu-site-verification" content="">
+    <script src="__ROOT__/static/wap4/jquery-1.10.2.min.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: auto;
+        }
+        .input {
+            -webkit-appearance: textfield;
+            background-color: white;
+            -webkit-rtl-ordering: logical;
+            cursor: text;
+            padding: 0px;
+            border-width: 0px;
+            border-style: inset;
+            border-color: initial;
+            border-image: initial;
+            text-rendering: auto;
+            color: initial;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+            display: inline-block;
+            text-align: start;
+            margin: 0em;
+        }
+        .pagecontent{
+            position: relative;
+            width: 100%;
+        }
+        .pagecontent .bgimg{
+            width: 100%;
+            height: auto;
+        }
+        .ui-text{
+            border: 0;
+            height: 4%;
+            width: 78%;
+            position: absolute;
+            display: block;
+            left: 7%;
+            background: transparent;
+            color: #333333;
+            font-weight: bold;
+            -webkit-appearance: none;
+            z-index: 2;
+            outline: none;
+        }
+        .ui-text::-webkit-input-placeholder { /* WebKit, Blink, Edge */  color: #999999;font-weight:100;letter-spacing: 2px; font-family: '微软雅黑', '黑体', Arial, '宋体' }
+        .ui-text:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  color: #999999;font-weight:100; letter-spacing: 2px;font-family: '微软雅黑', '黑体', Arial, '宋体' }
+        .ui-text::-moz-placeholder { /* Mozilla Firefox 19+ */  color: #999999;font-weight:100; letter-spacing: 2px;font-family: '微软雅黑', '黑体', Arial, '宋体' }
+        .ui-text:-ms-input-placeholder { /* Internet Explorer 10-11 */  color: #999999;font-weight:100; letter-spacing: 2px;font-family: '微软雅黑', '黑体', Arial, '宋体' }
+        .name{
+            /*background: #cccccc;*/
+            top: 31.3%;
+        }
+        .city{
+            /*background: #cccccc;*/
+            top: 25.5%;
+        }
+        .money{
+            /*background: #cccccc;*/
+            top: 43%;
+        }
+        .mobile{
+            /*background: #cccccc;*/
+            top:36.7%;
+        }
+        .code{
+            /*background: #cccccc;*/
+            top:48.7%;
+        }
+        .verify-msg{
+            position: absolute;
+            top: 48.7%;
+            right: 6%;
+            height: 4%;
+            background: transparent;
+            border: 0;
+            color: #333333;
+            font-size: 13px;;
+            z-index: 99;
+        }
+        .inputCheck{
+            position: absolute;
+            top: 60.5%;
+            left: 24%;
+        }
+        .inputCheck1{
+            position: absolute;
+            top: 63%;
+            left: 24%;
+        }
+        .ui-submit-btn{
+            position: absolute;
+            top: 56.8%;
+            left: 5%;
+            width: 90%;
+            height: 3%;
+            text-align: center;
+            border: 0;
+            background: transparent;
+            color: #666666;
+            font-size: 16px;
+        }
+        .goAgreement{
+            width: 45%;
+            height: 2.5%;
+            /*background: #00a0e9;*/
+            left:45%;
+            background: transparent;
+            z-index: 99;
+            position: absolute;
+            top: 61%;
+        }
+    </style>
+</head>
+<body>
+<div class="pagecontent">
+    <form id="queryOffer" name="info_form" action="{:U('Action/apply_mobile')}" method="post">
+        <img class="bgimg" src="__ROOT__/static/wap10/bg5.jpg">
+        <select id="city" name="city" class="input ui-text city">
+            <option value ="">您的城市</option>
+            <foreach name="customer_apply_city" item="city">
+                <option value ="{$city}">{$city}</option>
+            </foreach>
+        </select>
+        <input id="name" type="text" name="name" placeholder="请输入您的姓名" class="input name ui-text">
+        <select id="money" name="money" class="input ui-text money">
+            <option value ="">请选择贷款金额</option>
+            <option value ="5">5万元</option>
+            <option value ="10">10万元</option>
+            <option value ="15">15万元</option>
+            <option value ="20">20万元</option>
+            <option value ="25">25万元</option>
+            <option value ="30">30万元</option>
+            <option value ="35">35万元</option>
+            <option value ="40">40万元</option>
+            <option value ="45">45万元</option>
+            <option value ="50">50万元</option>
+        </select>
+        <input id="mobile" type="tel" name="mobile" id="mobile" placeholder="请输入您的手机号码" class="input mobile ui-text">
+        <input id="code" type="tel" name="code" placeholder="请输入验证码" class="input code ui-text">
+        <input type="button" value="获取验证码" class="verify-msg getCode" id="getMsg">
+        <div class="ui-submit-btn">立即申请</div>
+        <input id="services" class="inputCheck" type="checkbox" name="services" checked="">
+        <input id="services1" class="inputCheck1" type="checkbox" name="services1" checked="">
+        <div class="goAgreement"></div>
+    </form>
+</div>
+<script>
+    var sec=60;
+    $('.getCode').click(function(){
+        if($(this).val()=='获取验证码'){
+            var myreg = /^((1{1})+\d{10})$/;
+            var mobile=$('#mobile').val();
+            if(!myreg.test(mobile)) {
+                alert('请输入有效的手机号码！');return false;
+            }
+            $('.getCode').val("获取中...");
+            $.ajax({
+                type:"post",
+                url:"{:U('Action/make_mobile_code')}",
+                data:{
+                    mobile:mobile,
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.errNum===0){
+                        time();
+                        sec=60;
+                    }else{
+                        alert(data.errMsg);
+                        $('.getCode').val("获取验证码");
+                    }
+                },
+                error:function(){
+                    alert("系统异常，请稍后重试！");
+                    $('.getCode').val("获取验证码");
+                }
+            });
+        }
+    });
+    function time()
+    {
+        if(sec>0){
+            $('.getCode').val(sec+'秒');
+            sec=sec-1;
+            setTimeout(time,1000);
+        }else{
+            $('.getCode').val('获取验证码');
+        }
+    }
+    $('.ui-submit-btn').click(function(){
+        if($('.ui-submit-btn').html()=='立即申请'){
+            $('.ui-submit-btn').html("申请中...");
+            $.ajax({
+                type:"post",
+                url:"{:U('Action/apply_mobile')}",
+                data:{
+                    city:$('#city').val(),
+                    name:$('#name').val(),
+                    money:$('#money').val(),
+                    mobile:$('#mobile').val(),
+                    code:$('#code').val(),
+                    services:$('#services').val(),
+                    channel:"10",
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.errNum===0){
+                        $('.ui-submit-btn').html("立即申请");
+                        alert(data.retData);
+                        location.reload();
+                    }else{
+                        alert(data.errMsg);
+                        $('.ui-submit-btn').html("立即申请");
+                    }
+                },
+                error:function(){
+                    alert("系统异常，请稍后重试！");
+                    $('.ui-submit-btn').html("立即申请");
+                }
+            });
+        }
+    });
+    $(".goAgreement").click(function(){
+        window.location.href="{:U('mobile/index/article',array('id'=>'2875'))}";
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <input name="p" type="hidden" value="1" />
+                        订单编号 :
+                        <input name="number" type="text" class="input-text" size="15" value="{$search.number}" />
+                        &nbsp;&nbsp;
+                        创建方式
+                        <select name="create_type">
+                            <option value="">-全部-</option>
+                            <option value="1" <if condition="$search.create_type eq '1'">selected="selected"</if>>自动生成</option>
+                            <option value="2" <if condition="$search.create_type eq '2'">selected="selected"</if>>手动添加</option>
+                        </select>
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="10" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="10" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        申请金额：
+                        <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                        -
+                        <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="10" value="{$search.city}" />
+                        等级
+                        <select name="level">
+                            <option value="">-全部-</option>
+                            <option value="A" <if condition="$search.level eq 'A'">selected="selected"</if>>1星</option>
+                            <option value="B" <if condition="$search.level eq 'B'">selected="selected"</if>>2星</option>
+                            <option value="C" <if condition="$search.level eq 'C'">selected="selected"</if>>3星</option>
+                            <option value="D" <if condition="$search.level eq 'D'">selected="selected"</if>>4星</option>
+                            <option value="E" <if condition="$search.level eq 'E'">selected="selected"</if>>5星</option>
+                            <option value="F" <if condition="$search.level eq 'F'">selected="selected"</if>>6星</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        业务员名 :
+                        <input name="user_name" type="text" class="input-text" size="10" value="{$search.user_name}" />
+                        公司部门：
+                        <select name="branch_id">
+                            <option value="">全部</option>
+                            {$select_menus}
+                        </select>
+                        有无房子
+                        <select name="has_house">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_house eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_house eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无车
+                        <select name="has_car">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_car eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_car eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无保单
+                        <select name="has_baodan">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_baodan eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_baodan eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无公积金
+                        <select name="has_gongjijin">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_gongjijin eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_gongjijin eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无微粒贷
+                        <select name="has_weilidai">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_weilidai eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_weilidai eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        有无纳税
+                        <select name="has_nasui">
+                            <option value="">-全部-</option>
+                            <option value="有" <if condition="$search.has_nasui eq '有'">selected="selected"</if>>有</option>
+                            <option value="无" <if condition="$search.has_nasui eq '无'">selected="selected"</if>>无</option>
+                        </select>
+                        是否接通 :
+                        <select name="is_jietong">
+                            <option value="">-是否接通-</option>
+                            <option value="1" <if condition="$search.is_jietong eq '1'">selected="selected"</if>>接通</option>
+                            <option value="0" <if condition="$search.is_jietong eq '0'">selected="selected"</if>>未接通</option>
+                        </select>
+                        是否意向 :
+                        <select name="is_yixiang">
+                            <option value="">-是否意向-</option>
+                            <option value="1" <if condition="$search.is_yixiang eq '1'">selected="selected"</if>>有意向</option>
+                            <option value="0" <if condition="$search.is_yixiang eq '0'">selected="selected"</if>>无意向</option>
+                        </select>
+                        创建时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+
+                        跟进时间：
+                        <input type="text" name="start_time1" id="time_start1" class="date" size="10" value="{$search.start_time1}" readonly>
+                        -
+                        <input type="text" name="end_time1" id="time_end1" class="date" size="10" value="{$search.end_time1}" readonly>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th align="left">
+                    订单编号 /
+                    <span data-tdtype="order_by" data-field="name">姓名</span> /
+                    <span data-tdtype="order_by" data-field="mobile">手机号</span>
+                </th>
+               <th align="left"><span data-tdtype="order_by" data-field="city">城市</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="money">申请金额(元)</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="level">等级</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="user_id">负责人</span></th>
+                <th align="left">
+                    <span data-tdtype="order_by" data-field="has_house"> 房 </span> /
+                    <span data-tdtype="order_by" data-field="has_car"> 车  </span> /
+                    <span data-tdtype="order_by" data-field="has_baodan"> 保单  </span> /
+                    <span data-tdtype="order_by" data-field="has_gongjijin"> 公积金  </span> /
+                    <span data-tdtype="order_by" data-field="weilidai"> 微粒贷  </span> /
+                    <span data-tdtype="order_by" data-field="has_nasui"> 纳税  </span>
+                </th>
+                <th align="left" width="138px"><span data-tdtype="order_by" data-field="create_time">创建时间</span> / <span data-tdtype="order_by" data-field="communicate_time">跟进时间</span></th>
+                <th align="left" width="70px"><span data-tdtype="order_by" data-field="status">状态</span> / <span data-tdtype="order_by" data-field="create_type">创建</span></th>
+                <th width="250">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr id="tr_id_{$val.id}">
+                    <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                    <td align="left">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Order/look',array('id'=>$val['id']))}" data-title="查看客户 - {$val.number} - 的详细信息" data-id="add" data-width="800" data-height="350" style="color: #5f7fbb; font-weight: bold;">
+                            {$val.number}
+                        </a>
+                        <div>
+                            <a href="javascript:;" class="J_showdialog" data-uri="{:U('Customer/look',array('id'=>$val['id']))}" data-title="查看客户 - {$val.name} - 的详细信息" data-id="look" data-width="800" data-height="350" style="color: #5f7fbb; font-weight: bold;">
+                                {$val.name}
+                            </a>
+                            {$val.mobile}
+                        </div>
+                    </td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">
+                        <!--{$val.level}-->
+                        <if condition="$val.level eq 'A'">1星</if>
+                        <if condition="$val.level eq 'B'">2星</if>
+                        <if condition="$val.level eq 'C'">3星</if>
+                        <if condition="$val.level eq 'D'">4星</if>
+                        <if condition="$val.level eq 'E'">5星</if>
+                        <if condition="$val.level eq 'F'">6星</if>
+                    </td>
+                    <td align="left">{$userInfos[$val['user_id']]['user_name']}</td>
+                    <td align="left">
+                        {$val['has_house']=='有'?"有房":"无房"} / {$val['has_car']=='有'?"有车":"无车"} / {$val['has_baodan']=='有'?"有保单":"无保单"} /
+                        {$val['has_gongjijin']=='有'?"有公积金":"无公积金"} / {$val['has_weilidai']=='有'?"有微粒贷":"无微粒贷"} / {$val['has_nasui']=='有'?"有纳税":"无纳税"}
+                    </td>
+                    <td align="left">
+                        <div>{:date('Y-m-d H:i:s',$val['create_time'])}</div>
+                        <div><if condition="$val['communicate_time'] neq 0">{:date('Y-m-d H:i:s',$val['communicate_time'])}<else />未跟进</if></div>
+                    </td>
+                    <td align="left">
+                        <div><if condition="$val['status'] eq 2">协议交易<elseif condition="$val['status'] eq 3"/>放款交易<else/>意向交易</if></div>
+                        <div><if condition="$val['create_type'] eq 1">自动生成<else/>手动添加</if></div>
+                    </td>
+                    <td align="left">
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Communicate/add',array('id'=>$val['id']))}" data-title="对 - {$val.name} -进行沟通并编辑" data-id="add-communicate" data-width="900" data-height="450">沟通</a> |
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('File/add',array('id'=>$val['id']))}" data-title="{$val.name} - 的附件管理" data-id="file" data-width="500" data-height="350">附件</a> |
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Protocol/add',array('id'=>$val['id']))}" data-title="操作 - {$val.number} -的合作协议" data-id="protocol_add" data-width="500" data-height="220">
+                            <if condition="$val['status'] eq 2">
+                                协议<elseif condition="$val['status'] eq 3"/>协议<else/>协议
+                            </if>
+                        </a> |
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Loan/add',array('id'=>$val['id']))}" data-title="操作 - {$val.number} -的放款信息" data-id="add" data-width="800" data-height="350">放款</a> |
+                        <a href="javascript:;" class="J_showdialog" data-uri="{:U('Account/add',array('id'=>$val['id']))}" data-title="添加 - {$val.number} 的账单信息" data-id="account_add" data-width="700" data-height="350">账单</a> |
+                        <!--<a href="javascript:;" class="J_showdialog" data-uri="{:U('order/apply',array('id'=>$val['id']))}" data-title="提交 - {$val.number} 的申请，用于生成业绩" data-id="apply" data-width="700" data-height="350">提交申请</a> |-->
+                        <!--<a href="javascript:void(0);" data-callback="dd('#tr_id_{$val.id}')" class="J_confirmurl" data-acttype="ajax" data-uri="{:U('order/delete', array('id'=>$val['id']))}" data-msg="删除 - {$val['number']} -这个订单">删除</a>-->
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div style="height: 60px;"></div>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_away')}?ok=1" data-name="id" data-msg="确认 丢回领取池" value="丢回领取池" />
+            <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax_form" data-uri="{:U('Customer/remove_user')}?ok=1" data-name="remove_user" data-title="移动负责人" value="移动负责人" data-id="remove_user" data-width="500" data-height="350" />
+            <!--<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('Customer/throw_shield')}?ok=1" data-name="id" data-msg="确认 丢到黑名单" value="丢到黑名单" />-->
+            <!--<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}?ok=1" data-name="id" data-msg="确认废弃" value="废弃" />-->
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    function dd(obj){$(obj).remove();}
+</script>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_start1",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end1",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>

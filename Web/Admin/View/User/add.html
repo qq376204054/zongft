@@ -1,0 +1,91 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('User/add')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>员工名 :</th>
+                <td><input type="text" name="user_name" id="user_add_user_name" class="input-text" value="{$info.user_name}"></td>
+            </tr>
+            <tr>
+                <th>手机号 :</th>
+                <td><input type="text" name="mobile" id="user_add_mobile" class="input-text" value="{$info.mobile}"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>手机号不能和其他在职的人一样</td>
+            </tr>
+
+
+            <if condition="$data_auth==1">
+                <tr>
+                    <th width="100">设置角色 :</th>
+                    <td>
+                        <select name="role_ids" id="user_add_role_ids">
+                            <volist name="role_list" id="val" >
+                                <option value="{$val.id}">{$val.name}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+            </if>
+            <tr>
+                <th width="100">所属部门 :</th>
+                <td>
+                    <select name="branch_id">
+                        {$select_menus}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th width="100">是否管理员 :</th>
+                <td>
+                    <select name="is_admin" id="user_add_is_admin">
+                        <option value="2">不是</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>现居地 :</th>
+                <td><input type="text" name="area" id="user_add_area" class="input-text" value="{$info.area}"></td>
+            </tr>
+            <tr>
+                <th>入职日期 :</th>
+                <td><input type="text" name="entry_time" id="user_add_entry_time" class="date" size="12" value="{:date('Y-m-d',$info['entry_time']>0 ? $info['entry_time']:'')}" readonly></td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="{$info.id}">
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#user_add_user_name").formValidator({ onshow:lang.please_input+'员工名', onfocus:lang.please_input+'员工名', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'员工名'});
+        $("#user_add_mobile").formValidator({ onshow:lang.please_input+'手机号', onfocus:lang.please_input+'手机号', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'手机号'});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('add').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>
+<notempty name="info">
+    <script type="text/javascript">
+        $('#user_add_role_ids').val("{$info['role_ids']}");
+        $('#user_add_is_admin').val("{$info['is_admin']}");
+    </script>
+</notempty>
+<script>
+    $('.J_cate_select').cate_select({top_option:lang.all});
+    Calendar.setup({
+        inputField : "user_add_entry_time",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>

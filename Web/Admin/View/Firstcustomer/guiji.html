@@ -1,0 +1,101 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="8" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="8" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="8" value="{$search.city}" />
+                        申请金额：
+                        <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                        -
+                        <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        &nbsp;&nbsp;
+                        申请时间：
+                        <input type="text" name="start_time" id="time_start" class="date" size="10" value="{$search.start_time}" readonly>
+                        -
+                        <input type="text" name="end_time" id="time_end" class="date" size="10" value="{$search.end_time}" readonly>
+
+                        渠道 :
+                        <input name="channel" type="text" class="input-text" size="15" value="{$search.channel}" />
+                        是否重复
+                        <select name="is_repeat">
+                            <option value="">-全部-</option>
+                            <option value="1" <if condition="$search.is_repeat eq '1'">selected="selected"</if>>重复</option>
+                            <option value="0" <if condition="$search.is_repeat eq '0'">selected="selected"</if>>新商机</option>
+                        </select>
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th width="45"><span data-tdtype="order_by" data-field="id">ID</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="name">客户姓名</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="mobile">手机号</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="city">所在城市</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="money">申请金额</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="channel">来源渠道</span></th>
+                <th align="left" width="80"><span data-tdtype="order_by" data-field="create_time">申请时间</span></th>
+                <th align="left"><span data-tdtype="order_by" data-field="is_repeat">重复？</span></th>
+                <th align="left">订单锁定</th>
+                <th align="left">客户归属公司</th>
+                <th align="left" width="80"><span data-tdtype="order_by" data-field="create_time">分配时间</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="left">{$val.id}</td>
+                    <td align="left">{$val.name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">{$val.channel}</td>
+                    <td align="left">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="left">
+                        <if condition="$val['is_repeat'] eq 1">
+                            <span style="color: #ff0000">重复</span>
+                            <else/>
+                            <span style="color: #00b050">新商机</span>
+                        </if>
+                    </td>
+                    <td align="left">
+                        {$orderInfos[$val['id']]['number']}
+                    </td>
+                    <td align="left">
+                        {$companyInfos[$orderInfos[$val['id']]['company_id']]}
+                    </td>
+                    <td align="left">{:date('Y-m-d H:i:s',$orderInfos[$val['id']]['create_time'])}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <if condition="$Think.get.perpage gt 10">
+            <div style="height: 60px;"></div>
+        </if>
+        <div class="btn_wrap_fixed">
+            <label class="select_all"></label>
+            <div id="pages">{$page}</div>
+        </div>
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+</body>
+</html>

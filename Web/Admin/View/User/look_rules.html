@@ -1,0 +1,23 @@
+<div class="pad_10" style="overflow-y: auto;max-height: 350px;">
+    <div class="pad_lr_10" style="line-height: 30px; font-size: 15px; font-weight: bold;" >
+        所有权限如下：
+    </div>
+    <div class="J_tablelist table_list">
+        <table width="100%" cellspacing="0" id="J_auth_tree">
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td style='padding-left:10px;'>
+                        {$val.title}
+                    </td>
+                    <td style='padding-left:10px;'>
+                        {$val.name}
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <input type="hidden" name="id" value="{$role_id}">
+    </div>
+</div>
+

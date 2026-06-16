@@ -1,0 +1,59 @@
+<include file="Login:header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div style="background: #333333;padding: 15px;color: #ffffff;font-size: 15px;margin-bottom: 15px;">
+        管理培训附件，考生可以在试卷答案页下载
+        <div class="content_menu ib_a blue" style="display: inline-block;padding-bottom: 0;margin-left: 20px;">
+            <a class="add fb J_showdialog" href="javascript:void(0);" data-uri="{:U('addfile')}" data-title="培训资料管理" data-id="add_file_exam" data-width="500" data-height="80"><em>培训资料管理</em></a>
+        </div>
+    </div>
+    <div class="J_tablelist table_list" data-acturi="{:U('Config/ajax_edit')}">
+    <table width="100%" cellspacing="0" id="J_cate_tree">
+    	<tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td style="background: #f3e7e3;padding-left: 30px;">
+                    <span style="color: #3f913f;font-weight: bold;">(<if condition="$item['type'] eq 'radio'">单选
+                        <else/>多选
+                    </if> {$item.score}分题 )</span>
+                    {$item.name}
+                    <a style="color: #92BD2F;font-weight: bold;" href="javascript:;" class="J_showdialog" data-uri="{:U('add',array('id'=>$item['id']))}" data-title="修改 - {$item['name']} - " data-id="add_exam" data-width="500" data-height="80">修改</a> |
+                    <a style="color: #ff4b5f;font-weight: bold;" href="javascript:;" data-callback="dd()" data-acttype="ajax" class="J_confirmurl" data-uri="{:U('delete',array('id'=>$item['id']))}" data-msg="确认要删除 - {$item['name']} - 吗？">删除</a>
+
+                    <div style="position: absolute;right: 20px;top: 8px;">答案：<foreach name="item.answer" item="item_child" key="key_child">
+                        <span> {$zimu_arr[$item_child]}</span>
+                    </foreach></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 30px;">
+                    <foreach name="item.content" item="item_child" key="key_child">
+                        <div style="display: inline-block;margin-right: 50px;">
+                            {$zimu_arr[$key_child]}：{$item_child}
+                        </div>
+                    </foreach>
+                </td>
+            </tr>
+        </foreach>
+    	</tbody>
+    </table>
+    </div>
+
+    <div class="subnav" style="margin-top: 30px;">
+        <div class="content_menu ib_a blue">
+            <a class="add fb J_showdialog" href="javascript:void(0);" data-uri="{:U('add')}" data-title="添加试题" data-id="add_exam" data-width="500" data-height="80"><em>添加试题</em></a>
+        </div>
+    </div>
+
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+    function dd(obj){	window.location.reload();}
+    $(function(){
+        $("#J_cate_tree").treeTable({indent:20,treeColumn:1});
+        $(".J_preview").preview();
+    });
+</script>
+</body>
+</html>

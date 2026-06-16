@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 45px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>{$all_config['seo_default_title']}</title>
+    <meta name="description" content="{$all_config['seo_default_keys']}">
+    <meta name="keywords" content="{$all_config['seo_default_desc']}">
+    <link href="__ROOT__/static/wap14/p3.css" rel="stylesheet">
+    <script src="__ROOT__/static/wap12_1/jquery-2.1.4.min.js" type="text/javascript"></script>
+</head>
+<body style="font-size: 12px;">
+<!-- 下面是控件内部需要的东西  -->
+<div class="dialog_tool">
+    <div class='dialog_content'>
+        <div class="block_content">
+            <div class='tool_header'>
+                <div id="dialog_tool_title" class='title'>提示</div>
+            </div>
+            <div class='tool_default_content' id="dialog_tool_content">提示</div>
+            <div class="card-divider"></div>
+            <div class='tool_closetext' id="dialog_tool_close">知道了</div>
+        </div>
+    </div>
+</div>
+<style>
+    .dialog_tool {
+        position:fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .7);
+        z-index: 200000;
+        color: #ffffff;
+        display: none;
+    }
+    .dialog_tool .dialog_content {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 85%;
+        box-sizing: bordre-box;
+        transform: translate(-50%, -50%);
+        max-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .dialog_tool .dialog_content .block_content {
+        background: #fff;
+        border-radius: 5px;
+    }
+    .dialog_tool .dialog_content .block_content .tool_header{
+        position: relative;
+        padding-top: 17px;
+    }
+    .dialog_tool .dialog_content .block_content .tool_header .title{
+        line-height: 22px;
+        font-size: 15px;
+        letter-spacing:1px;
+        color: #999999;
+        text-align: center;
+    }
+    .dialog_tool .dialog_content .block_content .tool_content{
+        text-align: center;
+        font-size: 12px;
+        line-height: 22px;
+        padding: 17px;
+        color: #000000;
+    }
+    .dialog_tool .dialog_content .block_content .nopadding{
+        padding: 0px;
+    }
+    .dialog_tool .dialog_content .block_content .tool_default_content{
+        text-align: center;
+        font-size: 17px;
+        line-height: 27px;
+        padding:27px;
+        font-weight: 500;
+        color: #333333;
+    }
+    .dialog_tool .dialog_content .block_content .tool_closetext{
+        text-align: center;
+        font-size: 17px;
+        line-height: 49px;
+        font-weight: 500;
+        color: #FE7321;
+        letter-spacing:1px;
+    }
+    .dialog_tool .dialog_content .closeButton{
+        text-align: center;
+        margin-top: 20px;
+    }
+    .dialog_tool .dialog_content .closeButton .image{
+        background-image: url("https://axd-mini-resouce.oss-cn-shenzhen.aliyuncs.com/v4_0/icon/closeButton.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        width: 36px;
+        height: 36px;
+        margin: 0 auto;
+    }
+    .card-divider {
+        margin:0 0;
+        height:1px;
+        background-color:rgba(219, 219, 219, 0.5);
+        -webkit-transform:scaleY(0.5);
+        -ms-transform:scaleY(0.5);
+        transform:scaleY(0.5);
+    }
+</style>
+<script>
+    function showDialog(title,content,close){
+        $('#dialog_tool_title').html(title);
+        $('#dialog_tool_content').html(content);
+        $('#dialog_tool_close').html(close);
+        $('.dialog_tool').show();
+    }
+    $('#dialog_tool_close').click(function(){
+        $('.dialog_tool').hide();
+    });
+</script>
+<div data-v-099e77b4="">
+    <div data-v-19dc8aff="" data-v-099e77b4="" class="header">
+        <div data-v-19dc8aff="" class="header-top">
+            <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon1.png" class="jin-bin_1 jin-bin anmite">
+            <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon2.png" class="jin-bin_2 jin-bin anmite">
+            <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon3.png" class="jin-bin_3 jin-bin anmite">
+            <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon4.png" class="jin-bin_4 jin-bin anmite">
+            <div data-v-19dc8aff="" class="header-main">
+                <div data-v-19dc8aff="" class="header-logo-wrap">
+                    <div data-v-19dc8aff="" class="header-logo-common">
+                        <img data-v-19dc8aff="" src="__ROOT__/static/wap14/logo.png" class="logo-icon">
+                    </div>
+                </div>
+                <img data-v-19dc8aff="" src="__ROOT__/static/wap14/iconbg.png" class="header-title">
+            </div>
+            <div data-v-19dc8aff="" class="header-box">
+                <div data-v-19dc8aff="" class="header-box_item">
+                    <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon21.png">
+                    <div data-v-19dc8aff="" class="header-box_name">大品牌</div>
+                    <div data-v-19dc8aff="" class="header-box_remind">正规贷款可信赖</div>
+                </div>
+                <div data-v-19dc8aff="" class="header-box_item">
+                    <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon22.png">
+                    <div data-v-19dc8aff="" class="header-box_name">额度高</div>
+                    <div data-v-19dc8aff="" class="header-box_remind">最高50万</div></div> <!---->
+                <div data-v-19dc8aff="" class="header-box_item">
+                    <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon23.png">
+                    <div data-v-19dc8aff="" class="header-box_name">期限长</div>
+                    <div data-v-19dc8aff="" class="header-box_remind">60个月期限</div>
+                </div>
+            </div>
+        </div>
+        <!--<div data-v-19dc8aff="" class="header-laba">-->
+            <!--<img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon9.png" class="laba-icon">-->
+            <!--<ul data-v-19dc8aff="" class="anmite">-->
+                <!--<li data-v-19dc8aff="">134****5890用户成功放款30000元</li>-->
+                <!--<li data-v-19dc8aff="">181****5283用户成功放款2万元</li>-->
+                <!--<li data-v-19dc8aff="">139****9073用户成功放款60000元</li>-->
+                <!--<li data-v-19dc8aff="">134****5890用户成功放款30000元</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div data-v-212b79ce="" data-v-19dc8aff="" class="header-daijishi">
+            <div data-v-212b79ce="" class="header-daijishi_fast">
+                恭喜您进入<span data-v-212b79ce="">快速贷款</span>通道
+            </div>
+            <div data-v-212b79ce="" class="header-daijishi_fast"><span data-v-212b79ce="">15分钟</span>内完成申请下款更快
+            </div>
+        </div>
+        <img data-v-19dc8aff="" src="__ROOT__/static/wap14/icon10.png" class="header-name">
+    </div>
+    <div data-v-01c7dbc3="" data-v-099e77b4="">
+        <div data-v-01c7dbc3="" class="main">
+            <form data-v-01c7dbc3="">
+                <div data-v-01c7dbc3="" class="loan-box">
+                    <div data-v-01c7dbc3="" class="loan-box_title">借款金额</div>
+                    <div data-v-01c7dbc3="" class="loan-box_content"><span data-v-01c7dbc3="">￥</span>
+                        <input data-v-01c7dbc3="" placeholder="请输入金额(万元)" type="text" maxlength="4" id="money" name="money" class="loan-limit-input">
+                        <div data-v-01c7dbc3="" class="icon-container">
+                            <img data-v-01c7dbc3="" src="__ROOT__/static/wap14/icon11.png">
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                <div data-v-01c7dbc3="" class="form">
+                    <div data-v-01c7dbc3="" class="form-item">
+                        <input data-v-01c7dbc3="" type="text" id="name" name="name" placeholder="中文姓名" maxlength="4" class="border-box">
+                    </div>
+                    <div data-v-01c7dbc3="" class="form-item ">
+                        <input data-v-01c7dbc3="" type="tel"  id="mobile" name="mobile" placeholder="手机号码" maxlength="11" class="border-box">
+                        <img data-v-01c7dbc3="" src="__ROOT__/static/wap14/icon12.png" class="tip-img">
+                    </div>
+                    <div data-v-01c7dbc3="" class="form-code">
+                        <div data-v-01c7dbc3="" class="form-item">
+                            <input data-v-01c7dbc3="" type="tel" id="code" name="code" placeholder="验证码" maxlength="6" class="border-box">
+                        </div>
+                        <button data-v-01c7dbc3="" type="button" class="form-getcode obtainCode getCode">获取验证码</button>
+                    </div>
+                    <div data-v-01c7dbc3="" class="form-item ">
+                        <input data-v-01c7dbc3="" type="text" name="IDCARD" id="idcard" maxlength="18" placeholder="身份证号码" class="border-box">
+                    </div>
+                    <div data-v-01c7dbc3="" class="form-item ">
+                        <select data-v-01c7dbc3="" name="city" id="city" class="border-box">
+                            <option selected="selected" value="">请选择您的城市</option>
+                            <foreach name="customer_apply_city" item="city">
+                                <option value ="{$city}">{$city}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                    <!--form-item_select-->
+                    <div data-v-01c7dbc3="" class="form-item ">
+                        <select data-v-01c7dbc3="" name="yongtu" id="yongtu" class="border-box">
+                            <option selected="selected" value="">贷款用途</option>
+                            <option value="购车">购车</option>
+                            <option value="大件消费">大件消费</option>
+                            <option value="装修">装修</option>
+                            <option value="教育培训">教育培训</option>
+                            <option value="旅游">旅游</option>
+                            <option value="企业经营">企业经营</option>
+                            <option value="其它">其它</option>
+                        </select>
+                    </div>
+                    <div data-v-01c7dbc3="" class="form-btn ui-submit-btn" name="zntjan" id="zntjan">立即申请</div>
+                    <div data-v-01c7dbc3="" class="xieyi">
+                        <label data-v-01c7dbc3="">
+                            <input data-v-01c7dbc3="" type="checkbox" id="services" name="services" checked  style="display: none;">
+                            <span data-v-01c7dbc3="" class="icon-img vertical"></span>
+                            <span data-v-01c7dbc3="" class="txt vertical">我已阅读并接受
+                                <a data-v-01c7dbc3="" href="{:U('mobile/index/article',array('id'=>'2875'))}" class="openXieyi">《用户服务和隐私条款》</a>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            var sec=60;
+            $('.getCode').click(function(){
+
+                if($(this).html()=='获取验证码'){
+                    var myreg = /^((1{1})+\d{10})$/;
+                    var mobile=$('#mobile').val();
+                    if(!myreg.test(mobile)) {
+                        showDialog('提示','请输入有效的手机号码','确定');
+                        return false;
+                    }
+                    $('.getCode').html("获取中...");
+                    $.ajax({
+                        type:"post",
+                        url:"{:U('Action/make_mobile_code')}",
+                        data:{
+                            mobile:mobile,
+                        },
+                        dataType:"json",
+                        success:function(data){
+                            if(data.errNum===0){
+                                time();
+                                sec=60;
+                            }else{
+                                showDialog('提示',data.errMsg,'确定');
+                                $('.getCode').html("获取验证码");
+                            }
+                        },
+                        error:function(){
+                            showDialog('提示','系统异常，请稍后重试！','确定');
+                            $('.getCode').html("获取验证码");
+                        }
+                    });
+
+                }
+            });
+            function time()
+            {
+                if(sec>0){
+                    $('.getCode').html(sec+'秒');
+                    sec=sec-1;
+                    setTimeout(time,1000);
+                }else{
+                    $('.getCode').html('获取验证码');
+                }
+            }
+            $('.ui-submit-btn').click(function(){
+                if($('.ui-submit-btn').html()=='立即申请'){
+                    $('.ui-submit-btn').html("申请中...");
+                    $.ajax({
+                        type:"post",
+                        url:"{:U('Action/apply_mobile')}",
+                        data:{
+                            city:$('#city').val(),
+                            name:$('#name').val()+"("+$('#idcard').val()+")"+"("+$('#yongtu').val()+")",
+                            money:$('#money').val(),
+                            mobile:$('#mobile').val(),
+                            code:$('#code').val(),
+                            services:$('#services').val(),
+                            channel:"14",
+                        },
+                        dataType:"json",
+                        success:function(data){
+                            if(data.errNum===0){
+                                $('.ui-submit-btn').html("立即申请");
+                                showDialog('提示',data.retData,'确定');
+                            }else{
+                                showDialog('提示',data.errMsg,'确定');
+                                $('.ui-submit-btn').html("立即申请");
+                            }
+                        },
+                        error:function(){
+                            showDialog('提示','系统异常，请稍后重试！','确定');
+                            $('.ui-submit-btn').html("立即申请");
+                        }
+                    });
+
+                }
+            });
+        </script>
+
+        <div data-v-5b37fc1c="" data-v-099e77b4="" class="question">
+            <div data-v-5b37fc1c="" class="question-title">
+                大家都在问什么？
+            </div>
+            <div data-v-5b37fc1c="" class="question-header">
+                <div data-v-5b37fc1c="" class="question-item  active">
+                    <div data-v-5b37fc1c="" class="question-number">门槛高吗? <br data-v-5b37fc1c=""> (8907)</div>
+                </div>
+                <div data-v-5b37fc1c="" class="question-item">
+                    <div data-v-5b37fc1c="" class="question-number">平台靠谱吗? <br data-v-5b37fc1c=""> (5806)</div>
+                </div>
+                <div data-v-5b37fc1c="" class="question-item">
+                    <div data-v-5b37fc1c="" class="question-number">额度高吗? <br data-v-5b37fc1c=""> (9468)</div>
+                </div>
+            </div>
+            <div data-v-5b37fc1c="" class="question-content">
+                <ul data-v-5b37fc1c="" class="anmite">
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-1.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            张女士130****9667
+                            <span data-v-5b37fc1c="">45分钟前</span>
+                        </div>
+                        <div data-v-5b37fc1c="" class="question-remind">
+                            分期很灵活诶，随借随用，我分了24期，慢慢还了。
+                        </div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-1.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            林先生159****2704
+                            <span data-v-5b37fc1c="">59分钟前</span>
+                        </div>
+                        <div data-v-5b37fc1c="" class="question-remind">秒借款是真的不错的。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-2.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            庞女士138****9085
+                            <span data-v-5b37fc1c="">2小时前</span>
+                        </div>
+                        <div data-v-5b37fc1c="" class="question-remind">老用户了，在这前后借了12万，每次都能借到。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-2.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            刘先生135****4254
+                            <span data-v-5b37fc1c="">24分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">非常可靠的贷款平台了</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-3.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            张先生133****5283
+                            <span data-v-5b37fc1c="">3小时前</span>
+                        </div>
+                        <div data-v-5b37fc1c="" class="question-remind">太快了吧，昨天才借今天就到账，是我用过最快的下款平台了。</div>
+                    </li>
+                    <li data-v-5b37fc1c=""><img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-4.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            蔡先生146****2659
+                            <span data-v-5b37fc1c="">26分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">这里还是可以的，给我下款了3万。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-3.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            黄女士139****7952
+                            <span data-v-5b37fc1c="">1小时前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">借了2万，分12期还，利息也不高，压力不算大。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-1.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            张女士130****9667
+                            <span data-v-5b37fc1c="">45分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">分期很灵活诶，随借随用，我分了24期，慢慢还了。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-1.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            林先生159****2704
+                            <span data-v-5b37fc1c="">59分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">秒借款是真的不错的。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-2.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            庞女士138****9085
+                            <span data-v-5b37fc1c="">2小时前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">老用户了，在这前后借了12万，每次都能借到。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-2.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            刘先生135****4254
+                            <span data-v-5b37fc1c="">24分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">非常可靠的贷款平台了</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-3.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            张先生133****5283
+                            <span data-v-5b37fc1c="">3小时前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">太快了吧，昨天才借今天就到账，是我用过最快的下款平台了。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Man-4.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            蔡先生146****2659
+                            <span data-v-5b37fc1c="">26分钟前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">这里还是可以的，给我下款了3万。</div>
+                    </li>
+                    <li data-v-5b37fc1c="">
+                        <img data-v-5b37fc1c="" src="__ROOT__/static/wap14/Woman-3.png" class="question-img">
+                        <div data-v-5b37fc1c="" class="question-name">
+                            黄女士139****7952
+                            <span data-v-5b37fc1c="">1小时前</span></div>
+                        <div data-v-5b37fc1c="" class="question-remind">借了2万，分12期还，利息也不高，压力不算大。</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div data-v-5135977a="" data-v-099e77b4="">
+            <div data-v-5135977a="" class="footers"><p data-v-5135977a="">西安星河网络小额贷款有限公司 </p>
+                <p data-v-5135977a="">陕ICP备17020724号-2</p>
+                <p data-v-5135977a="">合作放款方：西安星河小贷、平安银行等持牌金融机构</p>
+                <hr data-v-5135977a="" class="footer-line">
+                <p data-v-5135977a="" style="padding-left: 0.3rem;padding-right: 0.3rem;">
+                    平台郑重承诺：西安星河网络小额贷款有限公司保证严格遵守金融相关法律法规，合法合规经营，
+                    提供的借贷及借贷撮合业务未违反国家利率规定、未包含国家禁止金融产品和服务商等。
+                    并通过合理有效的信息安全技术和管理流程，合法手机和使用用户个人信息。防止泄露、损毁、丢失。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.tip-img').click(function(){
+        showDialog("提示","手机号用于联系您进行核对","知道了");
+    });
+</script>
+</body>
+</html>

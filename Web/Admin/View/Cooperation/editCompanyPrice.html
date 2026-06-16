@@ -1,0 +1,32 @@
+<!--菜单添加-->
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:U('Cooperation/editCompanyPrice')}" method="post">
+        <table width="100%" class="table_form">
+            <tr>
+                <th>设置价格 :</th>
+                <td>
+                    <input type="text" name="price" id="Cooperation_price" class="input-text" value="{$price}">
+                    <input name="company_id" type="hidden" value="{$company_id}">
+                    <input name="channel" type="hidden" value="{$channel}">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $("#Cooperation_price").formValidator({ onshow:lang.please_input+'价格', onfocus:lang.please_input+'价格', oncorrect:lang.input_right}).inputValidator({ min:1, onerror:lang.please_input+'价格'});
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('companyPrice').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

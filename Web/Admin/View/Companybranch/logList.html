@@ -1,0 +1,68 @@
+<form id="info_form" name="info_form">
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+                <div class="explain_col">
+                    时间：
+                    <input type="text" name="start" id="time_start" class="date" size="12" value="{$start_time}" readonly>
+                    -
+                    <input type="text" name="end" id="time_end" class="date" size="12" value="{$end_time}" readonly>
+                    <input type="hidden" name="id" id="company" value="{$company_id}" />
+                    <input type="hidden" name="type" id="type" value="{$type}" />
+                    <input type="button" name="search" class="btn" value="搜索" />
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div class="J_tablelist table_list log_list" data-acturi="" style="max-height: 500px;overflow-y: auto;">
+    <table width="100%" cellspacing="0">
+        <thead>
+        <tr>
+            <th align="center">员工姓名</th>
+            <th align="center">变动积分</th>
+            <th align="center">操作时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="val">
+            <tr>
+                <td align="center">{$val.user_name}</td>
+                <td align="center">{$val.score}</td>
+                <td align="center">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+<script>
+    Calendar.setup({
+        inputField : "time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    $('.btn').click(function(){
+        $.ajax({
+            type: "post",
+            url: "{:U('logList')}",
+            data: $("#info_form").serialize(),
+            dataType:"json",
+            success:function(data){
+                if(data.errNum===0){
+                    $('.log_list').find('tbody').html(data.retData);
+                }else{
+                    layer.msg(data.errMsg, {icon: 2});
+                }
+            }
+        });
+    });
+</script>

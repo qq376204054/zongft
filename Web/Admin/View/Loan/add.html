@@ -1,0 +1,96 @@
+<!--菜单添加-->
+<div class="dialog_content" style="max-height: 350px; overflow-y: auto;">
+    <form id="info_form" name="info_form" action="{:U('Loan/add')}" method="post">
+        <div style="margin: 10px 20px 0 20px;">
+            <table width="100%" class="table_form" style="border: 1px solid #cecece;">
+                <tr>
+                    <th width="15%">客户名 :</th>
+                    <td width="35%">{$orderInfo.name}</td>
+                    <th width="15%">手机号 :</th>
+                    <td>{$orderInfo.mobile}</td>
+                </tr>
+                <tr>
+                    <th>放款金额</th>
+                    <td><input style="width: 100%" type="text" name="money" class="input-text" value=""></td>
+                    <th>放款时间 :</th>
+                    <td>
+                        <input type="text" name="lend_time" id="lend_time_form" class="date" size="14" value="" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>放款月利率</th>
+                    <td>
+                        <input style="width: 80%" type="text" name="month_rate" class="input-text" value=""> %
+                    </td>
+                    <th>到期时间 :</th>
+                    <td>
+                        <input type="text" name="expiry_time" id="expiry_time_form" class="date" size="14" value="" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>产品类型</th>
+                    <td>
+                        <select name="product_type" style="width: 90%">
+                            <option value="">产品类型</option>
+                            <foreach name="product_type" item="vo">
+                                <option value="{$vo}">{$vo}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                    <th>还款方式</th>
+                    <td>
+                        <select name="payment_method" style="width: 90%">
+                            <option value="">还款方式</option>
+                            <foreach name="payment_method" item="vo">
+                                <option value="{$vo}">{$vo}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>产品名称 :</th>
+                    <td colspan="3">
+                        <input style="width: 95%" type="text" name="product_name" class="input-text" value="">
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="order_id" class="input-text" value="{$order_id}">
+        </div>
+    </form>
+    <div class="loan_list_div" style="margin: 10px 20px 20px 20px;">
+
+    </div>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.yhxia.tip({content:result.retData});
+                var link = "{:U('Loan/one_list')}?order_id={$order_id}";
+                loadURL(link,'.loan_list_div');
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>
+<script>
+    var link = "{:U('Loan/one_list')}?order_id={$order_id}";
+    loadURL(link,'.loan_list_div');
+</script>
+<script>
+    Calendar.setup({
+        inputField : "lend_time_form",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "expiry_time_form",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>

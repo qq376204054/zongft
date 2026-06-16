@@ -1,0 +1,78 @@
+<include file="Login:header" />
+<div class="pad_lr_10">
+	<form id="info_form" action="{:u('setting/edit')}" method="post" enctype="multipart/form-data">
+		<table width="100%" class="table_form">
+			<tr>
+				<th>网站状态 :</th>
+				<td>
+					<label><input type="radio" class="J_change_status" <if condition="$info['site_status'] eq 1">checked="checked"</if> value="1" name="setting[site_status]"> 开启</label> &nbsp;&nbsp;
+					<label><input type="radio" class="J_change_status" <if condition="$info['site_status'] eq 0">checked="checked"</if> value="0" name="setting[site_status]"> 关闭</label>
+					<span class="gray ml10">关闭站点后，访问会直接跳转到后台</span>
+				</td>
+			</tr>
+			<tr>
+				<th>跳转WAP :</th>
+				<td>
+					<label><input type="radio" class="J_change_status" <if condition="$info['site_tiaozhuan'] eq 1">checked="checked"</if> value="1" name="setting[site_tiaozhuan]"> 开启</label> &nbsp;&nbsp;
+					<label><input type="radio" class="J_change_status" <if condition="$info['site_tiaozhuan'] eq 0">checked="checked"</if> value="0" name="setting[site_tiaozhuan]">关闭</label>
+					<span class="gray ml10">开启后，手机端访问会自动跳转到手机版</span>
+				</td>
+			</tr>
+			<tr>
+				<th width="150">后台系统名字 :</th>
+				<td><input type="text" name="setting[admin_system_name]" class="input-text" size="30" value="{$info['admin_system_name']}"></td>
+			</tr>
+			<tr>
+				<th>后台登录方式 :</th>
+				<td>
+					<label><input type="radio" class="J_change_status" <if condition="$info['login_type'] eq 1">checked="checked"</if> value="1" name="setting[login_type]"> 密码+手机验证码登录</label> &nbsp;&nbsp;
+					<label><input type="radio" class="J_change_status" <if condition="$info['login_type'] eq 2">checked="checked"</if> value="2" name="setting[login_type]">仅密码登录</label> &nbsp;&nbsp;
+					<label><input type="radio" class="J_change_status" <if condition="$info['login_type'] eq 3">checked="checked"</if> value="3" name="setting[login_type]">仅手机验证码登录</label> &nbsp;&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<th width="150">网站名称 :</th>
+				<td><input type="text" name="setting[site_name]" class="input-text" size="30" value="{$info['site_name']}"></td>
+			</tr>
+			<tr>
+				<th width="150">网站域名 :</th>
+				<td><input type="text" name="setting[site_url]" class="input-text" size="30" value="{$info['site_url']}">
+					<span class="gray ml10">电脑版首页网址必须以 http:// 开头</span>
+				</td>
+			</tr>
+			<tr>
+				<th>备案号 :</th>
+				<td><input type="text" name="setting[site_icp]" class="input-text" size="30" value="{$info['site_icp']}">
+					<span class="gray ml10">备案号如：苏ICP备05909090号 </span>
+				</td>
+			</tr>
+			<tr>
+				<th>QQ号码 :</th>
+				<td><input type="text" name="setting[qq]" class="input-text" size="30" value="{$info['qq']}"></td>
+			</tr>
+			<tr>
+				<th>云片短信key（发给客户） :</th>
+				<td><input type="text" name="setting[yunpian_sms_key]" class="input-text" size="30" value="{$info['yunpian_sms_key']}">
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><input type="submit" class="smt mr10" value="提交"/></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<include file="Login:footer" />
+<script>
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+</script>
+</body>
+</html>

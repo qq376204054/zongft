@@ -1,0 +1,51 @@
+<style>
+    .order_look{max-height: 350px; overflow-y: auto;padding:0 10px;}
+    .order_look .title{border-left:3px solid #FF5151;line-height: 25px;font-size: 14px; font-weight: bold;margin-top:10px;padding-left: 15px; margin-bottom: 10px;m}
+</style>
+<div class="order_look">
+    <div class="title">订单信息
+        <i url="{:U('admin/order/order_info',array('id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="order"></i>
+    </div>
+    <div class="order_div" style="display: none;"></div>
+
+    <div class="title">协议信息
+        <i url="{:U('admin/protocol/one_info',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="protocol"></i>
+    </div>
+    <div class="protocol_div" style="display: none;"></div>
+
+    <div class="title">放款信息
+        <i url="{:U('admin/loan/one_list',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="loan"></i>
+    </div>
+    <div class="loan_div" style="display: none;"></div>
+
+    <div class="title">账单信息
+        <i url="{:U('admin/account/account_list',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="account"></i>
+    </div>
+    <div class="account_div" style="display: none;"></div>
+
+    <div class="title">客户信息
+        <i url="{:U('admin/customer/one_info',array('id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="customer"></i>
+    </div>
+    <div class="customer_div" style="display: none;"></div>
+
+    <div class="title">客户附件信息
+        <i url="{:U('admin/file/customer_file',array('order_id'=>$id))}" class="fa fa-bars open_hidden_div" style="font-size: 20px; color: #ff6c01;cursor: pointer" rel="file"></i>
+    </div>
+    <div class="file_div" style="display: none;"></div>
+</div>
+<script>
+    $('.open_hidden_div').click(function(){
+        var url=$(this).attr('url');
+        var rel=$(this).attr('rel');
+        if($('.'+rel+'_div').html()==''){
+            loadURL(url,'.'+rel+'_div');
+        }
+        $('.'+rel+'_div').toggle();
+    });
+    //默认加载交易
+    loadURL("{:U('admin/order/order_info',array('id'=>$id))}",'.order_div');
+    $('.order_div').toggle();
+    //默认加载协议
+    loadURL("{:U('admin/protocol/one_info',array('order_id'=>$id))}",'.protocol_div');
+    $('.protocol_div').toggle();
+</script>

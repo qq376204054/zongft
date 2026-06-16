@@ -1,0 +1,50 @@
+<!--添加栏目-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('config/add')}" method="post">
+		<table width="100%" class="table_form">
+			<tr>
+				<th>特殊标记 :</th>
+				<td><input type="text" name="name" id="add_name" class="input-text" size="30" value=""></td>
+			</tr>
+			<tr>
+				<th>配置名称 :</th>
+				<td>
+					<input type="text" name="title" id="add_title" class="input-text" size="30" value="">
+				</td>
+			</tr>
+			<tr>
+				<th>配置类型 :</th>
+				<td>
+					<select class="form-control" name="type">
+						<option value="1">单个变量</option>
+						<option value="2">一列变量</option>
+						<option value="3">两列变量</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>配置详解 :</th>
+				<td>
+					<textarea name="remark" id="add_remark" cols="30"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script>
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#add_name").formValidator({onshow:lang.please_input+'特殊标记',onfocus:lang.please_input+'特殊标记'}).inputValidator({min:1,onerror:lang.please_input+'特殊标记'});
+	$("#add_title").formValidator({onshow:lang.please_input+'配置名称',onfocus:lang.please_input+'配置名称'}).inputValidator({min:1,onerror:lang.please_input+'配置名称'});
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.errNum === 0){
+			$.dialog.get('add').close();
+			$.yhxia.tip({content:result.retData});
+			window.location.reload();
+		} else {
+			$.yhxia.tip({content:result.errMsg, icon:'alert'});
+		}
+	}
+});
+</script>

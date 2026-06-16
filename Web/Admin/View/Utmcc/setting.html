@@ -1,0 +1,32 @@
+<include file="Login:header" />
+<!--栏目列表-->
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="">
+    <table width="100%" cellspacing="0" id="J_cate_tree">
+        <thead>
+            <tr>
+                <th width="30"><input type="checkbox" name="checkall" class="J_checkall"></th>
+              	<th align="left">用户名└─管理的渠道</th>
+                <th width="150">管理操作</th>
+            </tr>
+        </thead>
+    	<tbody>
+        {$list}
+    	</tbody>
+    </table>
+    </div>
+    <div style="height: 60px;"></div>
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">全选/取消</label>
+    </div>
+</div>
+<include file="Login:footer" />
+<script src="__ROOT__/static/js/jquery/plugins/jquery.treetable.js"></script>
+<script>
+$(function(){
+    $("#J_cate_tree").treeTable({indent:20,treeColumn:1});
+    $(".J_preview").preview();
+});
+</script>
+</body>
+</html>

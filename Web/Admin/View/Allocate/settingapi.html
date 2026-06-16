@@ -1,0 +1,54 @@
+<div class="pad_10" style="overflow-y: auto;max-height: 350px;">
+    <form id="info_form" name="info_form" action="{:U('Allocate/settingapi')}" method="post">
+        <div class="J_tablelist table_list">
+            <table width="100%" cellspacing="0" id="J_auth_tree">
+                <tbody>
+                <tr>
+                    <td style='padding-left:10px;'>
+
+                    </td>
+                    <td style='padding-left:10px;'>
+                        api方名
+                    </td>
+                    <td style='padding-left:10px;'>
+                        api锁定
+                    </td>
+                </tr>
+                <volist name="list" id="val" >
+                    <tr>
+                        <td style='padding-left:10px;'>
+                            <if condition="$val['id'] eq $info['mall_company_id']">
+                                <input type='radio'  name='mall_company_id' value='{$val.id}' class='J_checkitem'>
+                                <else/>
+                                <input type='radio' name='mall_company_id' value='{$val.id}' class='J_checkitem'>
+                            </if>
+                        </td>
+                        <td style='padding-left:10px;'>
+                           {$val.name}
+                        </td>
+                        <td style='padding-left:10px;'>
+                            {$val.action}
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+            <input type="hidden" name="id" value="{$info['id']}">
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.errNum === 0){
+                $.dialog.get('setting_allocate_api').close();
+                $.yhxia.tip({content:result.retData});
+                window.location.reload();
+            } else {
+                $.yhxia.tip({content:result.errMsg, icon:'alert'});
+            }
+        }
+    })
+</script>

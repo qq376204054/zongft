@@ -1,0 +1,38 @@
+<table width="100%" cellspacing="0">
+    <thead>
+    <tr>
+        <th align="left">名称</th>
+        <th align="left">状态</th>
+        <th align="left">部门</th>
+        <volist name="account_income_type" id="val" >
+            <th align="left">{$val}</th>
+        </volist>
+        <volist name="account_pay_type" id="val" >
+            <th align="left">{$val}</th>
+        </volist>
+    </tr>
+    </thead>
+    <tbody>
+    <foreach name="list['data']" item="val" >
+        <tr style="font-weight: bold;">
+            <td align="left">{$val.user_name}</td>
+            <td align="left">{$val.status_name}</td>
+            <td align="left">{$val.branch_name}</td>
+            <foreach name="val['account_income']" item="val1" >
+                <td align="left" style="color: #3f913f;">{$val1}</td>
+            </foreach>
+            <foreach name="val['account_pay']" item="val2" >
+                <td align="left" style="color: #ff4c43;">{$val2}</td>
+            </foreach>
+        </tr>
+    </foreach>
+    <tr style="background: #ff4c43; color: #ffffff;">
+        <td align="center">合计</td>
+        <td align="left"></td>
+        <td align="left"></td>
+        <foreach name="list['count']" item="val" >
+            <td align="left">{$val}</td>
+        </foreach>
+    </tr>
+    </tbody>
+</table>

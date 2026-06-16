@@ -1,0 +1,113 @@
+<include file="Login:header" />
+<div class="pad_lr_10" >
+    <div class="uploadCsv" style="border:1px solid #ff6c01;background: #f1ed78;padding: 10px 20px;margin-top: 20px;">
+        <div style="padding: 5px; margin: 5px 0px;background: #ffffaa;color: #333333; font-size: 16px;">
+            共查出的条数为：{$count}
+        </div>
+    </div>
+</div>
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        用户名 :
+                        <input name="name" type="text" class="input-text" size="15" value="{$search.name}" />
+                        &nbsp;&nbsp;
+                        手机号 :
+                        <input name="mobile" type="text" class="input-text" size="15" value="{$search.mobile}" />
+                        &nbsp;&nbsp;
+                        申请金额：
+                        <input type="text" name="min_money" class="input-text" size="5" value="{$search.min_money}">
+                        -
+                        <input type="text" name="max_money" class="input-text" size="5" value="{$search.max_money}">
+                        &nbsp;&nbsp;
+                        城市 :
+                        <input name="city" type="text" class="input-text" size="15" value="{$search.city}" />
+                        &nbsp;&nbsp;
+                        渠道 :
+                        <input name="channel" type="text" class="input-text" size="15" value="{$search.channel}" />
+                        推送状态 :
+                        <select name="is_ok">
+                            <option value="">-成功失败-</option>
+                            <option value="1" <if condition="$search.is_ok eq '1'">selected="selected"</if>>成功</option>
+                            <option value="2" <if condition="$search.is_ok eq '2'">selected="selected"</if>>失败</option>
+                        </select>
+
+                        推送时间：
+                        <input type="text" name="start_push_time" id="push_time_start" class="date" size="10" value="{$search.start_push_time}" readonly>
+                        -
+                        <input type="text" name="end_push_time" id="push_time_end" class="date" size="10" value="{$search.end_push_time}" readonly>
+
+                        <input type="submit" name="search" class="btn" value="搜索" />
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div class="J_tablelist table_list" data-acturi="">
+        <table width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th align="left">客户名</th>
+                <th align="left">手机号</th>
+                <th align="left">需求金额</th>
+                <th align="left">城市</th>
+                <th align="left">本系统渠道</th>
+                <th align="left">创建时间</th>
+                <th align="left">推送结果</th>
+                <th align="left">推送时间</th>
+                <th align="left">报错结果</th>
+                <th align="left">api返回结果</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="val" >
+                <tr>
+                    <td align="left">{$val.name}</td>
+                    <td align="left">{$val.mobile}</td>
+                    <td align="left">{$val.money}</td>
+                    <td align="left">{$val.city}</td>
+                    <td align="left">{$val.channel}</td>
+                    <td align="left">{:date('Y-m-d H:i:s',$val['create_time'])}</td>
+                    <td align="left">
+                        <if condition="$val.is_ok eq 1">成功<else/>失败</if>
+                    </td>
+                    <td align="left">{$val['push_time']}</td>
+                    <td align="left">{$val['error_msg']}</td>
+                    <td align="left">{$val['api_data']}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+        <div style="height: 60px;"></div>
+        <div class="btn_wrap_fixed">
+            <div id="pages">{$page}</div>
+        </div>
+
+    </div>
+</div>
+<include file="Login:footer" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/js/calendar/calendar-blue.css"/>
+<script src="__ROOT__/static/js/calendar/calendar.js"></script>
+<script>
+    Calendar.setup({
+        inputField : "push_time_start",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+    Calendar.setup({
+        inputField : "push_time_end",
+        ifFormat   : "%Y-%m-%d",
+        showsTime  : false,
+        timeFormat : "24"
+    });
+</script>
+</body>
+</html>
